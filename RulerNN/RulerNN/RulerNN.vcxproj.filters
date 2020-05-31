@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="头文件\core">
+      <UniqueIdentifier>{23d8254a-41cb-45ad-a93b-5faf92f60dc9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\core\comm">
+      <UniqueIdentifier>{daaa4f0a-209c-4632-92d9-6d78c6719175}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\core\cpu">
+      <UniqueIdentifier>{0c3156cc-475b-41ef-83e6-ce4a9d60c76f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\core\comm\cvt">
+      <UniqueIdentifier>{3afbf051-c79e-4fe3-993e-6d33b76e1c3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\core\comm\trp">
+      <UniqueIdentifier>{532dd7c5-efd1-42e2-b5ab-3c7ef25a552c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\core\cpu\cvt">
+      <UniqueIdentifier>{dff3fd00-0105-419c-8d6d-790b18c639e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\core\cpu\trp">
+      <UniqueIdentifier>{e250b9d2-d937-4001-a75a-97747dbd8861}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="RulerNN.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="core\aligned_allocator.h">
+      <Filter>头文件\core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\allocator.h">
+      <Filter>头文件\core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\bytes.h">
+      <Filter>头文件\core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\core.h">
+      <Filter>头文件\core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\define.h">
+      <Filter>头文件\core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\endian.h">
+      <Filter>头文件\core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\error.h">
+      <Filter>头文件\core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\matrix.h">
+      <Filter>头文件\core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\openmp.h">
+      <Filter>头文件\core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\rb_tree.h">
+      <Filter>头文件\core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\sample_allocator.h">
+      <Filter>头文件\core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\scalar.h">
+      <Filter>头文件\core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\tensor.h">
+      <Filter>头文件\core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\tree.h">
+      <Filter>头文件\core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\vector.h">
+      <Filter>头文件\core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\string.h">
+      <Filter>头文件\core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\wstring.h">
+      <Filter>头文件\core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\comm\cvt\cvti8.h">
+      <Filter>头文件\core\comm\cvt</Filter>
+    </ClInclude>
+    <ClInclude Include="core\comm\cvt\cvti16.h">
+      <Filter>头文件\core\comm\cvt</Filter>
+    </ClInclude>
+    <ClInclude Include="core\comm\cvt\cvti32.h">
+      <Filter>头文件\core\comm\cvt</Filter>
+    </ClInclude>
+    <ClInclude Include="core\comm\cvt\cvtpd.h">
+      <Filter>头文件\core\comm\cvt</Filter>
+    </ClInclude>
+    <ClInclude Include="core\comm\cvt\cvtps.h">
+      <Filter>头文件\core\comm\cvt</Filter>
+    </ClInclude>
+    <ClInclude Include="core\comm\cvt\cvtsi8.h">
+      <Filter>头文件\core\comm\cvt</Filter>
+    </ClInclude>
+    <ClInclude Include="core\comm\cvt\cvtsi16.h">
+      <Filter>头文件\core\comm\cvt</Filter>
+    </ClInclude>
+    <ClInclude Include="core\comm\cvt\cvtsi32.h">
+      <Filter>头文件\core\comm\cvt</Filter>
+    </ClInclude>
+    <ClInclude Include="core\comm\cvt\cvtspd.h">
+      <Filter>头文件\core\comm\cvt</Filter>
+    </ClInclude>
+    <ClInclude Include="core\comm\cvt\cvtsps.h">
+      <Filter>头文件\core\comm\cvt</Filter>
+    </ClInclude>
+    <ClInclude Include="core\comm\cvt\cvtu8.h">
+      <Filter>头文件\core\comm\cvt</Filter>
+    </ClInclude>
+    <ClInclude Include="core\comm\cvt\cvtu16.h">
+      <Filter>头文件\core\comm\cvt</Filter>
+    </ClInclude>
+    <ClInclude Include="core\comm\cvt\cvtu32.h">
+      <Filter>头文件\core\comm\cvt</Filter>
+    </ClInclude>
+    <ClInclude Include="core\comm\cvt\cvtsu8.h">
+      <Filter>头文件\core\comm\cvt</Filter>
+    </ClInclude>
+    <ClInclude Include="core\comm\cvt\cvtsu16.h">
+      <Filter>头文件\core\comm\cvt</Filter>
+    </ClInclude>
+    <ClInclude Include="core\comm\cvt\cvtsu32.h">
+      <Filter>头文件\core\comm\cvt</Filter>
+    </ClInclude>
+    <ClInclude Include="core\comm\cvt.h">
+      <Filter>头文件\core\comm</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\cvt\cvti8.h">
+      <Filter>头文件\core\cpu\cvt</Filter>
+    </ClInclude>
+    <ClInclude Include="core\comm\error.h">
+      <Filter>头文件\core\comm</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\simd.h">
+      <Filter>头文件\core\cpu</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\define.h">
+      <Filter>头文件\core\cpu</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\error.h">
+      <Filter>头文件\core\cpu</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
