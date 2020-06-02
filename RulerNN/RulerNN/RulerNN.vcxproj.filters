@@ -158,5 +158,59 @@
     <ClInclude Include="core\cpu\error.h">
       <Filter>头文件\core\cpu</Filter>
     </ClInclude>
+    <ClInclude Include="core\cpu\cvt\cvti16.h">
+      <Filter>头文件\core\cpu\cvt</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\cvt\cvti32.h">
+      <Filter>头文件\core\cpu\cvt</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\cvt\cvtpd.h">
+      <Filter>头文件\core\cpu\cvt</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\cvt\cvtps.h">
+      <Filter>头文件\core\cpu\cvt</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\cvt\cvtsi8.h">
+      <Filter>头文件\core\cpu\cvt</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\cvt\cvtsi16.h">
+      <Filter>头文件\core\cpu\cvt</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\cvt\cvtsi32.h">
+      <Filter>头文件\core\cpu\cvt</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\cvt\cvtspd.h">
+      <Filter>头文件\core\cpu\cvt</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\cvt\cvtsps.h">
+      <Filter>头文件\core\cpu\cvt</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\cvt\cvtsu8.h">
+      <Filter>头文件\core\cpu\cvt</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\cvt\cvtsu16.h">
+      <Filter>头文件\core\cpu\cvt</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\cvt\cvtsu32.h">
+      <Filter>头文件\core\cpu\cvt</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\cvt\cvtu8.h">
+      <Filter>头文件\core\cpu\cvt</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\cvt\cvtu16.h">
+      <Filter>头文件\core\cpu\cvt</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\cvt\cvtu32.h">
+      <Filter>头文件\core\cpu\cvt</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\cvt.h">
+      <Filter>头文件\core\cpu</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu.h">
+      <Filter>头文件\core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\device.h">
+      <Filter>头文件\core</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

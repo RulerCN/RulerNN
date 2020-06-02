@@ -35,11 +35,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define DEFAULT_ALLOCATOR(T) core::aligned_allocator<T, 32>
 #endif // !DEFAULT_ALLOCATOR
 
-// CPU L2 cache
-#ifndef L2_CACHE_SIZE
-#define L2_CACHE_SIZE 0x00200000
-#endif // !CPU_L2_CACHE
-
 #include "allocator.h"
 #include "aligned_allocator.h"
 #include "sample_allocator.h"
@@ -55,6 +50,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "wstring.h"
 
 #include "openmp.h"
-//#include "cpu.h"
+#include "device.h"
+#include "cpu.h"
 
 #endif

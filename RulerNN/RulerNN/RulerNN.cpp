@@ -39,21 +39,6 @@ int main()
 		core::openmp::enable();
 		// Print number of threads.
 		std::cout << "threads: " << core::openmp::num_thread << "\n";
-
-		core::simd::detect_l2_cache();
-		//auto l2_line_size = core::simd::detect_l2_line_szie();
-		//auto l3_line_size = core::simd::detect_l3_line_szie();
-		//auto l2_cache = core::simd::detect_l2_cache();
-		//auto l3_cache = core::simd::detect_l3_cache();
-		//std::cout << "L1 line size: " << l1_line_size << "byte\n";
-		//std::cout << "L2 line size: " << l2_line_size << "byte\n";
-		//std::cout << "L3 line size: " << l3_line_size << "byte\n";
-		//std::cout << "L2 cache: " << l2_cache << "k\n";
-		//std::cout << "L3 cache: " << l3_cache << "k\n";
-
-		short a = core::string::to_short("1F1E", std::hex);
-		std::cout << "a: " << a << "\n";
-
 	}
 	catch (std::exception err)
 	{

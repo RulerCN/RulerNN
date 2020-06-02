@@ -142,6 +142,7 @@
       <ConformanceMode>false</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <OpenMPSupport>true</OpenMPSupport>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -176,11 +177,29 @@
     <ClInclude Include="core\comm\cvt\cvtu8.h" />
     <ClInclude Include="core\comm\error.h" />
     <ClInclude Include="core\core.h" />
+    <ClInclude Include="core\cpu.h" />
+    <ClInclude Include="core\cpu\cvt.h" />
+    <ClInclude Include="core\cpu\cvt\cvti16.h" />
+    <ClInclude Include="core\cpu\cvt\cvti32.h" />
     <ClInclude Include="core\cpu\cvt\cvti8.h" />
+    <ClInclude Include="core\cpu\cvt\cvtpd.h" />
+    <ClInclude Include="core\cpu\cvt\cvtps.h" />
+    <ClInclude Include="core\cpu\cvt\cvtsi16.h" />
+    <ClInclude Include="core\cpu\cvt\cvtsi32.h" />
+    <ClInclude Include="core\cpu\cvt\cvtsi8.h" />
+    <ClInclude Include="core\cpu\cvt\cvtspd.h" />
+    <ClInclude Include="core\cpu\cvt\cvtsps.h" />
+    <ClInclude Include="core\cpu\cvt\cvtsu16.h" />
+    <ClInclude Include="core\cpu\cvt\cvtsu32.h" />
+    <ClInclude Include="core\cpu\cvt\cvtsu8.h" />
+    <ClInclude Include="core\cpu\cvt\cvtu16.h" />
+    <ClInclude Include="core\cpu\cvt\cvtu32.h" />
+    <ClInclude Include="core\cpu\cvt\cvtu8.h" />
     <ClInclude Include="core\cpu\define.h" />
     <ClInclude Include="core\cpu\error.h" />
     <ClInclude Include="core\cpu\simd.h" />
     <ClInclude Include="core\define.h" />
+    <ClInclude Include="core\device.h" />
     <ClInclude Include="core\endian.h" />
     <ClInclude Include="core\error.h" />
     <ClInclude Include="core\matrix.h" />

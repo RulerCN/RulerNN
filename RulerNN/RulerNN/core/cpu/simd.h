@@ -55,22 +55,16 @@ namespace core
 	class simd
 	{
 	public:
-		// Detects L2 cache size in KB.
-		static void detect_l2_cache(void)
+		// Get SIMD instructions.
+		static signed int get_simd_inst(void)
 		{
-			std::cout << "L2 cache size: " << l2_cache_size << " byte\n";
-			l2_cache_size = static_cast<size_t>(get_cpuid_field(CPUF_L2Size)) * 1024;
-			std::cout << "L2 cache size: " << l2_cache_size << " byte\n";
+			return (detect_mmx() | detect_sse() | detect_avx() | detect_fma());
 		}
 
-		// Detects SIMD instructions.
-		static void detect_simd(void)
+		// Get L2 cache size.
+		static size_t get_l2_cache(void)
 		{
-			simd_inst = CPU_INST_IA32;
-			simd_inst |= detect_mmx();
-			simd_inst |= detect_sse();
-			simd_inst |= detect_avx();
-			simd_inst |= detect_fma();
+			return (static_cast<size_t>(get_cpuid_field(CPUF_L2Size)) * 1024);
 		}
 	private:
 		// Get supported features and CPU type.
@@ -201,8 +195,8 @@ namespace core
 	};
 
 	// Initialize static variables.
-	signed int simd::simd_inst = CPU_INST_IA32;
-	size_t simd::l2_cache_size = 0x00200000;
+	signed int simd::simd_inst = simd::get_simd_inst();
+	size_t simd::l2_cache_size = simd::get_l2_cache();
 
 } // namespace core
 
