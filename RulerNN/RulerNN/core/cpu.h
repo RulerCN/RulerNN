@@ -45,6 +45,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "device.h"
 #include "cpu/simd.h"
 #include "cpu/cvt.h"
+#include "cpu/trp.h"
 
 namespace core
 {

@@ -1301,7 +1301,7 @@ namespace core
 			_mm256_zeroupper();
 		}
 
-	#elif defined(__AVX__) || defined(__SSE4_1__)
+	#elif defined(__AVX__) || defined(__SSE4_2__) || defined(__SSE4_1__)
 
 		// Function template cvtsi8_sse41_8
 

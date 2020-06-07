@@ -212,5 +212,11 @@
     <ClInclude Include="core\device.h">
       <Filter>头文件\core</Filter>
     </ClInclude>
+    <ClInclude Include="core\cpu\trp\trpi8.h">
+      <Filter>头文件\core\cpu\trp</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\trp.h">
+      <Filter>头文件\core\cpu</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
