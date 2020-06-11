@@ -178,6 +178,20 @@ namespace core
 			cpu::impl_cvt(dst.data(), src.data(), src.size());
 			return dst;
 		}
+
+		// Matrix Transpose.
+
+		template <class T, class A>
+		matrix<T, A>& trp(matrix<T, A>& dst, const matrix<T, A>& src)
+		{
+			if (src.empty() || dst.empty())
+				throw std::domain_error(MATRIX_NOT_INITIALIZED);
+			if (src.size() != dst.size())
+				throw std::invalid_argument(INVALID_SIZE);
+			cpu::impl_trp(dst.data(), dst.line(), src.data(), src.line(), src.rows(), src.line());
+			return dst;
+		}
+
 	};
 
 } // namespace core

@@ -27,15 +27,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __CORE_CPU_TRP_H__
-#define __CORE_CPU_TRP_H__
-
-#include "trp/trpi8.h"
-#include "trp/trpu8.h"
+#ifndef __CORE_COMM_TRP_H__
+#define __CORE_COMM_TRP_H__
 
 namespace core
 {
-	namespace cpu
+	namespace comm
 	{
 		// Function template trp_block
 
@@ -124,7 +121,7 @@ namespace core
 			}
 		}
 
-	} // namespace cpu
+	} // namespace comm
 
 } // namespace core
 

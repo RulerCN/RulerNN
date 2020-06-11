@@ -106,6 +106,7 @@
       <ConformanceMode>false</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <OpenMPSupport>true</OpenMPSupport>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -142,7 +143,7 @@
       <ConformanceMode>false</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <OpenMPSupport>true</OpenMPSupport>
-      <EnableEnhancedInstructionSet>NoExtensions</EnableEnhancedInstructionSet>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -176,6 +177,7 @@
     <ClInclude Include="core\comm\cvt\cvtu32.h" />
     <ClInclude Include="core\comm\cvt\cvtu8.h" />
     <ClInclude Include="core\comm\error.h" />
+    <ClInclude Include="core\comm\trp.h" />
     <ClInclude Include="core\core.h" />
     <ClInclude Include="core\cpu.h" />
     <ClInclude Include="core\cpu\cvt.h" />
@@ -200,6 +202,7 @@
     <ClInclude Include="core\cpu\simd.h" />
     <ClInclude Include="core\cpu\trp.h" />
     <ClInclude Include="core\cpu\trp\trpi8.h" />
+    <ClInclude Include="core\cpu\trp\trpu8.h" />
     <ClInclude Include="core\define.h" />
     <ClInclude Include="core\device.h" />
     <ClInclude Include="core\endian.h" />

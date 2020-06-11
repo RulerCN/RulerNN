@@ -27,8 +27,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __CORE_CPU_TRPI8_H__
-#define __CORE_CPU_TRPI8_H__
+#ifndef __CORE_CPU_TRPU8_H__
+#define __CORE_CPU_TRPU8_H__
 
 #include "../simd.h"
 
@@ -46,11 +46,11 @@ namespace core
 
 		// Function trp_block_avx2
 
-		void trp_block_avx2(signed char* dst, size_t dst_rs, const signed char* src, size_t src_rs, size_t n)
+		void trp_block_avx2(unsigned char* dst, size_t dst_rs, const unsigned char* src, size_t src_rs, size_t n)
 		{
 			const size_t dst_step = 16 * dst_rs;
-			signed char* ptr_dst[16] = { dst };
-			const signed char* ptr_src[32] = { src };
+			unsigned char* ptr_dst[16] = { dst };
+			const unsigned char* ptr_src[32] = { src };
 			__m256i ymm_src0, ymm_src1, ymm_src2, ymm_src3, ymm_src4, ymm_src5, ymm_src6, ymm_src7;
 			__m256i ymm_src8, ymm_src9, ymm_srca, ymm_srcb, ymm_srcc, ymm_srcd, ymm_srce, ymm_srcf;
 			__m256i ymm_dst0, ymm_dst1, ymm_dst2, ymm_dst3, ymm_dst4, ymm_dst5, ymm_dst6, ymm_dst7;
@@ -266,7 +266,7 @@ namespace core
 		// Function template impl_trp
 
 		template <>
-		void impl_trp<signed char>(signed char* dst, size_t dst_rs, const signed char* src, size_t src_rs, size_t m, size_t n)
+		void impl_trp<unsigned char>(unsigned char* dst, size_t dst_rs, const unsigned char* src, size_t src_rs, size_t m, size_t n)
 		{
 			constexpr size_t block_m = 32;
 			constexpr size_t block_n = 16;
@@ -289,11 +289,11 @@ namespace core
 
 		// Function trp_block_sse2
 
-		void trp_block_sse2(signed char* dst, size_t dst_rs, const signed char* src, size_t src_rs, size_t n)
+		void trp_block_sse2(unsigned char* dst, size_t dst_rs, const unsigned char* src, size_t src_rs, size_t n)
 		{
 			const size_t dst_step = 16 * dst_rs;
-			signed char* ptr_dst[16] = { dst };
-			const signed char* ptr_src[16] = { src };
+			unsigned char* ptr_dst[16] = { dst };
+			const unsigned char* ptr_src[16] = { src };
 			__m128i xmm_src0, xmm_src1, xmm_src2, xmm_src3, xmm_src4, xmm_src5, xmm_src6, xmm_src7;
 			__m128i xmm_src8, xmm_src9, xmm_srca, xmm_srcb, xmm_srcc, xmm_srcd, xmm_srce, xmm_srcf;
 			__m128i xmm_dst0, xmm_dst1, xmm_dst2, xmm_dst3, xmm_dst4, xmm_dst5, xmm_dst6, xmm_dst7;
@@ -459,7 +459,7 @@ namespace core
 		// Function template impl_trp
 
 		template <>
-		void impl_trp<signed char>(signed char* dst, size_t dst_rs, const signed char* src, size_t src_rs, size_t m, size_t n)
+		void impl_trp<unsigned char>(unsigned char* dst, size_t dst_rs, const unsigned char* src, size_t src_rs, size_t m, size_t n)
 		{
 			constexpr size_t block_m = 16;
 			constexpr size_t block_n = 16;
