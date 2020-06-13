@@ -31,7 +31,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __CORE_CPU_TRP_H__
 
 #include "trp/trpi8.h"
+#include "trp/trpi16.h"
+#include "trp/trpi32.h"
 #include "trp/trpu8.h"
+#include "trp/trpu16.h"
+#include "trp/trpu32.h"
 
 namespace core
 {

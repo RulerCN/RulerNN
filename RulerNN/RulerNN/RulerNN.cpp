@@ -31,13 +31,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "core/core.h"
 
 template<class A>
-std::ostream& operator<<(std::ostream& os, const core::matrix<signed char, A>& mat)
+std::ostream& operator<<(std::ostream& os, const core::matrix<signed int, A>& mat)
 {
 	std::cout << std::hex << std::setfill('0');
 	for (auto j = mat.vbegin(); j != mat.vend(); ++j)
 	{
 		for (auto i = mat.begin(j); i != mat.end(j); ++i)
-			std::cout << std::setw(2) << static_cast<int>(*i & 0xff) << " ";
+			std::cout << std::setw(4) << static_cast<int>(*i & 0xffff) << " ";
 		std::cout << std::endl;
 	}
 	return os;
@@ -57,21 +57,19 @@ int main()
 		core::device::steady_time_point start, end;
 		long long duration1, duration2;
 
-
 		size_t m = 10000;
 		size_t n = 10000;
-		signed char* x = new signed char[m * n];
-		signed char* y = new signed char[m * n];
+		signed int* x = new signed int[m * n];
+		signed int* y = new signed int[m * n];
 
-		core::matrix<signed char> src(m, n, 1, x, core::WITHOUT_COPY);
-		core::matrix<signed char> dst(m, n, 1, y, core::WITHOUT_COPY);
+		core::matrix<signed int> src(m, n, 1, x, core::WITHOUT_COPY);
+		core::matrix<signed int> dst(m, n, 1, y, core::WITHOUT_COPY);
 
 		for (size_t i = 0; i < m * n; ++i)
 		{
 			x[i] = i;
 			y[i] = 0;
 		}
-
 		//std::cout << src;
 
 		start = cpu.steady_time();
@@ -87,10 +85,43 @@ int main()
 		std::cout << "device:" << duration2 << "\n";
 
 		//std::cout << dst;
-
 		delete[] x;
 		delete[] y;
-		
+
+		//__m256i ymm_src0 = _mm256_castsi128_si256(_mm_setr_epi32(0x00, 0x01, 0x02, 0x03));
+		//__m256i ymm_src1 = _mm256_castsi128_si256(_mm_setr_epi32(0x10, 0x11, 0x12, 0x13));
+		//__m256i ymm_src2 = _mm256_castsi128_si256(_mm_setr_epi32(0x20, 0x21, 0x22, 0x23));
+		//__m256i ymm_src3 = _mm256_castsi128_si256(_mm_setr_epi32(0x30, 0x31, 0x32, 0x33));
+		//__m256i ymm_src4 = _mm256_castsi128_si256(_mm_setr_epi32(0x04, 0x05, 0x06, 0x07));
+		//__m256i ymm_src5 = _mm256_castsi128_si256(_mm_setr_epi32(0x14, 0x15, 0x16, 0x17));
+		//__m256i ymm_src6 = _mm256_castsi128_si256(_mm_setr_epi32(0x24, 0x25, 0x26, 0x27));
+		//__m256i ymm_src7 = _mm256_castsi128_si256(_mm_setr_epi32(0x34, 0x35, 0x36, 0x37));
+		//ymm_src0 = _mm256_insertf128_si256(ymm_src0, _mm_setr_epi32(0x40, 0x41, 0x42, 0x43), 1);
+		//ymm_src1 = _mm256_insertf128_si256(ymm_src1, _mm_setr_epi32(0x50, 0x51, 0x52, 0x53), 1);
+		//ymm_src2 = _mm256_insertf128_si256(ymm_src2, _mm_setr_epi32(0x60, 0x61, 0x62, 0x63), 1);
+		//ymm_src3 = _mm256_insertf128_si256(ymm_src3, _mm_setr_epi32(0x70, 0x71, 0x72, 0x73), 1);
+		//ymm_src4 = _mm256_insertf128_si256(ymm_src4, _mm_setr_epi32(0x44, 0x45, 0x46, 0x47), 1);
+		//ymm_src5 = _mm256_insertf128_si256(ymm_src5, _mm_setr_epi32(0x54, 0x55, 0x56, 0x57), 1);
+		//ymm_src6 = _mm256_insertf128_si256(ymm_src6, _mm_setr_epi32(0x64, 0x65, 0x66, 0x67), 1);
+		//ymm_src7 = _mm256_insertf128_si256(ymm_src7, _mm_setr_epi32(0x74, 0x75, 0x76, 0x77), 1);
+		//__m256i ymm_dst0 = _mm256_unpacklo_epi32(ymm_src0, ymm_src1);
+		//__m256i ymm_dst1 = _mm256_unpacklo_epi32(ymm_src2, ymm_src3);
+		//__m256i ymm_dst2 = _mm256_unpackhi_epi32(ymm_src0, ymm_src1);
+		//__m256i ymm_dst3 = _mm256_unpackhi_epi32(ymm_src2, ymm_src3);
+		//__m256i ymm_dst4 = _mm256_unpacklo_epi32(ymm_src4, ymm_src5);
+		//__m256i ymm_dst5 = _mm256_unpacklo_epi32(ymm_src6, ymm_src7);
+		//__m256i ymm_dst6 = _mm256_unpackhi_epi32(ymm_src4, ymm_src5);
+		//__m256i ymm_dst7 = _mm256_unpackhi_epi32(ymm_src6, ymm_src7);
+
+		//ymm_src0 = _mm256_unpacklo_epi64(ymm_dst0, ymm_dst1); // 00 10 20 30 40 50 60 70
+		//ymm_src1 = _mm256_unpackhi_epi64(ymm_dst0, ymm_dst1); // 01 11 21 31 41 51 61 71
+		//ymm_src2 = _mm256_unpacklo_epi64(ymm_dst2, ymm_dst3); // 02 12 22 32 42 52 62 72
+		//ymm_src3 = _mm256_unpackhi_epi64(ymm_dst2, ymm_dst3); // 03 13 23 33 43 53 63 73
+		//ymm_src4 = _mm256_unpacklo_epi64(ymm_dst4, ymm_dst5); // 04 14 24 34 44 54 64 74
+		//ymm_src5 = _mm256_unpackhi_epi64(ymm_dst4, ymm_dst5); // 05 15 25 35 45 55 65 75
+		//ymm_src6 = _mm256_unpacklo_epi64(ymm_dst6, ymm_dst7); // 06 16 26 36 46 56 66 76
+		//ymm_src7 = _mm256_unpackhi_epi64(ymm_dst6, ymm_dst7); // 07 17 27 37 47 57 67 77
+
 		//__m256i ymm_src0 = _mm256_castsi128_si256(_mm_setr_epi8(0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f));
 		//__m256i ymm_src1 = _mm256_castsi128_si256(_mm_setr_epi8(0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1a, 0x1b, 0x1c, 0x1d, 0x1e, 0x1f));
 		//__m256i ymm_src2 = _mm256_castsi128_si256(_mm_setr_epi8(0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2a, 0x2b, 0x2c, 0x2d, 0x2e, 0x2f));
