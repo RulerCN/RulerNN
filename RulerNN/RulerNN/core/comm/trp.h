@@ -102,7 +102,7 @@ namespace core
 		// Function template impl_trp
 
 		template <class T>
-		void impl_trp(T* dst, size_t dst_rs, const T* src, size_t src_rs, size_t m, size_t n)
+		void impl_trp_(T* dst, size_t dst_rs, const T* src, size_t src_rs, size_t m, size_t n)
 		{
 			constexpr size_t block_m = 4;
 			constexpr size_t block_n = 4;
@@ -120,6 +120,60 @@ namespace core
 				src += src_rs;
 			}
 		}
+
+		template <class T>
+		void impl_trp(T* dst, size_t dst_rs, const T* src, size_t src_rs, size_t m, size_t n)
+		{
+			constexpr size_t block_m = 4;
+			constexpr size_t block_n = 4;
+			size_t align_m = block_m;
+			size_t align_n = block_n;
+
+			if (m > block_m)
+			{
+				float tmp = static_cast<float>(m - 1);
+				size_t exp = (*reinterpret_cast<unsigned int*>(&tmp)) >> 23 & 0xFF;
+				align_m = static_cast<size_t>(1) << (exp - 127);
+			}
+			if (n > block_n)
+			{
+				float tmp = static_cast<float>(n - 1);
+				size_t exp = (*reinterpret_cast<unsigned int*>(&tmp)) >> 23 & 0xFF;
+				align_n = static_cast<size_t>(1) << (exp - 127);
+			}
+			if (m > align_m)
+			{
+				if (n > align_n)
+				{
+					impl_trp(dst, dst_rs, src, src_rs, align_m, align_n);
+					impl_trp(dst + align_n * dst_rs, dst_rs, src + align_n, src_rs, align_m, n - align_n);
+					impl_trp(dst + align_m, dst_rs, src + align_m * src_rs, src_rs, m - align_m, align_n);
+					impl_trp(dst + align_n * dst_rs + align_m, dst_rs, src + align_m * src_rs + align_n, src_rs, m - align_m, n - align_n);
+				}
+				else if (n > 0)
+				{
+					impl_trp(dst, dst_rs, src, src_rs, align_m, n);
+					impl_trp(dst + align_m, dst_rs, src + align_m * src_rs, src_rs, m - align_m, n);
+				}
+			}
+			else
+			{
+				if (n > align_n)
+				{
+					impl_trp(dst, dst_rs, src, src_rs, m, align_n);
+					impl_trp(dst + align_n * dst_rs, dst_rs, src + align_n, src_rs, m, n - align_n);
+				}
+				else
+				{
+					if (m == block_m && n == block_n)
+						trp_block(dst, dst_rs, src, src_rs, block_n);
+					//else
+					//	for (size_t i = 0; i < m; ++i)
+					//		trp_line(dst + i, dst_rs, src + i * src_rs, src_rs, n);
+				}
+			}
+		}
+
 
 	} // namespace comm
 

@@ -36,6 +36,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "trp/trpu8.h"
 #include "trp/trpu16.h"
 #include "trp/trpu32.h"
+#include "trp/trpps.h"
 
 namespace core
 {

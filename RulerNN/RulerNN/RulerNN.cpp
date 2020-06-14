@@ -43,6 +43,19 @@ std::ostream& operator<<(std::ostream& os, const core::matrix<signed int, A>& ma
 	return os;
 }
 
+template<class A>
+std::ostream& operator<<(std::ostream& os, const core::matrix<float, A>& mat)
+{
+	std::cout << std::setfill('0');
+	for (auto j = mat.vbegin(); j != mat.vend(); ++j)
+	{
+		for (auto i = mat.begin(j); i != mat.end(j); ++i)
+			std::cout << std::setw(4) << *i << " ";
+		std::cout << std::endl;
+	}
+	return os;
+}
+
 int main()
 {
 	try
@@ -57,13 +70,22 @@ int main()
 		core::device::steady_time_point start, end;
 		long long duration1, duration2;
 
+
+		//for (size_t i = 8; i < 600; i += 8)
+		//{
+		//	float f = static_cast<float>(i);
+		//	size_t exp = (*reinterpret_cast<unsigned int*>(&f)) >> 23 & 0xFF;
+		//	exp -= 127;
+		//	std::cout << i << ":\t" << exp << "\t" << (1 << exp) << "\n";
+		//}
+		
 		size_t m = 10000;
 		size_t n = 10000;
-		signed int* x = new signed int[m * n];
-		signed int* y = new signed int[m * n];
+		float* x = new float[m * n];
+		float* y = new float[m * n];
 
-		core::matrix<signed int> src(m, n, 1, x, core::WITHOUT_COPY);
-		core::matrix<signed int> dst(m, n, 1, y, core::WITHOUT_COPY);
+		core::matrix<float> src(m, n, 1, x, core::WITHOUT_COPY);
+		core::matrix<float> dst(m, n, 1, y, core::WITHOUT_COPY);
 
 		for (size_t i = 0; i < m * n; ++i)
 		{
@@ -72,21 +94,63 @@ int main()
 		}
 		//std::cout << src;
 
-		start = cpu.steady_time();
-		cpu.trp(dst, src);
-		end = cpu.steady_time();
-		duration1 = cpu.get_milliseconds(start, end);
-		std::cout << "cpu:" << duration1 << "\n";
-
-		start = device.steady_time();
+		start = core::device::steady_time();
 		device.trp(dst, src);
-		end = device.steady_time();
-		duration2 = device.get_milliseconds(start, end);
-		std::cout << "device:" << duration2 << "\n";
+		end = core::device::steady_time();
+		duration1 = core::device::get_milliseconds(start, end);
+		std::cout << "device:" << duration1 << "\n";
+
+		//start = core::device::steady_time();
+		//cpu.trp(dst, src);
+		//end = core::device::steady_time();
+		//duration2 = core::device::get_milliseconds(start, end);
+		//std::cout << "cpu:" << duration2 << "\n";
 
 		//std::cout << dst;
 		delete[] x;
 		delete[] y;
+
+		//__m256 ymm_src0 = _mm256_castps128_ps256(_mm_setr_ps(0.0f, 0.1f, 0.2f, 0.3f));
+		//__m256 ymm_src1 = _mm256_castps128_ps256(_mm_setr_ps(1.0f, 1.1f, 1.2f, 1.3f));
+		//__m256 ymm_src2 = _mm256_castps128_ps256(_mm_setr_ps(2.0f, 2.1f, 2.2f, 2.3f));
+		//__m256 ymm_src3 = _mm256_castps128_ps256(_mm_setr_ps(3.0f, 3.1f, 3.2f, 3.3f));
+		//__m256 ymm_src4 = _mm256_castps128_ps256(_mm_setr_ps(0.4f, 0.5f, 0.6f, 0.7f));
+		//__m256 ymm_src5 = _mm256_castps128_ps256(_mm_setr_ps(1.4f, 1.5f, 1.6f, 1.7f));
+		//__m256 ymm_src6 = _mm256_castps128_ps256(_mm_setr_ps(2.4f, 2.5f, 2.6f, 2.7f));
+		//__m256 ymm_src7 = _mm256_castps128_ps256(_mm_setr_ps(3.4f, 3.5f, 3.6f, 3.7f));
+		//ymm_src0 = _mm256_insertf128_ps(ymm_src0, _mm_setr_ps(4.0f, 4.1f, 4.2f, 4.3f), 1);
+		//ymm_src1 = _mm256_insertf128_ps(ymm_src1, _mm_setr_ps(5.0f, 5.1f, 5.2f, 5.3f), 1);
+		//ymm_src2 = _mm256_insertf128_ps(ymm_src2, _mm_setr_ps(6.0f, 6.1f, 6.2f, 6.3f), 1);
+		//ymm_src3 = _mm256_insertf128_ps(ymm_src3, _mm_setr_ps(7.0f, 7.1f, 7.2f, 7.3f), 1);
+		//ymm_src4 = _mm256_insertf128_ps(ymm_src4, _mm_setr_ps(4.4f, 4.5f, 4.6f, 4.7f), 1);
+		//ymm_src5 = _mm256_insertf128_ps(ymm_src5, _mm_setr_ps(5.4f, 5.5f, 5.6f, 5.7f), 1);
+		//ymm_src6 = _mm256_insertf128_ps(ymm_src6, _mm_setr_ps(6.4f, 6.5f, 6.6f, 6.7f), 1);
+		//ymm_src7 = _mm256_insertf128_ps(ymm_src7, _mm_setr_ps(7.4f, 7.5f, 7.6f, 7.7f), 1);
+		//__m256 ymm_dst0 = _mm256_shuffle_ps(ymm_src0, ymm_src1, _MM_SHUFFLE(1, 0, 1, 0));
+		//__m256 ymm_dst1 = _mm256_shuffle_ps(ymm_src2, ymm_src3, _MM_SHUFFLE(1, 0, 1, 0));
+		//__m256 ymm_dst2 = _mm256_shuffle_ps(ymm_src0, ymm_src1, _MM_SHUFFLE(3, 2, 3, 2));
+		//__m256 ymm_dst3 = _mm256_shuffle_ps(ymm_src2, ymm_src3, _MM_SHUFFLE(3, 2, 3, 2));
+		//__m256 ymm_dst4 = _mm256_shuffle_ps(ymm_src4, ymm_src5, _MM_SHUFFLE(1, 0, 1, 0));
+		//__m256 ymm_dst5 = _mm256_shuffle_ps(ymm_src6, ymm_src7, _MM_SHUFFLE(1, 0, 1, 0));
+		//__m256 ymm_dst6 = _mm256_shuffle_ps(ymm_src4, ymm_src5, _MM_SHUFFLE(3, 2, 3, 2));
+		//__m256 ymm_dst7 = _mm256_shuffle_ps(ymm_src6, ymm_src7, _MM_SHUFFLE(3, 2, 3, 2));
+		//ymm_src0 = _mm256_shuffle_ps(ymm_dst0, ymm_dst1, _MM_SHUFFLE(2, 0, 2, 0));
+		//ymm_src1 = _mm256_shuffle_ps(ymm_dst0, ymm_dst1, _MM_SHUFFLE(3, 1, 3, 1));
+		//ymm_src2 = _mm256_shuffle_ps(ymm_dst2, ymm_dst3, _MM_SHUFFLE(2, 0, 2, 0));
+		//ymm_src3 = _mm256_shuffle_ps(ymm_dst2, ymm_dst3, _MM_SHUFFLE(3, 1, 3, 1));
+		//ymm_src4 = _mm256_shuffle_ps(ymm_dst4, ymm_dst5, _MM_SHUFFLE(2, 0, 2, 0));
+		//ymm_src5 = _mm256_shuffle_ps(ymm_dst4, ymm_dst5, _MM_SHUFFLE(3, 1, 3, 1));
+		//ymm_src6 = _mm256_shuffle_ps(ymm_dst6, ymm_dst7, _MM_SHUFFLE(2, 0, 2, 0));
+		//ymm_src7 = _mm256_shuffle_ps(ymm_dst6, ymm_dst7, _MM_SHUFFLE(3, 1, 3, 1));
+
+		std::cout << "end";
+
+		//__m256i ymm_dst2 = _mm256_unpackhi_epi32(ymm_src0, ymm_src1);
+		//__m256i ymm_dst3 = _mm256_unpackhi_epi32(ymm_src2, ymm_src3);
+		//__m256i ymm_dst4 = _mm256_unpacklo_epi32(ymm_src4, ymm_src5);
+		//__m256i ymm_dst5 = _mm256_unpacklo_epi32(ymm_src6, ymm_src7);
+		//__m256i ymm_dst6 = _mm256_unpackhi_epi32(ymm_src4, ymm_src5);
+		//__m256i ymm_dst7 = _mm256_unpackhi_epi32(ymm_src6, ymm_src7);
 
 		//__m256i ymm_src0 = _mm256_castsi128_si256(_mm_setr_epi32(0x00, 0x01, 0x02, 0x03));
 		//__m256i ymm_src1 = _mm256_castsi128_si256(_mm_setr_epi32(0x10, 0x11, 0x12, 0x13));

@@ -233,5 +233,8 @@
     <ClInclude Include="core\cpu\trp\trpu32.h">
       <Filter>头文件\core\cpu\trp</Filter>
     </ClInclude>
+    <ClInclude Include="core\cpu\trp\trpps.h">
+      <Filter>头文件\core\cpu\trp</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -106,7 +106,7 @@
       <ConformanceMode>false</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <OpenMPSupport>true</OpenMPSupport>
-      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -143,7 +143,7 @@
       <ConformanceMode>false</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <OpenMPSupport>true</OpenMPSupport>
-      <EnableEnhancedInstructionSet>AdvancedVectorExtensions</EnableEnhancedInstructionSet>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -204,6 +204,7 @@
     <ClInclude Include="core\cpu\trp\trpi16.h" />
     <ClInclude Include="core\cpu\trp\trpi32.h" />
     <ClInclude Include="core\cpu\trp\trpi8.h" />
+    <ClInclude Include="core\cpu\trp\trpps.h" />
     <ClInclude Include="core\cpu\trp\trpu16.h" />
     <ClInclude Include="core\cpu\trp\trpu32.h" />
     <ClInclude Include="core\cpu\trp\trpu8.h" />
