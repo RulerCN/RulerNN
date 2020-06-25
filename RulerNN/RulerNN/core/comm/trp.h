@@ -30,7 +30,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __CORE_COMM_TRP_H__
 #define __CORE_COMM_TRP_H__
 
-#include <cmath>
 #include <stack>
 #include <tuple>
 
@@ -41,7 +40,7 @@ namespace core
 		// Function template trp_block
 
 		template <class T>
-		void trp_block(T* dst, size_t dst_rs, const T* src, size_t src_rs)
+		inline void trp_block(T* dst, size_t dst_rs, const T* src, size_t src_rs)
 		{
 			T* ptr_dst0 = dst;
 			T* ptr_dst1 = ptr_dst0 + dst_rs;
@@ -159,84 +158,6 @@ namespace core
 		// Function template impl_trp
 
 		template <class T>
-		void impl_trp0(T* dst, size_t dst_rs, const T* src, size_t src_rs, size_t m, size_t n)
-		{
-			for (size_t i = 0; i < m; ++i)
-				for (size_t j = 0; j < n; ++j)
-					dst[j * dst_rs + i] = src[i * src_rs + j];
-		}
-
-		template <class T>
-		void impl_trp1(T* dst, size_t dst_rs, const T* src, size_t src_rs, size_t m, size_t n)
-		{
-			for (size_t i = 0; i < m; i += 8)
-				for (size_t j = 0; j < n; j += 8)
-					if (i + 8 < m && j + 8 < n)
-						trp_block(dst + j * dst_rs + i, dst_rs, src + i * src_rs + j, src_rs);
-					else
-						trp_tiny(dst + j * dst_rs + i, dst_rs, src + i * src_rs + j, src_rs, m - i, n - j);
-		}
-
-		template <class T>
-		void impl_trp2(T* dst, size_t dst_rs, const T* src, size_t src_rs, size_t m, size_t n)
-		{
-			constexpr size_t block_m = 8;
-			constexpr size_t block_n = 8;
-
-			if (m > block_m)
-			{
-				// Calculate: exp = log2(m - 1)
-				float tmp = static_cast<float>(m - 1);
-				size_t exp = ((*reinterpret_cast<unsigned int*>(&tmp)) >> 23 & 0xFFu) - 0x7Fu;
-				// Calculate: m1 = pow(2, exp)
-				size_t m1 = static_cast<size_t>(1) << exp;
-				auto src1 = src + m1 * src_rs;
-				if (n > block_n)
-				{
-					// Calculate: exp = log2(n - 1)
-					float tmp = static_cast<float>(n - 1);
-					size_t exp = ((*reinterpret_cast<unsigned int*>(&tmp)) >> 23 & 0xFFu) - 0x7Fu;
-					// Calculate: n1 = pow(2, exp)
-					size_t n1 = static_cast<size_t>(1) << exp;
-					auto dst1 = dst + n1 * dst_rs;
-					// Transpose of four submatrices
-					impl_trp(dst, dst_rs, src, src_rs, m1, n1);
-					impl_trp(dst1, dst_rs, src + n1, src_rs, m1, n - n1);
-					impl_trp(dst + m1, dst_rs, src1, src_rs, m - m1, n1);
-					impl_trp(dst1 + m1, dst_rs, src1 + n1, src_rs, m - m1, n - n1);
-				}
-				else if (n > 0)
-				{
-					// Transpose of two submatrices
-					impl_trp(dst, dst_rs, src, src_rs, m1, n);
-					impl_trp(dst + m1, dst_rs, src1, src_rs, m - m1, n);
-				}
-			}
-			else
-			{
-				if (n > block_n)
-				{
-					// Calculate: exp = log2(n - 1)
-					float tmp = static_cast<float>(n - 1);
-					size_t exp = ((*reinterpret_cast<unsigned int*>(&tmp)) >> 23 & 0xFFu) - 0x7Fu;
-					// Calculate: n1 = pow(2, exp)
-					size_t n1 = static_cast<size_t>(1) << exp;
-					auto dst1 = dst + n1 * dst_rs;
-					// Transpose of two submatrices
-					impl_trp(dst, dst_rs, src, src_rs, m, n1);
-					impl_trp(dst1, dst_rs, src + n1, src_rs, m, n - n1);
-				}
-				else
-				{
-					if (m == block_m && n == block_n)
-						trp_block(dst, dst_rs, src, src_rs);
-					else
-						trp_tiny(dst, dst_rs, src, src_rs, m, n);
-				}
-			}
-		}
-
-		template <class T>
 		void impl_trp(T* dst, size_t dst_rs, const T* src, size_t src_rs, size_t m, size_t n)
 		{
 			constexpr size_t block_m = 8;
@@ -304,6 +225,84 @@ namespace core
 				}
 			}
 		}
+
+		//template <class T>
+		//void impl_trp0(T* dst, size_t dst_rs, const T* src, size_t src_rs, size_t m, size_t n)
+		//{
+		//	for (size_t i = 0; i < m; ++i)
+		//		for (size_t j = 0; j < n; ++j)
+		//			dst[j * dst_rs + i] = src[i * src_rs + j];
+		//}
+		
+		//template <class T>
+		//void impl_trp1(T* dst, size_t dst_rs, const T* src, size_t src_rs, size_t m, size_t n)
+		//{
+		//	for (size_t i = 0; i < m; i += 8)
+		//		for (size_t j = 0; j < n; j += 8)
+		//			if (i + 8 < m && j + 8 < n)
+		//				trp_block(dst + j * dst_rs + i, dst_rs, src + i * src_rs + j, src_rs);
+		//			else
+		//				trp_tiny(dst + j * dst_rs + i, dst_rs, src + i * src_rs + j, src_rs, m - i, n - j);
+		//}
+		
+		//template <class T>
+		//void impl_trp2(T* dst, size_t dst_rs, const T* src, size_t src_rs, size_t m, size_t n)
+		//{
+		//	constexpr size_t block_m = 8;
+		//	constexpr size_t block_n = 8;
+
+		//	if (m > block_m)
+		//	{
+		//		// Calculate: exp = log2(m - 1)
+		//		float tmp = static_cast<float>(m - 1);
+		//		size_t exp = ((*reinterpret_cast<unsigned int*>(&tmp)) >> 23 & 0xFFu) - 0x7Fu;
+		//		// Calculate: m1 = pow(2, exp)
+		//		size_t m1 = static_cast<size_t>(1) << exp;
+		//		auto src1 = src + m1 * src_rs;
+		//		if (n > block_n)
+		//		{
+		//			// Calculate: exp = log2(n - 1)
+		//			float tmp = static_cast<float>(n - 1);
+		//			size_t exp = ((*reinterpret_cast<unsigned int*>(&tmp)) >> 23 & 0xFFu) - 0x7Fu;
+		//			// Calculate: n1 = pow(2, exp)
+		//			size_t n1 = static_cast<size_t>(1) << exp;
+		//			auto dst1 = dst + n1 * dst_rs;
+		//			// Transpose of four submatrices
+		//			impl_trp(dst, dst_rs, src, src_rs, m1, n1);
+		//			impl_trp(dst1, dst_rs, src + n1, src_rs, m1, n - n1);
+		//			impl_trp(dst + m1, dst_rs, src1, src_rs, m - m1, n1);
+		//			impl_trp(dst1 + m1, dst_rs, src1 + n1, src_rs, m - m1, n - n1);
+		//		}
+		//		else if (n > 0)
+		//		{
+		//			// Transpose of two submatrices
+		//			impl_trp(dst, dst_rs, src, src_rs, m1, n);
+		//			impl_trp(dst + m1, dst_rs, src1, src_rs, m - m1, n);
+		//		}
+		//	}
+		//	else
+		//	{
+		//		if (n > block_n)
+		//		{
+		//			// Calculate: exp = log2(n - 1)
+		//			float tmp = static_cast<float>(n - 1);
+		//			size_t exp = ((*reinterpret_cast<unsigned int*>(&tmp)) >> 23 & 0xFFu) - 0x7Fu;
+		//			// Calculate: n1 = pow(2, exp)
+		//			size_t n1 = static_cast<size_t>(1) << exp;
+		//			auto dst1 = dst + n1 * dst_rs;
+		//			// Transpose of two submatrices
+		//			impl_trp(dst, dst_rs, src, src_rs, m, n1);
+		//			impl_trp(dst1, dst_rs, src + n1, src_rs, m, n - n1);
+		//		}
+		//		else
+		//		{
+		//			if (m == block_m && n == block_n)
+		//				trp_block(dst, dst_rs, src, src_rs);
+		//			else
+		//				trp_tiny(dst, dst_rs, src, src_rs, m, n);
+		//		}
+		//	}
+		//}
 
 	} // namespace comm
 

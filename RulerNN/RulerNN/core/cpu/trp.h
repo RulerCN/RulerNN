@@ -42,68 +42,137 @@ namespace core
 {
 	namespace cpu
 	{
+		// Function template trp_block_m
+
+		template <class T>
+		constexpr size_t trp_block_m(void)
+		{
+			return static_cast<size_t>(8);
+		}
+
+		// Function template trp_block_n
+
+		template <class T>
+		constexpr size_t trp_block_n(void)
+		{
+			return static_cast<size_t>(8);
+		}
+
 		// Function template trp_block
 
 		template <class T>
-		void trp_block(T* dst, size_t dst_rs, const T* src, size_t src_rs, size_t n)
+		void trp_block(T* dst, size_t dst_rs, const T* src, size_t src_rs)
 		{
-			constexpr size_t block = 4;
-			const size_t dst_step = block * dst_rs;
-			const T* ptr_src0 = src;
-			const T* ptr_src1 = ptr_src0 + src_rs;
-			const T* ptr_src2 = ptr_src1 + src_rs;
-			const T* ptr_src3 = ptr_src2 + src_rs;
 			T* ptr_dst0 = dst;
 			T* ptr_dst1 = ptr_dst0 + dst_rs;
 			T* ptr_dst2 = ptr_dst1 + dst_rs;
 			T* ptr_dst3 = ptr_dst2 + dst_rs;
-
-			for (; n >= block; n -= block)
-			{
-				ptr_dst0[0] = ptr_src0[0];
-				ptr_dst1[0] = ptr_src0[1];
-				ptr_dst2[0] = ptr_src0[2];
-				ptr_dst3[0] = ptr_src0[3];
-				ptr_dst0[1] = ptr_src1[0];
-				ptr_dst1[1] = ptr_src1[1];
-				ptr_dst2[1] = ptr_src1[2];
-				ptr_dst3[1] = ptr_src1[3];
-				ptr_dst0[2] = ptr_src2[0];
-				ptr_dst1[2] = ptr_src2[1];
-				ptr_dst2[2] = ptr_src2[2];
-				ptr_dst3[2] = ptr_src2[3];
-				ptr_dst0[3] = ptr_src3[0];
-				ptr_dst1[3] = ptr_src3[1];
-				ptr_dst2[3] = ptr_src3[2];
-				ptr_dst3[3] = ptr_src3[3];
-				ptr_src0 += block;
-				ptr_src1 += block;
-				ptr_src2 += block;
-				ptr_src3 += block;
-				ptr_dst0 += dst_step;
-				ptr_dst1 += dst_step;
-				ptr_dst2 += dst_step;
-				ptr_dst3 += dst_step;
-			}
-			for (size_t i = 0; i < n; ++i)
-			{
-				ptr_dst0[0] = ptr_src0[i];
-				ptr_dst0[1] = ptr_src1[i];
-				ptr_dst0[2] = ptr_src2[i];
-				ptr_dst0[3] = ptr_src3[i];
-				ptr_dst0 += dst_rs;
-			}
+			T* ptr_dst4 = ptr_dst3 + dst_rs;
+			T* ptr_dst5 = ptr_dst4 + dst_rs;
+			T* ptr_dst6 = ptr_dst5 + dst_rs;
+			T* ptr_dst7 = ptr_dst6 + dst_rs;
+			ptr_dst0[0] = src[0];
+			ptr_dst1[0] = src[1];
+			ptr_dst2[0] = src[2];
+			ptr_dst3[0] = src[3];
+			ptr_dst4[0] = src[4];
+			ptr_dst5[0] = src[5];
+			ptr_dst6[0] = src[6];
+			ptr_dst7[0] = src[7];
+			src += src_rs;
+			ptr_dst0[1] = src[0];
+			ptr_dst1[1] = src[1];
+			ptr_dst2[1] = src[2];
+			ptr_dst3[1] = src[3];
+			ptr_dst4[1] = src[4];
+			ptr_dst5[1] = src[5];
+			ptr_dst6[1] = src[6];
+			ptr_dst7[1] = src[7];
+			src += src_rs;
+			ptr_dst0[2] = src[0];
+			ptr_dst1[2] = src[1];
+			ptr_dst2[2] = src[2];
+			ptr_dst3[2] = src[3];
+			ptr_dst4[2] = src[4];
+			ptr_dst5[2] = src[5];
+			ptr_dst6[2] = src[6];
+			ptr_dst7[2] = src[7];
+			src += src_rs;
+			ptr_dst0[3] = src[0];
+			ptr_dst1[3] = src[1];
+			ptr_dst2[3] = src[2];
+			ptr_dst3[3] = src[3];
+			ptr_dst4[3] = src[4];
+			ptr_dst5[3] = src[5];
+			ptr_dst6[3] = src[6];
+			ptr_dst7[3] = src[7];
+			src += src_rs;
+			ptr_dst0[4] = src[0];
+			ptr_dst1[4] = src[1];
+			ptr_dst2[4] = src[2];
+			ptr_dst3[4] = src[3];
+			ptr_dst4[4] = src[4];
+			ptr_dst5[4] = src[5];
+			ptr_dst6[4] = src[6];
+			ptr_dst7[4] = src[7];
+			src += src_rs;
+			ptr_dst0[5] = src[0];
+			ptr_dst1[5] = src[1];
+			ptr_dst2[5] = src[2];
+			ptr_dst3[5] = src[3];
+			ptr_dst4[5] = src[4];
+			ptr_dst5[5] = src[5];
+			ptr_dst6[5] = src[6];
+			ptr_dst7[5] = src[7];
+			src += src_rs;
+			ptr_dst0[6] = src[0];
+			ptr_dst1[6] = src[1];
+			ptr_dst2[6] = src[2];
+			ptr_dst3[6] = src[3];
+			ptr_dst4[6] = src[4];
+			ptr_dst5[6] = src[5];
+			ptr_dst6[6] = src[6];
+			ptr_dst7[6] = src[7];
+			src += src_rs;
+			ptr_dst0[7] = src[0];
+			ptr_dst1[7] = src[1];
+			ptr_dst2[7] = src[2];
+			ptr_dst3[7] = src[3];
+			ptr_dst4[7] = src[4];
+			ptr_dst5[7] = src[5];
+			ptr_dst6[7] = src[6];
+			ptr_dst7[7] = src[7];
 		}
 
-		// Function template trp_line
+		// Function template trp_tiny
 
 		template <class T>
-		inline void trp_line(T* dst, size_t dst_rs, const T* src, size_t src_rs, size_t n)
+		inline void trp_tiny(T* dst, size_t dst_rs, const T* src, size_t src_rs, size_t m, size_t n)
 		{
-			for (size_t i = 0; i < n; ++i)
+			const size_t row0 = 0;
+			const size_t row1 = dst_rs;
+			const size_t row2 = row1 + dst_rs;
+			const size_t row3 = row2 + dst_rs;
+			const size_t row4 = row3 + dst_rs;
+			const size_t row5 = row4 + dst_rs;
+			const size_t row6 = row5 + dst_rs;
+			const size_t row7 = row6 + dst_rs;
+
+			for (size_t i = 0; i < m; ++i)
 			{
-				*dst = src[i];
-				dst += dst_rs;
+				switch (n)
+				{
+				case 8: dst[row7 + i] = src[7];
+				case 7: dst[row6 + i] = src[6];
+				case 6: dst[row5 + i] = src[5];
+				case 5: dst[row4 + i] = src[4];
+				case 4: dst[row3 + i] = src[3];
+				case 3: dst[row2 + i] = src[2];
+				case 2: dst[row1 + i] = src[1];
+				case 1: dst[row0 + i] = src[0];
+					break;
+				}
+				src += src_rs;
 			}
 		}
 
@@ -112,20 +181,69 @@ namespace core
 		template <class T>
 		void impl_trp(T* dst, size_t dst_rs, const T* src, size_t src_rs, size_t m, size_t n)
 		{
-			constexpr size_t block_m = 4;
-			constexpr size_t block_n = 4;
-			const size_t src_step = block_m * src_rs;
-
-			for (; m >= block_m; m -= block_m)
+			constexpr size_t block_m = trp_block_m<T>();
+			constexpr size_t block_n = trp_block_n<T>();
+			std::stack<std::tuple<T*, const T*, size_t, size_t>> task;
+			// Transpose of a matrix
+			task.emplace(dst, src, m, n);
+			while (!task.empty())
 			{
-				trp_block(dst, dst_rs, src, src_rs, n);
-				src += src_step;
-				dst += block_m;
-			}
-			for (size_t i = 0; i < m; ++i)
-			{
-				trp_line(dst + i, dst_rs, src, src_rs, n);
-				src += src_rs;
+				auto dst0 = std::get<0>(task.top());
+				auto src0 = std::get<1>(task.top());
+				size_t m0 = std::get<2>(task.top());
+				size_t n0 = std::get<3>(task.top());
+				task.pop();
+				if (m0 > block_m)
+				{
+					// Calculate: exp = log2(m0 - 1)
+					float tmp = static_cast<float>(m0 - 1);
+					size_t exp = ((*reinterpret_cast<unsigned int*>(&tmp)) >> 23 & 0xFFu) - 0x7Fu;
+					// Calculate: m1 = pow(2, exp)
+					size_t m1 = static_cast<size_t>(1) << exp;
+					auto src1 = src0 + m1 * src_rs;
+					if (n0 > block_n)
+					{
+						// Calculate: exp = log2(n0 - 1)
+						float tmp = static_cast<float>(n0 - 1);
+						size_t exp = ((*reinterpret_cast<unsigned int*>(&tmp)) >> 23 & 0xFFu) - 0x7Fu;
+						// Calculate: n1 = pow(2, exp)
+						size_t n1 = static_cast<size_t>(1) << exp;
+						auto dst1 = dst0 + n1 * dst_rs;
+						// Transpose of four submatrices
+						task.emplace(dst1 + m1, src1 + n1, m0 - m1, n0 - n1);
+						task.emplace(dst0 + m1, src1, m0 - m1, n1);
+						task.emplace(dst1, src0 + n1, m1, n0 - n1);
+						task.emplace(dst0, src0, m1, n1);
+					}
+					else
+					{
+						// Transpose of two submatrices
+						task.emplace(dst0 + m1, src1, m0 - m1, n0);
+						task.emplace(dst0, src0, m1, n0);
+					}
+				}
+				else
+				{
+					if (n0 > block_n)
+					{
+						// Calculate: exp = log2(n0 - 1)
+						float tmp = static_cast<float>(n0 - 1);
+						size_t exp = ((*reinterpret_cast<unsigned int*>(&tmp)) >> 23 & 0xFFu) - 0x7Fu;
+						// Calculate: n1 = pow(2, exp)
+						size_t n1 = static_cast<size_t>(1) << exp;
+						auto dst1 = dst0 + n1 * dst_rs;
+						// Transpose of two submatrices
+						task.emplace(dst1, src0 + n1, m0, n0 - n1);
+						task.emplace(dst0, src0, m0, n1);
+					}
+					else
+					{
+						if (m0 == block_m && n0 == block_n)
+							trp_block(dst0, dst_rs, src0, src_rs);
+						else
+							trp_tiny(dst0, dst_rs, src0, src_rs, m0, n0);
+					}
+				}
 			}
 		}
 

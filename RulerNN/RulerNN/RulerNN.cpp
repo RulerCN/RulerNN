@@ -31,13 +31,39 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "core/core.h"
 
 template<class A>
+std::ostream& operator<<(std::ostream& os, const core::matrix<signed short, A>& mat)
+{
+	std::cout << std::hex << std::setfill('0');
+	for (auto j = mat.vbegin(); j != mat.vend(); ++j)
+	{
+		for (auto i = mat.begin(j); i != mat.end(j); ++i)
+			std::cout << std::setw(4) << static_cast<signed int>(*i & 0xffff) << " ";
+		std::cout << std::endl;
+	}
+	return os;
+}
+
+template<class A>
 std::ostream& operator<<(std::ostream& os, const core::matrix<signed int, A>& mat)
 {
 	std::cout << std::hex << std::setfill('0');
 	for (auto j = mat.vbegin(); j != mat.vend(); ++j)
 	{
 		for (auto i = mat.begin(j); i != mat.end(j); ++i)
-			std::cout << std::setw(4) << static_cast<int>(*i & 0xffff) << " ";
+			std::cout << std::setw(4) << static_cast<signed int>(*i & 0xffff) << " ";
+		std::cout << std::endl;
+	}
+	return os;
+}
+
+template<class A>
+std::ostream& operator<<(std::ostream& os, const core::matrix<unsigned int, A>& mat)
+{
+	std::cout << std::hex << std::setfill('0');
+	for (auto j = mat.vbegin(); j != mat.vend(); ++j)
+	{
+		for (auto i = mat.begin(j); i != mat.end(j); ++i)
+			std::cout << std::setw(4) << static_cast<unsigned int>(*i & 0xffff) << " ";
 		std::cout << std::endl;
 	}
 	return os;
@@ -81,11 +107,11 @@ int main()
 		
 		size_t m = 10000;
 		size_t n = 10000;
-		float* x = new float[m * n];
-		float* y = new float[m * n];
+		signed short* x = new signed short[m * n];
+		signed short* y = new signed short[m * n];
 
-		core::matrix<float> src(m, n, 1, x, core::WITHOUT_COPY);
-		core::matrix<float> dst(m, n, 1, y, core::WITHOUT_COPY);
+		core::matrix<signed short> src(m, n, 1, x, core::WITHOUT_COPY);
+		core::matrix<signed short> dst(m, n, 1, y, core::WITHOUT_COPY);
 
 		for (size_t i = 0; i < m * n; ++i)
 		{
@@ -95,7 +121,8 @@ int main()
 		//std::cout << src;
 
 		start = core::device::steady_time();
-		device.trp(dst, src);
+		cpu.trp(dst, src);
+	//	device.trp(dst, src);
 		end = core::device::steady_time();
 		duration1 = core::device::get_milliseconds(start, end);
 		std::cout << "device:" << duration1 << "\n";
