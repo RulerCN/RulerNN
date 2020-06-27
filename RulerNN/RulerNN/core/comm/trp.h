@@ -37,6 +37,22 @@ namespace core
 {
 	namespace comm
 	{
+		// Function template trp_block_m
+
+		template <class T>
+		constexpr size_t trp_block_m(void)
+		{
+			return static_cast<size_t>(8);
+		}
+
+		// Function template trp_block_n
+
+		template <class T>
+		constexpr size_t trp_block_n(void)
+		{
+			return static_cast<size_t>(8);
+		}
+
 		// Function template trp_block
 
 		template <class T>
@@ -160,8 +176,8 @@ namespace core
 		template <class T>
 		void impl_trp(T* dst, size_t dst_rs, const T* src, size_t src_rs, size_t m, size_t n)
 		{
-			constexpr size_t block_m = 8;
-			constexpr size_t block_n = 8;
+			constexpr size_t block_m = trp_block_m<T>();
+			constexpr size_t block_n = trp_block_n<T>();
 			std::stack<std::tuple<T*, const T*, size_t, size_t>> task;
 			// Transpose of a matrix
 			task.emplace(dst, src, m, n);

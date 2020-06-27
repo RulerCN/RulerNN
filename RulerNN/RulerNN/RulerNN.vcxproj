@@ -177,6 +177,7 @@
     <ClInclude Include="core\comm\cvt\cvtu32.h" />
     <ClInclude Include="core\comm\cvt\cvtu8.h" />
     <ClInclude Include="core\comm\error.h" />
+    <ClInclude Include="core\comm\gemm.h" />
     <ClInclude Include="core\comm\trp.h" />
     <ClInclude Include="core\core.h" />
     <ClInclude Include="core\cpu.h" />
@@ -204,6 +205,7 @@
     <ClInclude Include="core\cpu\trp\trpi16.h" />
     <ClInclude Include="core\cpu\trp\trpi32.h" />
     <ClInclude Include="core\cpu\trp\trpi8.h" />
+    <ClInclude Include="core\cpu\trp\trppd.h" />
     <ClInclude Include="core\cpu\trp\trpps.h" />
     <ClInclude Include="core\cpu\trp\trpu16.h" />
     <ClInclude Include="core\cpu\trp\trpu32.h" />

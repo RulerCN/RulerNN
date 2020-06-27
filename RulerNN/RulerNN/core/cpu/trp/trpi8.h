@@ -45,6 +45,9 @@ namespace core
 		// Function template trp_block
 		template <class T> inline void trp_block(T* dst, size_t dst_rs, const T* src, size_t src_rs);
 
+		// Function template trp_tiny
+		template <class T> inline void trp_tiny(T* dst, size_t dst_rs, const T* src, size_t src_rs, size_t m, size_t n);
+
 	#ifdef __AVX2__
 
 		// Specialize for signed char
@@ -225,7 +228,53 @@ namespace core
 			_mm256_storeu_si256(reinterpret_cast<__m256i*>(ptr_dste), ymm_dste);
 			_mm256_storeu_si256(reinterpret_cast<__m256i*>(ptr_dstf), ymm_dstf);
 		}
-		
+
+		template <>
+		inline void trp_tiny<signed char>(signed char* dst, size_t dst_rs, const signed char* src, size_t src_rs, size_t m, size_t n)
+		{
+			const size_t row0 = 0;
+			const size_t row1 = dst_rs;
+			const size_t row2 = row1 + dst_rs;
+			const size_t row3 = row2 + dst_rs;
+			const size_t row4 = row3 + dst_rs;
+			const size_t row5 = row4 + dst_rs;
+			const size_t row6 = row5 + dst_rs;
+			const size_t row7 = row6 + dst_rs;
+			const size_t row8 = row7 + dst_rs;
+			const size_t row9 = row8 + dst_rs;
+			const size_t rowa = row9 + dst_rs;
+			const size_t rowb = rowa + dst_rs;
+			const size_t rowc = rowb + dst_rs;
+			const size_t rowd = rowc + dst_rs;
+			const size_t rowe = rowd + dst_rs;
+			const size_t rowf = rowe + dst_rs;
+
+			for (size_t i = 0; i < m; ++i)
+			{
+				switch (n)
+				{
+				case 16: dst[rowf + i] = src[15];
+				case 15: dst[rowe + i] = src[14];
+				case 14: dst[rowd + i] = src[13];
+				case 13: dst[rowc + i] = src[12];
+				case 12: dst[rowb + i] = src[11];
+				case 11: dst[rowa + i] = src[10];
+				case 10: dst[row9 + i] = src[9];
+				case 9:  dst[row8 + i] = src[8];
+				case 8:  dst[row7 + i] = src[7];
+				case 7:  dst[row6 + i] = src[6];
+				case 6:  dst[row5 + i] = src[5];
+				case 5:  dst[row4 + i] = src[4];
+				case 4:  dst[row3 + i] = src[3];
+				case 3:  dst[row2 + i] = src[2];
+				case 2:  dst[row1 + i] = src[1];
+				case 1:  dst[row0 + i] = src[0];
+					break;
+				}
+				src += src_rs;
+			}
+		}
+
 	#elif defined(__AVX__) || defined(__SSE4_2__) || defined(__SSE4_1__) || defined(__SSSE3__) || defined(__SSE3__) || defined(__SSE2__)
 
 		// Specialize for signed char
@@ -373,6 +422,52 @@ namespace core
 			_mm_storeu_si128(reinterpret_cast<__m128i*>(ptr_dstd), xmm_srcd);
 			_mm_storeu_si128(reinterpret_cast<__m128i*>(ptr_dste), xmm_srce);
 			_mm_storeu_si128(reinterpret_cast<__m128i*>(ptr_dstf), xmm_srcf);
+		}
+
+		template <>
+		inline void trp_tiny<signed char>(signed char* dst, size_t dst_rs, const signed char* src, size_t src_rs, size_t m, size_t n)
+		{
+			const size_t row0 = 0;
+			const size_t row1 = dst_rs;
+			const size_t row2 = row1 + dst_rs;
+			const size_t row3 = row2 + dst_rs;
+			const size_t row4 = row3 + dst_rs;
+			const size_t row5 = row4 + dst_rs;
+			const size_t row6 = row5 + dst_rs;
+			const size_t row7 = row6 + dst_rs;
+			const size_t row8 = row7 + dst_rs;
+			const size_t row9 = row8 + dst_rs;
+			const size_t rowa = row9 + dst_rs;
+			const size_t rowb = rowa + dst_rs;
+			const size_t rowc = rowb + dst_rs;
+			const size_t rowd = rowc + dst_rs;
+			const size_t rowe = rowd + dst_rs;
+			const size_t rowf = rowe + dst_rs;
+
+			for (size_t i = 0; i < m; ++i)
+			{
+				switch (n)
+				{
+				case 16: dst[rowf + i] = src[15];
+				case 15: dst[rowe + i] = src[14];
+				case 14: dst[rowd + i] = src[13];
+				case 13: dst[rowc + i] = src[12];
+				case 12: dst[rowb + i] = src[11];
+				case 11: dst[rowa + i] = src[10];
+				case 10: dst[row9 + i] = src[9];
+				case 9:  dst[row8 + i] = src[8];
+				case 8:  dst[row7 + i] = src[7];
+				case 7:  dst[row6 + i] = src[6];
+				case 6:  dst[row5 + i] = src[5];
+				case 5:  dst[row4 + i] = src[4];
+				case 4:  dst[row3 + i] = src[3];
+				case 3:  dst[row2 + i] = src[2];
+				case 2:  dst[row1 + i] = src[1];
+				case 1:  dst[row0 + i] = src[0];
+					break;
+				}
+				src += src_rs;
+			}
 		}
 
 	#endif

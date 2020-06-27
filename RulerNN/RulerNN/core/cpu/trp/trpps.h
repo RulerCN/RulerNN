@@ -45,7 +45,10 @@ namespace core
 		// Function template trp_block
 		template <class T> inline void trp_block(T* dst, size_t dst_rs, const T* src, size_t src_rs);
 
-	#ifdef __AVX2__
+		// Function template trp_tiny
+		template <class T> inline void trp_tiny(T* dst, size_t dst_rs, const T* src, size_t src_rs, size_t m, size_t n);
+
+	#if defined(__AVX2__) || defined(__AVX__)
 
 		// Specialize for float
 
@@ -122,7 +125,37 @@ namespace core
 			_mm256_storeu_ps(ptr_dst7, ymm_dst7);
 		}
 
-	#elif defined(__AVX__) || defined(__SSE4_2__) || defined(__SSE4_1__) || defined(__SSSE3__) || defined(__SSE3__) || defined(__SSE2__)
+		template <>
+		inline void trp_tiny<float>(float* dst, size_t dst_rs, const float* src, size_t src_rs, size_t m, size_t n)
+		{
+			const size_t row0 = 0;
+			const size_t row1 = dst_rs;
+			const size_t row2 = row1 + dst_rs;
+			const size_t row3 = row2 + dst_rs;
+			const size_t row4 = row3 + dst_rs;
+			const size_t row5 = row4 + dst_rs;
+			const size_t row6 = row5 + dst_rs;
+			const size_t row7 = row6 + dst_rs;
+
+			for (size_t i = 0; i < m; ++i)
+			{
+				switch (n)
+				{
+				case 8: dst[row7 + i] = src[7];
+				case 7: dst[row6 + i] = src[6];
+				case 6: dst[row5 + i] = src[5];
+				case 5: dst[row4 + i] = src[4];
+				case 4: dst[row3 + i] = src[3];
+				case 3: dst[row2 + i] = src[2];
+				case 2: dst[row1 + i] = src[1];
+				case 1: dst[row0 + i] = src[0];
+					break;
+				}
+				src += src_rs;
+			}
+		}
+
+	#elif defined(__SSE4_2__) || defined(__SSE4_1__) || defined(__SSSE3__) || defined(__SSE3__) || defined(__SSE2__)
 
 		// Specialize for float
 
@@ -165,6 +198,28 @@ namespace core
 			_mm_storeu_ps(ptr_dst1, xmm_src1);
 			_mm_storeu_ps(ptr_dst2, xmm_src2);
 			_mm_storeu_ps(ptr_dst3, xmm_src3);
+		}
+
+		template <>
+		inline void trp_tiny<float>(float* dst, size_t dst_rs, const float* src, size_t src_rs, size_t m, size_t n)
+		{
+			const size_t row0 = 0;
+			const size_t row1 = dst_rs;
+			const size_t row2 = row1 + dst_rs;
+			const size_t row3 = row2 + dst_rs;
+
+			for (size_t i = 0; i < m; ++i)
+			{
+				switch (n)
+				{
+				case 4: dst[row3 + i] = src[3];
+				case 3: dst[row2 + i] = src[2];
+				case 2: dst[row1 + i] = src[1];
+				case 1: dst[row0 + i] = src[0];
+					break;
+				}
+				src += src_rs;
+			}
 		}
 
 	#endif

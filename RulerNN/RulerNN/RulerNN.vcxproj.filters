@@ -31,6 +31,9 @@
     <Filter Include="头文件\core\cpu\trp">
       <UniqueIdentifier>{e250b9d2-d937-4001-a75a-97747dbd8861}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\core\cpu\gemm">
+      <UniqueIdentifier>{0f306ba0-1101-4ad6-97e5-b1a8ef496c07}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="RulerNN.cpp">
@@ -235,6 +238,12 @@
     </ClInclude>
     <ClInclude Include="core\cpu\trp\trpps.h">
       <Filter>头文件\core\cpu\trp</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\trp\trppd.h">
+      <Filter>头文件\core\cpu\trp</Filter>
+    </ClInclude>
+    <ClInclude Include="core\comm\gemm.h">
+      <Filter>头文件\core\comm</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
