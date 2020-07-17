@@ -243,13 +243,13 @@ namespace core
 		}
 
 		//template <class T>
-		//void impl_trp0(T* dst, size_t dst_rs, const T* src, size_t src_rs, size_t m, size_t n)
+		//void impl_trp0(T* b, size_t ldb, const T* a, size_t lda, size_t m, size_t n)
 		//{
 		//	for (size_t i = 0; i < m; ++i)
 		//		for (size_t j = 0; j < n; ++j)
-		//			dst[j * dst_rs + i] = src[i * src_rs + j];
+		//			b[j * ldb + i] = a[i * lda + j];
 		//}
-		
+
 		//template <class T>
 		//void impl_trp1(T* dst, size_t dst_rs, const T* src, size_t src_rs, size_t m, size_t n)
 		//{
