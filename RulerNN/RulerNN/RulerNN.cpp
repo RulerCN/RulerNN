@@ -116,6 +116,8 @@ int main()
 		core::openmp::enable();
 		// Print number of threads.
 		std::cout << "threads: " << core::openmp::num_thread << "\n";
+		// Print L2 cache size.
+		std::cout << "L2 cache: " << core::simd::l2_cache_size << "\n";
 
 		core::device device;
 		core::device_cpu cpu;

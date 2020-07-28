@@ -66,14 +66,14 @@ namespace core
 		// Function template add_dot_block
 
 		template <class T>
-		inline void add_dot_block(T* c, size_t ldc, const T* a, size_t lda, const T* b, size_t ldb)
+		inline void add_dot_block(T* c, size_t ldc, const T* a, size_t lda, const T* b, size_t ldb, size_t p)
 		{
 			T* ptr_c0 = c;
-			T* ptr_c1 = ptr_c0 + ldc;
+			T* ptr_c1 = c + ldc;
 			T* ptr_c2 = ptr_c1 + ldc;
 			T* ptr_c3 = ptr_c2 + ldc;
 			const T* ptr_a0 = a;
-			const T* ptr_a1 = ptr_a0 + lda;
+			const T* ptr_a1 = a + lda;
 			const T* ptr_a2 = ptr_a1 + lda;
 			const T* ptr_a3 = ptr_a2 + lda;
 			T c00 = 0, c01 = 0, c02 = 0, c03 = 0;
@@ -81,33 +81,28 @@ namespace core
 			T c20 = 0, c21 = 0, c22 = 0, c23 = 0;
 			T c30 = 0, c31 = 0, c32 = 0, c33 = 0;
 
-			for (size_t k = 0; k < 4; ++k)
+			for (size_t k = 0; k < p; ++k)
 			{
 				const T a0 = ptr_a0[k];
 				const T a1 = ptr_a1[k];
 				const T a2 = ptr_a2[k];
 				const T a3 = ptr_a3[k];
-				const T b0 = b[0];
-				const T b1 = b[1];
-				const T b2 = b[2];
-				const T b3 = b[3];
-
-				c00 += a0 * b0;
-				c01 += a0 * b1;
-				c02 += a0 * b2;
-				c03 += a0 * b3;
-				c10 += a1 * b0;
-				c11 += a1 * b1;
-				c12 += a1 * b2;
-				c13 += a1 * b3;
-				c20 += a2 * b0;
-				c21 += a2 * b1;
-				c22 += a2 * b2;
-				c23 += a2 * b3;
-				c30 += a3 * b0;
-				c31 += a3 * b1;
-				c32 += a3 * b2;
-				c33 += a3 * b3;
+				c00 += a0 * b[0];
+				c01 += a0 * b[1];
+				c02 += a0 * b[2];
+				c03 += a0 * b[3];
+				c10 += a1 * b[0];
+				c11 += a1 * b[1];
+				c12 += a1 * b[2];
+				c13 += a1 * b[3];
+				c20 += a2 * b[0];
+				c21 += a2 * b[1];
+				c22 += a2 * b[2];
+				c23 += a2 * b[3];
+				c30 += a3 * b[0];
+				c31 += a3 * b[1];
+				c32 += a3 * b[2];
+				c33 += a3 * b[3];
 				b += ldb;
 			}
 			ptr_c0[0] += c00;
@@ -139,10 +134,10 @@ namespace core
 			const T* ptr_a1 = a + lda;
 			const T* ptr_a2 = ptr_a1 + lda;
 			const T* ptr_a3 = ptr_a2 + lda;
-			T c00 = c01 = c02 = c03 = 0;
-			T c10 = c11 = c12 = c13 = 0;
-			T c20 = c21 = c22 = c23 = 0;
-			T c30 = c31 = c32 = c33 = 0;
+			T c00 = 0, c01 = 0, c02 = 0, c03 = 0;
+			T c10 = 0, c11 = 0, c12 = 0, c13 = 0;
+			T c20 = 0, c21 = 0, c22 = 0, c23 = 0;
+			T c30 = 0, c31 = 0, c32 = 0, c33 = 0;
 
 			for (size_t k = 0; k < p; ++k)
 			{
@@ -150,27 +145,22 @@ namespace core
 				const T a1 = ptr_a1[k];
 				const T a2 = ptr_a2[k];
 				const T a3 = ptr_a3[k];
-				const T b0 = b[0];
-				const T b1 = b[1];
-				const T b2 = b[2];
-				const T b3 = b[3];
-
-				c00 += a0 * b0;
-				c01 += a0 * b1;
-				c02 += a0 * b2;
-				c03 += a0 * b3;
-				c10 += a1 * b0;
-				c11 += a1 * b1;
-				c12 += a1 * b2;
-				c13 += a1 * b3;
-				c20 += a2 * b0;
-				c21 += a2 * b1;
-				c22 += a2 * b2;
-				c23 += a2 * b3;
-				c30 += a3 * b0;
-				c31 += a3 * b1;
-				c32 += a3 * b2;
-				c33 += a3 * b3;
+				c00 += a0 * b[0];
+				c01 += a0 * b[1];
+				c02 += a0 * b[2];
+				c03 += a0 * b[3];
+				c10 += a1 * b[0];
+				c11 += a1 * b[1];
+				c12 += a1 * b[2];
+				c13 += a1 * b[3];
+				c20 += a2 * b[0];
+				c21 += a2 * b[1];
+				c22 += a2 * b[2];
+				c23 += a2 * b[3];
+				c30 += a3 * b[0];
+				c31 += a3 * b[1];
+				c32 += a3 * b[2];
+				c33 += a3 * b[3];
 				b += ldb;
 			}
 			ptr_c0[0] += c00;
@@ -202,10 +192,10 @@ namespace core
 			const T* ptr_a1 = a + lda;
 			const T* ptr_a2 = ptr_a1 + lda;
 			const T* ptr_a3 = ptr_a2 + lda;
-			T c00 = c01 = c02 = 0;
-			T c10 = c11 = c12 = 0;
-			T c20 = c21 = c22 = 0;
-			T c30 = c31 = c32 = 0;
+			T c00 = 0, c01 = 0, c02 = 0;
+			T c10 = 0, c11 = 0, c12 = 0;
+			T c20 = 0, c21 = 0, c22 = 0;
+			T c30 = 0, c31 = 0, c32 = 0;
 
 			for (size_t k = 0; k < p; ++k)
 			{
@@ -213,22 +203,18 @@ namespace core
 				const T a1 = ptr_a1[k];
 				const T a2 = ptr_a2[k];
 				const T a3 = ptr_a3[k];
-				const T b0 = b[0];
-				const T b1 = b[1];
-				const T b2 = b[2];
-
-				c00 += a0 * b0;
-				c01 += a0 * b1;
-				c02 += a0 * b2;
-				c10 += a1 * b0;
-				c11 += a1 * b1;
-				c12 += a1 * b2;
-				c20 += a2 * b0;
-				c21 += a2 * b1;
-				c22 += a2 * b2;
-				c30 += a3 * b0;
-				c31 += a3 * b1;
-				c32 += a3 * b2;
+				c00 += a0 * b[0];
+				c01 += a0 * b[1];
+				c02 += a0 * b[2];
+				c10 += a1 * b[0];
+				c11 += a1 * b[1];
+				c12 += a1 * b[2];
+				c20 += a2 * b[0];
+				c21 += a2 * b[1];
+				c22 += a2 * b[2];
+				c30 += a3 * b[0];
+				c31 += a3 * b[1];
+				c32 += a3 * b[2];
 				b += ldb;
 			}
 			ptr_c0[0] += c00;
@@ -256,10 +242,10 @@ namespace core
 			const T* ptr_a1 = a + lda;
 			const T* ptr_a2 = ptr_a1 + lda;
 			const T* ptr_a3 = ptr_a2 + lda;
-			T c00 = c01 = 0;
-			T c10 = c11 = 0;
-			T c20 = c21 = 0;
-			T c30 = c31 = 0;
+			T c00 = 0, c01 = 0;
+			T c10 = 0, c11 = 0;
+			T c20 = 0, c21 = 0;
+			T c30 = 0, c31 = 0;
 
 			for (size_t k = 0; k < p; ++k)
 			{
@@ -267,17 +253,14 @@ namespace core
 				const T a1 = ptr_a1[k];
 				const T a2 = ptr_a2[k];
 				const T a3 = ptr_a3[k];
-				const T b0 = b[0];
-				const T b1 = b[1];
-
-				c00 += a0 * b0;
-				c01 += a0 * b1;
-				c10 += a1 * b0;
-				c11 += a1 * b1;
-				c20 += a2 * b0;
-				c21 += a2 * b1;
-				c30 += a3 * b0;
-				c31 += a3 * b1;
+				c00 += a0 * b[0];
+				c01 += a0 * b[1];
+				c10 += a1 * b[0];
+				c11 += a1 * b[1];
+				c20 += a2 * b[0];
+				c21 += a2 * b[1];
+				c30 += a3 * b[0];
+				c31 += a3 * b[1];
 				b += ldb;
 			}
 			ptr_c0[0] += c00;
@@ -308,16 +291,10 @@ namespace core
 
 			for (size_t k = 0; k < p; ++k)
 			{
-				const T a0 = ptr_a0[k];
-				const T a1 = ptr_a1[k];
-				const T a2 = ptr_a2[k];
-				const T a3 = ptr_a3[k];
-				const T b0 = b[0];
-
-				c00 += a0 * b0;
-				c10 += a1 * b0;
-				c20 += a2 * b0;
-				c30 += a3 * b0;
+				c00 += ptr_a0[k] * b[0];
+				c10 += ptr_a1[k] * b[0];
+				c20 += ptr_a2[k] * b[0];
+				c30 += ptr_a3[k] * b[0];
 				b += ldb;
 			}
 			ptr_c0[0] += c00;
@@ -335,32 +312,27 @@ namespace core
 			const T* ptr_a0 = a;
 			const T* ptr_a1 = a + lda;
 			const T* ptr_a2 = ptr_a1 + lda;
-			T c00 = c01 = c02 = c03 = 0;
-			T c10 = c11 = c12 = c13 = 0;
-			T c20 = c21 = c22 = c23 = 0;
+			T c00 = 0, c01 = 0, c02 = 0, c03 = 0;
+			T c10 = 0, c11 = 0, c12 = 0, c13 = 0;
+			T c20 = 0, c21 = 0, c22 = 0, c23 = 0;
 
 			for (size_t k = 0; k < p; ++k)
 			{
 				const T a0 = ptr_a0[k];
 				const T a1 = ptr_a1[k];
 				const T a2 = ptr_a2[k];
-				const T b0 = b[0];
-				const T b1 = b[1];
-				const T b2 = b[2];
-				const T b3 = b[3];
-
-				c00 += a0 * b0;
-				c01 += a0 * b1;
-				c02 += a0 * b2;
-				c03 += a0 * b3;
-				c10 += a1 * b0;
-				c11 += a1 * b1;
-				c12 += a1 * b2;
-				c13 += a1 * b3;
-				c20 += a2 * b0;
-				c21 += a2 * b1;
-				c22 += a2 * b2;
-				c23 += a2 * b3;
+				c00 += a0 * b[0];
+				c01 += a0 * b[1];
+				c02 += a0 * b[2];
+				c03 += a0 * b[3];
+				c10 += a1 * b[0];
+				c11 += a1 * b[1];
+				c12 += a1 * b[2];
+				c13 += a1 * b[3];
+				c20 += a2 * b[0];
+				c21 += a2 * b[1];
+				c22 += a2 * b[2];
+				c23 += a2 * b[3];
 				b += ldb;
 			}
 			ptr_c0[0] += c00;
@@ -386,28 +358,24 @@ namespace core
 			const T* ptr_a0 = a;
 			const T* ptr_a1 = a + lda;
 			const T* ptr_a2 = ptr_a1 + lda;
-			T c00 = c01 = c02 = 0;
-			T c10 = c11 = c12 = 0;
-			T c20 = c21 = c22 = 0;
+			T c00 = 0, c01 = 0, c02 = 0;
+			T c10 = 0, c11 = 0, c12 = 0;
+			T c20 = 0, c21 = 0, c22 = 0;
 
 			for (size_t k = 0; k < p; ++k)
 			{
 				const T a0 = ptr_a0[k];
 				const T a1 = ptr_a1[k];
 				const T a2 = ptr_a2[k];
-				const T b0 = b[0];
-				const T b1 = b[1];
-				const T b2 = b[2];
-
-				c00 += a0 * b0;
-				c01 += a0 * b1;
-				c02 += a0 * b2;
-				c10 += a1 * b0;
-				c11 += a1 * b1;
-				c12 += a1 * b2;
-				c20 += a2 * b0;
-				c21 += a2 * b1;
-				c22 += a2 * b2;
+				c00 += a0 * b[0];
+				c01 += a0 * b[1];
+				c02 += a0 * b[2];
+				c10 += a1 * b[0];
+				c11 += a1 * b[1];
+				c12 += a1 * b[2];
+				c20 += a2 * b[0];
+				c21 += a2 * b[1];
+				c22 += a2 * b[2];
 				b += ldb;
 			}
 			ptr_c0[0] += c00;
@@ -430,24 +398,21 @@ namespace core
 			const T* ptr_a0 = a;
 			const T* ptr_a1 = a + lda;
 			const T* ptr_a2 = ptr_a1 + lda;
-			T c00 = c01 = 0;
-			T c10 = c11 = 0;
-			T c20 = c21 = 0;
+			T c00 = 0, c01 = 0;
+			T c10 = 0, c11 = 0;
+			T c20 = 0, c21 = 0;
 
 			for (size_t k = 0; k < p; ++k)
 			{
 				const T a0 = ptr_a0[k];
 				const T a1 = ptr_a1[k];
 				const T a2 = ptr_a2[k];
-				const T b0 = b[0];
-				const T b1 = b[1];
-
-				c00 += a0 * b0;
-				c01 += a0 * b1;
-				c10 += a1 * b0;
-				c11 += a1 * b1;
-				c20 += a2 * b0;
-				c21 += a2 * b1;
+				c00 += a0 * b[0];
+				c01 += a0 * b[1];
+				c10 += a1 * b[0];
+				c11 += a1 * b[1];
+				c20 += a2 * b[0];
+				c21 += a2 * b[1];
 				b += ldb;
 			}
 			ptr_c0[0] += c00;
@@ -473,14 +438,9 @@ namespace core
 
 			for (size_t k = 0; k < p; ++k)
 			{
-				const T a0 = ptr_a0[k];
-				const T a1 = ptr_a1[k];
-				const T a2 = ptr_a2[k];
-				const T b0 = b[0];
-
-				c00 += a0 * b0;
-				c10 += a1 * b0;
-				c20 += a2 * b0;
+				c00 += ptr_a0[k] * b[0];
+				c10 += ptr_a1[k] * b[0];
+				c20 += ptr_a2[k] * b[0];
 				b += ldb;
 			}
 			ptr_c0[0] += c00;
@@ -495,26 +455,21 @@ namespace core
 			T* ptr_c1 = c + ldc;
 			const T* ptr_a0 = a;
 			const T* ptr_a1 = a + lda;
-			T c00 = c01 = c02 = c03 = 0;
-			T c10 = c11 = c12 = c13 = 0;
+			T c00 = 0, c01 = 0, c02 = 0, c03 = 0;
+			T c10 = 0, c11 = 0, c12 = 0, c13 = 0;
 
 			for (size_t k = 0; k < p; ++k)
 			{
 				const T a0 = ptr_a0[k];
 				const T a1 = ptr_a1[k];
-				const T b0 = b[0];
-				const T b1 = b[1];
-				const T b2 = b[2];
-				const T b3 = b[3];
-
-				c00 += a0 * b0;
-				c01 += a0 * b1;
-				c02 += a0 * b2;
-				c03 += a0 * b3;
-				c10 += a1 * b0;
-				c11 += a1 * b1;
-				c12 += a1 * b2;
-				c13 += a1 * b3;
+				c00 += a0 * b[0];
+				c01 += a0 * b[1];
+				c02 += a0 * b[2];
+				c03 += a0 * b[3];
+				c10 += a1 * b[0];
+				c11 += a1 * b[1];
+				c12 += a1 * b[2];
+				c13 += a1 * b[3];
 				b += ldb;
 			}
 			ptr_c0[0] += c00;
@@ -534,23 +489,19 @@ namespace core
 			T* ptr_c1 = c + ldc;
 			const T* ptr_a0 = a;
 			const T* ptr_a1 = a + lda;
-			T c00 = c01 = c02 = 0;
-			T c10 = c11 = c12 = 0;
+			T c00 = 0, c01 = 0, c02 = 0;
+			T c10 = 0, c11 = 0, c12 = 0;
 
 			for (size_t k = 0; k < p; ++k)
 			{
 				const T a0 = ptr_a0[k];
 				const T a1 = ptr_a1[k];
-				const T b0 = b[0];
-				const T b1 = b[1];
-				const T b2 = b[2];
-
-				c00 += a0 * b0;
-				c01 += a0 * b1;
-				c02 += a0 * b2;
-				c10 += a1 * b0;
-				c11 += a1 * b1;
-				c12 += a1 * b2;
+				c00 += a0 * b[0];
+				c01 += a0 * b[1];
+				c02 += a0 * b[2];
+				c10 += a1 * b[0];
+				c11 += a1 * b[1];
+				c12 += a1 * b[2];
 				b += ldb;
 			}
 			ptr_c0[0] += c00;
@@ -568,20 +519,17 @@ namespace core
 			T* ptr_c1 = c + ldc;
 			const T* ptr_a0 = a;
 			const T* ptr_a1 = a + lda;
-			T c00 = c01 = 0;
-			T c10 = c11 = 0;
+			T c00 = 0, c01 = 0;
+			T c10 = 0, c11 = 0;
 
 			for (size_t k = 0; k < p; ++k)
 			{
 				const T a0 = ptr_a0[k];
 				const T a1 = ptr_a1[k];
-				const T b0 = b[0];
-				const T b1 = b[1];
-
-				c00 += a0 * b0;
-				c01 += a0 * b1;
-				c10 += a1 * b0;
-				c11 += a1 * b1;
+				c00 += a0 * b[0];
+				c01 += a0 * b[1];
+				c10 += a1 * b[0];
+				c11 += a1 * b[1];
 				b += ldb;
 			}
 			ptr_c0[0] += c00;
@@ -602,12 +550,8 @@ namespace core
 
 			for (size_t k = 0; k < p; ++k)
 			{
-				const T a0 = ptr_a0[k];
-				const T a1 = ptr_a1[k];
-				const T b0 = b[0];
-
-				c00 += a0 * b0;
-				c10 += a1 * b0;
+				c00 += ptr_a0[k] * b[0];
+				c10 += ptr_a1[k] * b[0];
 				b += ldb;
 			}
 			ptr_c0[0] += c00;
@@ -617,20 +561,15 @@ namespace core
 		template <class T>
 		inline void add_dot_1x4(T* c, size_t ldc, const T* a, size_t lda, const T* b, size_t ldb, size_t p)
 		{
-			T c00 = c01 = c02 = c03 = 0;
+			T c00 = 0, c01 = 0, c02 = 0, c03 = 0;
 
 			for (size_t k = 0; k < p; ++k)
 			{
 				const T a0 = a[k];
-				const T b0 = b[0];
-				const T b1 = b[1];
-				const T b2 = b[2];
-				const T b3 = b[3];
-
-				c00 += a0 * b0;
-				c01 += a0 * b1;
-				c02 += a0 * b2;
-				c03 += a0 * b3;
+				c00 += a0 * b[0];
+				c01 += a0 * b[1];
+				c02 += a0 * b[2];
+				c03 += a0 * b[3];
 				b += ldb;
 			}
 			c[0] += c00;
@@ -642,18 +581,14 @@ namespace core
 		template <class T>
 		inline void add_dot_1x3(T* c, size_t ldc, const T* a, size_t lda, const T* b, size_t ldb, size_t p)
 		{
-			T c00 = c01 = c02 = 0;
+			T c00 = 0, c01 = 0, c02 = 0;
 
 			for (size_t k = 0; k < p; ++k)
 			{
 				const T a0 = a[k];
-				const T b0 = b[0];
-				const T b1 = b[1];
-				const T b2 = b[2];
-
-				c00 += a0 * b0;
-				c01 += a0 * b1;
-				c02 += a0 * b2;
+				c00 += a0 * b[0];
+				c01 += a0 * b[1];
+				c02 += a0 * b[2];
 				b += ldb;
 			}
 			c[0] += c00;
@@ -664,20 +599,17 @@ namespace core
 		template <class T>
 		inline void add_dot_1x2(T* c, size_t ldc, const T* a, size_t lda, const T* b, size_t ldb, size_t p)
 		{
-			T c00 = c01 = 0;
+			T c00 = 0, c01 = 0;
 
 			for (size_t k = 0; k < p; ++k)
 			{
 				const T a0 = a[k];
-				const T b0 = b[0];
-				const T b1 = b[1];
-
-				c00 += a0 * b0;
-				c01 += a0 * b1;
+				c00 += a0 * b[0];
+				c01 += a0 * b[1];
 				b += ldb;
 			}
-			ptr_c0[0] += c00;
-			ptr_c0[1] += c01;
+			c[0] += c00;
+			c[1] += c01;
 		}
 
 		template <class T>
@@ -687,13 +619,10 @@ namespace core
 
 			for (size_t k = 0; k < p; ++k)
 			{
-				const T a0 = a[k];
-				const T b0 = b[0];
-
-				c00 += a0 * b0;
+				c00 += a[k] * b[0];
 				b += ldb;
 			}
-			ptr_c0[0] += c00;
+			c[0] += c00;
 		}
 
 		// Function template add_dot_tiny
@@ -801,130 +730,119 @@ namespace core
 					size_t exp = ((*reinterpret_cast<unsigned int*>(&tmp)) >> 23 & 0xFFu) - 0x7Fu;
 					// Calculate: m1 = pow(2, exp)
 					size_t m1 = static_cast<size_t>(1) << exp;
-					auto src1 = src0 + m1 * src_rs;
-					if (n0 > block_n)
+					auto a1 = a0 + m1 * lda;
+					auto c1 = c0 + m1 * ldc;
+					if (p0 > block_p)
 					{
-						// Calculate: exp = log2(n0 - 1)
-						float tmp = static_cast<float>(n0 - 1);
+						// Calculate: exp = log2(p0 - 1)
+						float tmp = static_cast<float>(p0 - 1);
 						size_t exp = ((*reinterpret_cast<unsigned int*>(&tmp)) >> 23 & 0xFFu) - 0x7Fu;
 						// Calculate: n1 = pow(2, exp)
-						size_t n1 = static_cast<size_t>(1) << exp;
-						auto dst1 = dst0 + n1 * dst_rs;
-						// Transpose of four submatrices
-						//task.emplace(dst1 + m1, src1 + n1, m0 - m1, n0 - n1);
-						//task.emplace(dst0 + m1, src1, m0 - m1, n1);
-						//task.emplace(dst1, src0 + n1, m1, n0 - n1);
-						//task.emplace(dst0, src0, m1, n1);
+						size_t p1 = static_cast<size_t>(1) << exp;
+						auto b1 = b0 + p1 * ldb;
+						if (n0 > block_n)
+						{
+							// Calculate: exp = log2(n0 - 1)
+							float tmp = static_cast<float>(n0 - 1);
+							size_t exp = ((*reinterpret_cast<unsigned int*>(&tmp)) >> 23 & 0xFFu) - 0x7Fu;
+							// Calculate: n1 = pow(2, exp)
+							size_t n1 = static_cast<size_t>(1) << exp;
+							// Block matrix multiplication
+							task.emplace(c0,      a0,      b0,           m1,      n1,      p1);
+							task.emplace(c0,      a0 + p1, b1,           m1,      n1, p0 - p1);
+							task.emplace(c0 + n1, a0,      b0 + n1,      m1, n0 - n1,      p1);
+							task.emplace(c0 + n1, a0 + p1, b1 + n1,      m1, n0 - n1, p0 - p1);
+							task.emplace(c1,      a1,      b0,      m0 - m1,      n1,      p1);
+							task.emplace(c1,      a1 + p1, b1,      m0 - m1,      n1, p0 - p1);
+							task.emplace(c1 + n1, a1,      b0 + n1, m0 - m1, n0 - n1,      p1);
+							task.emplace(c1 + n1, a1 + p1, b1 + n1, m0 - m1, n0 - n1, p0 - p1);
+						}
+						else
+						{
+							// Block matrix multiplication
+							task.emplace(c0, a0,      b0,      m1, n0,      p1);
+							task.emplace(c0, a0 + p1, b1,      m1, n0, p0 - p1);
+							task.emplace(c1, a1,      b0, m0 - m1, n0,      p1);
+							task.emplace(c1, a1 + p1, b1, m0 - m1, n0, p0 - p1);
+						}
 					}
 					else
 					{
-						// Transpose of two submatrices
-						//task.emplace(dst0 + m1, src1, m0 - m1, n0);
-						//task.emplace(dst0, src0, m1, n0);
+						if (n0 > block_n)
+						{
+							// Calculate: exp = log2(n0 - 1)
+							float tmp = static_cast<float>(n0 - 1);
+							size_t exp = ((*reinterpret_cast<unsigned int*>(&tmp)) >> 23 & 0xFFu) - 0x7Fu;
+							// Calculate: n1 = pow(2, exp)
+							size_t n1 = static_cast<size_t>(1) << exp;
+							// Block matrix multiplication
+							task.emplace(c0,      a0, b0,           m1,      n1, p0);
+							task.emplace(c0 + n1, a0, b0 + n1,      m1, n0 - n1, p0);
+							task.emplace(c1,      a1, b0,      m0 - m1,      n1, p0);
+							task.emplace(c1 + n1, a1, b0 + n1, m0 - m1, n0 - n1, p0);
+						}
+						else
+						{
+							// Block matrix multiplication
+							task.emplace(c0, a0, b0,      m1, n0, p0);
+							task.emplace(c1, a1, b0, m0 - m1, n0, p0);
+						}
 					}
 				}
 				else
 				{
-					if (n0 > block_n)
+					if (p0 > block_p)
 					{
-						// Calculate: exp = log2(n0 - 1)
-						float tmp = static_cast<float>(n0 - 1);
+						// Calculate: exp = log2(p0 - 1)
+						float tmp = static_cast<float>(p0 - 1);
 						size_t exp = ((*reinterpret_cast<unsigned int*>(&tmp)) >> 23 & 0xFFu) - 0x7Fu;
 						// Calculate: n1 = pow(2, exp)
-						size_t n1 = static_cast<size_t>(1) << exp;
-						auto dst1 = dst0 + n1 * dst_rs;
-						// Transpose of two submatrices
-						//task.emplace(dst1, src0 + n1, m0, n0 - n1);
-						//task.emplace(dst0, src0, m0, n1);
+						size_t p1 = static_cast<size_t>(1) << exp;
+						auto b1 = b0 + p1 * ldb;
+						if (n0 > block_n)
+						{
+							// Calculate: exp = log2(n0 - 1)
+							float tmp = static_cast<float>(n0 - 1);
+							size_t exp = ((*reinterpret_cast<unsigned int*>(&tmp)) >> 23 & 0xFFu) - 0x7Fu;
+							// Calculate: n1 = pow(2, exp)
+							size_t n1 = static_cast<size_t>(1) << exp;
+							// Block matrix multiplication
+							task.emplace(c0,      a0,      b0,      m0,      n1,      p1);
+							task.emplace(c0,      a0 + p1, b1,      m0,      n1, p0 - p1);
+							task.emplace(c0 + n1, a0,      b0 + n1, m0, n0 - n1,      p1);
+							task.emplace(c0 + n1, a0 + p1, b1 + n1, m0, n0 - n1, p0 - p1);
+						}
+						else
+						{
+							// Block matrix multiplication
+							task.emplace(c0, a0,      b0, m0, n0,      p1);
+							task.emplace(c0, a0 + p1, b1, m0, n0, p0 - p1);
+						}
 					}
 					else
 					{
-						if (m0 == block_m && n0 == block_n && p0 == block_p)
-							add_dot_block(c0, ldc, a0, lda, b0, ldb);
+						if (n0 > block_n)
+						{
+							// Calculate: exp = log2(n0 - 1)
+							float tmp = static_cast<float>(n0 - 1);
+							size_t exp = ((*reinterpret_cast<unsigned int*>(&tmp)) >> 23 & 0xFFu) - 0x7Fu;
+							// Calculate: n1 = pow(2, exp)
+							size_t n1 = static_cast<size_t>(1) << exp;
+							// Block matrix multiplication
+							task.emplace(c0,      a0, b0,      m0,      n1, p0);
+							task.emplace(c0 + n1, a0, b0 + n1, m0, n0 - n1, p0);
+						}
 						else
-							add_dot_tiny(c0, ldc, a0, lda, b0, ldb, m0, n0, p0);
+						{
+							if (m0 == block_m && n0 == block_n)
+								add_dot_block(c0, ldc, a0, lda, b0, ldb, p0);
+							else
+								add_dot_tiny(c0, ldc, a0, lda, b0, ldb, m0, n0, p0);
+						}
 					}
 				}
 			}
 		}
-
-		//template <class T>
-		//void impl_gemm0(T* dst, size_t dst_rs, const T* src, size_t src_rs, size_t m, size_t n)
-		//{
-		//	for (size_t i = 0; i < m; ++i)
-		//		for (size_t j = 0; j < n; ++j)
-		//			dst[j * dst_rs + i] = src[i * src_rs + j];
-		//}
-		
-		//template <class T>
-		//void impl_gemm1(T* dst, size_t dst_rs, const T* src, size_t src_rs, size_t m, size_t n)
-		//{
-		//	for (size_t i = 0; i < m; i += 8)
-		//		for (size_t j = 0; j < n; j += 8)
-		//			if (i + 8 < m && j + 8 < n)
-		//				gemm_block(dst + j * dst_rs + i, dst_rs, src + i * src_rs + j, src_rs);
-		//			else
-		//				gemm_tiny(dst + j * dst_rs + i, dst_rs, src + i * src_rs + j, src_rs, m - i, n - j);
-		//}
-		
-		//template <class T>
-		//void impl_gemm2(T* dst, size_t dst_rs, const T* src, size_t src_rs, size_t m, size_t n)
-		//{
-		//	constexpr size_t block_m = 8;
-		//	constexpr size_t block_n = 8;
-
-		//	if (m > block_m)
-		//	{
-		//		// Calculate: exp = log2(m - 1)
-		//		float tmp = static_cast<float>(m - 1);
-		//		size_t exp = ((*reinterpret_cast<unsigned int*>(&tmp)) >> 23 & 0xFFu) - 0x7Fu;
-		//		// Calculate: m1 = pow(2, exp)
-		//		size_t m1 = static_cast<size_t>(1) << exp;
-		//		auto src1 = src + m1 * src_rs;
-		//		if (n > block_n)
-		//		{
-		//			// Calculate: exp = log2(n - 1)
-		//			float tmp = static_cast<float>(n - 1);
-		//			size_t exp = ((*reinterpret_cast<unsigned int*>(&tmp)) >> 23 & 0xFFu) - 0x7Fu;
-		//			// Calculate: n1 = pow(2, exp)
-		//			size_t n1 = static_cast<size_t>(1) << exp;
-		//			auto dst1 = dst + n1 * dst_rs;
-		//			// Transpose of four submatrices
-		//			impl_gemm(dst, dst_rs, src, src_rs, m1, n1);
-		//			impl_gemm(dst1, dst_rs, src + n1, src_rs, m1, n - n1);
-		//			impl_gemm(dst + m1, dst_rs, src1, src_rs, m - m1, n1);
-		//			impl_gemm(dst1 + m1, dst_rs, src1 + n1, src_rs, m - m1, n - n1);
-		//		}
-		//		else if (n > 0)
-		//		{
-		//			// Transpose of two submatrices
-		//			impl_gemm(dst, dst_rs, src, src_rs, m1, n);
-		//			impl_gemm(dst + m1, dst_rs, src1, src_rs, m - m1, n);
-		//		}
-		//	}
-		//	else
-		//	{
-		//		if (n > block_n)
-		//		{
-		//			// Calculate: exp = log2(n - 1)
-		//			float tmp = static_cast<float>(n - 1);
-		//			size_t exp = ((*reinterpret_cast<unsigned int*>(&tmp)) >> 23 & 0xFFu) - 0x7Fu;
-		//			// Calculate: n1 = pow(2, exp)
-		//			size_t n1 = static_cast<size_t>(1) << exp;
-		//			auto dst1 = dst + n1 * dst_rs;
-		//			// Transpose of two submatrices
-		//			impl_gemm(dst, dst_rs, src, src_rs, m, n1);
-		//			impl_gemm(dst1, dst_rs, src + n1, src_rs, m, n - n1);
-		//		}
-		//		else
-		//		{
-		//			if (m == block_m && n == block_n)
-		//				gemm_block(dst, dst_rs, src, src_rs);
-		//			else
-		//				gemm_tiny(dst, dst_rs, src, src_rs, m, n);
-		//		}
-		//	}
-		//}
 
 	} // namespace comm
 
