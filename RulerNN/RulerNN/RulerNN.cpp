@@ -140,8 +140,8 @@ int main()
 		//std::cout << src;
 
 		start = core::device::steady_time();
-		cpu.trp(dst, src);
-		//device.trp(dst, src);
+		//cpu.trp(dst, src);
+		device.trp(dst, src);
 		end = core::device::steady_time();
 		duration1 = core::device::get_milliseconds(start, end);
 		std::cout << "cpu:" << duration1 << "\n";

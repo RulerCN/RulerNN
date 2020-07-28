@@ -590,13 +590,13 @@ namespace core
 		// Function template cvtpd_avx2_medium
 
 		template <class T>
-		inline void cvtpd_avx2_medium(T* dst, const double* src, size_t n)
+		inline void cvtpd_avx2_medium(T*& dst, const double*& src, size_t& n)
 		{
 			throw std::domain_error(UNIMPLEMENTED_FUNCTION);
 		}
 
 		template <>
-		void cvtpd_avx2_medium<signed char>(signed char* dst, const double* src, size_t n)
+		void cvtpd_avx2_medium<signed char>(signed char*& dst, const double*& src, size_t& n)
 		{
 			const __m256i ymm_mask = _mm256_set_epi64x(0xffffffffffffffffi64, 0xffffffffffffffffi64, 0xffffffffffffffffi64, 0xffffffff0c080400i64);
 			__m256d ymm_src0, ymm_src1, ymm_src2, ymm_src3, ymm_src4, ymm_src5, ymm_src6, ymm_src7;
@@ -646,7 +646,7 @@ namespace core
 		}
 
 		template <>
-		void cvtpd_avx2_medium<unsigned char>(unsigned char* dst, const double* src, size_t n)
+		void cvtpd_avx2_medium<unsigned char>(unsigned char*& dst, const double*& src, size_t& n)
 		{
 			const __m256i ymm_mask = _mm256_set_epi64x(0xffffffffffffffffi64, 0xffffffffffffffffi64, 0xffffffffffffffffi64, 0xffffffff0c080400i64);
 			__m256d ymm_src0, ymm_src1, ymm_src2, ymm_src3, ymm_src4, ymm_src5, ymm_src6, ymm_src7;
@@ -696,7 +696,7 @@ namespace core
 		}
 
 		template <>
-		void cvtpd_avx2_medium<signed short>(signed short* dst, const double* src, size_t n)
+		void cvtpd_avx2_medium<signed short>(signed short*& dst, const double*& src, size_t& n)
 		{
 			const __m256i ymm_mask = _mm256_set_epi64x(0xffffffffffffffffi64, 0xffffffffffffffffi64, 0xffffffffffffffffi64, 0x0d0c090805040100i64);
 			__m256d ymm_src0, ymm_src1, ymm_src2, ymm_src3, ymm_src4, ymm_src5, ymm_src6, ymm_src7;
@@ -746,7 +746,7 @@ namespace core
 		}
 
 		template <>
-		void cvtpd_avx2_medium<unsigned short>(unsigned short* dst, const double* src, size_t n)
+		void cvtpd_avx2_medium<unsigned short>(unsigned short*& dst, const double*& src, size_t& n)
 		{
 			const __m256i ymm_mask = _mm256_set_epi64x(0xffffffffffffffffi64, 0xffffffffffffffffi64, 0xffffffffffffffffi64, 0x0d0c090805040100i64);
 			__m256d ymm_src0, ymm_src1, ymm_src2, ymm_src3, ymm_src4, ymm_src5, ymm_src6, ymm_src7;
@@ -796,7 +796,7 @@ namespace core
 		}
 
 		template <>
-		void cvtpd_avx2_medium<signed int>(signed int* dst, const double* src, size_t n)
+		void cvtpd_avx2_medium<signed int>(signed int*& dst, const double*& src, size_t& n)
 		{
 			__m256d ymm_src0, ymm_src1, ymm_src2, ymm_src3, ymm_src4, ymm_src5, ymm_src6, ymm_src7;
 			__m128i xmm_dst0, xmm_dst1, xmm_dst2, xmm_dst3, xmm_dst4, xmm_dst5, xmm_dst6, xmm_dst7;
@@ -837,7 +837,7 @@ namespace core
 		}
 
 		template <>
-		void cvtpd_avx2_medium<unsigned int>(unsigned int* dst, const double* src, size_t n)
+		void cvtpd_avx2_medium<unsigned int>(unsigned int*& dst, const double*& src, size_t& n)
 		{
 			__m256d ymm_src0, ymm_src1, ymm_src2, ymm_src3, ymm_src4, ymm_src5, ymm_src6, ymm_src7;
 			__m128i xmm_dst0, xmm_dst1, xmm_dst2, xmm_dst3, xmm_dst4, xmm_dst5, xmm_dst6, xmm_dst7;
@@ -878,7 +878,7 @@ namespace core
 		}
 
 		template <>
-		void cvtpd_avx2_medium<float>(float* dst, const double* src, size_t n)
+		void cvtpd_avx2_medium<float>(float*& dst, const double*& src, size_t& n)
 		{
 			__m256d ymm_src0, ymm_src1, ymm_src2, ymm_src3, ymm_src4, ymm_src5, ymm_src6, ymm_src7;
 			__m128 xmm_dst0, xmm_dst1, xmm_dst2, xmm_dst3, xmm_dst4, xmm_dst5, xmm_dst6, xmm_dst7;
@@ -921,13 +921,13 @@ namespace core
 		// Function template cvtpd_avx2_large
 
 		template <class T>
-		inline void cvtpd_avx2_large(T* dst, const double* src, size_t n)
+		inline void cvtpd_avx2_large(T*& dst, const double*& src, size_t& n)
 		{
 			throw std::domain_error(UNIMPLEMENTED_FUNCTION);
 		}
 
 		template <>
-		inline void cvtpd_avx2_large<signed char>(signed char* dst, const double* src, size_t n)
+		inline void cvtpd_avx2_large<signed char>(signed char*& dst, const double*& src, size_t& n)
 		{
 			const size_t padding = 16 - (reinterpret_cast<size_t>(dst) & 15);
 			const __m256i ymm_mask = _mm256_set_epi64x(0xffffffffffffffffi64, 0xffffffffffffffffi64, 0xffffffffffffffffi64, 0xffffffff0c080400i64);
@@ -1044,7 +1044,7 @@ namespace core
 		}
 
 		template <>
-		inline void cvtpd_avx2_large<unsigned char>(unsigned char* dst, const double* src, size_t n)
+		inline void cvtpd_avx2_large<unsigned char>(unsigned char*& dst, const double*& src, size_t& n)
 		{
 			const size_t padding = 16 - (reinterpret_cast<size_t>(dst) & 15);
 			const __m256i ymm_mask = _mm256_set_epi64x(0xffffffffffffffffi64, 0xffffffffffffffffi64, 0xffffffffffffffffi64, 0xffffffff0c080400i64);
@@ -1161,7 +1161,7 @@ namespace core
 		}
 
 		template <>
-		inline void cvtpd_avx2_large<signed short>(signed short* dst, const double* src, size_t n)
+		inline void cvtpd_avx2_large<signed short>(signed short*& dst, const double*& src, size_t& n)
 		{
 			const size_t padding = 8 - (reinterpret_cast<size_t>(dst) & 7);
 			const __m256i ymm_mask = _mm256_set_epi64x(0xffffffffffffffffi64, 0xffffffffffffffffi64, 0xffffffffffffffffi64, 0x0d0c090805040100i64);
@@ -1270,7 +1270,7 @@ namespace core
 		}
 
 		template <>
-		inline void cvtpd_avx2_large<unsigned short>(unsigned short* dst, const double* src, size_t n)
+		inline void cvtpd_avx2_large<unsigned short>(unsigned short*& dst, const double*& src, size_t& n)
 		{
 			const size_t padding = 8 - (reinterpret_cast<size_t>(dst) & 7);
 			const __m256i ymm_mask = _mm256_set_epi64x(0xffffffffffffffffi64, 0xffffffffffffffffi64, 0xffffffffffffffffi64, 0x0d0c090805040100i64);
@@ -1379,7 +1379,7 @@ namespace core
 		}
 
 		template <>
-		inline void cvtpd_avx2_large<signed int>(signed int* dst, const double* src, size_t n)
+		inline void cvtpd_avx2_large<signed int>(signed int*& dst, const double*& src, size_t& n)
 		{
 			const size_t padding = 4 - (reinterpret_cast<size_t>(dst) & 3);
 			__m256d ymm_src0, ymm_src1, ymm_src2, ymm_src3, ymm_src4, ymm_src5, ymm_src6, ymm_src7;
@@ -1466,7 +1466,7 @@ namespace core
 		}
 
 		template <>
-		inline void cvtpd_avx2_large<unsigned int>(unsigned int* dst, const double* src, size_t n)
+		inline void cvtpd_avx2_large<unsigned int>(unsigned int*& dst, const double*& src, size_t& n)
 		{
 			const size_t padding = 4 - (reinterpret_cast<size_t>(dst) & 3);
 			__m256d ymm_src0, ymm_src1, ymm_src2, ymm_src3, ymm_src4, ymm_src5, ymm_src6, ymm_src7;
@@ -1553,7 +1553,7 @@ namespace core
 		}
 
 		template <>
-		inline void cvtpd_avx2_large<float>(float* dst, const double* src, size_t n)
+		inline void cvtpd_avx2_large<float>(float*& dst, const double*& src, size_t& n)
 		{
 			const size_t padding = 4 - (reinterpret_cast<size_t>(dst) & 3);
 			__m256d ymm_src0, ymm_src1, ymm_src2, ymm_src3, ymm_src4, ymm_src5, ymm_src6, ymm_src7;
@@ -1650,14 +1650,16 @@ namespace core
 				cvtpd_avx2_small(dst, src, n);
 			// Medium amount data type conversion.
 			else if (n < threshold)
+			{
 				cvtpd_avx2_medium(dst, src, n);
+				cvtpd_avx2_small(dst, src, n);
+			}
 			// Large amount data type conversion.
 			else
+			{
 				cvtpd_avx2_large(dst, src, n);
-			// Small amount of data type conversion.
-			cvtpd_avx2_small(dst, src, n & 127);
-			// Zero the upper 128 bits of all YMM registers.
-			_mm256_zeroupper();
+				cvtpd_avx2_small(dst, src, n);
+			}
 		}
 
 	#elif defined(__AVX__) || defined(__SSE4_2__) || defined(__SSE4_1__)
@@ -2433,13 +2435,13 @@ namespace core
 		// Function template cvtpd_sse41_medium
 
 		template <class T>
-		inline void cvtpd_sse41_medium(T* dst, const double* src, size_t n)
+		inline void cvtpd_sse41_medium(T*& dst, const double*& src, size_t& n)
 		{
 			throw std::domain_error(UNIMPLEMENTED_FUNCTION);
 		}
 
 		template <>
-		void cvtpd_sse41_medium<signed char>(signed char* dst, const double* src, size_t n)
+		void cvtpd_sse41_medium<signed char>(signed char*& dst, const double*& src, size_t& n)
 		{
 			const __m128i xmm_mask = _mm_set_epi64x(0xffffffffffffffffi64, 0xffffffff0c080400i64);
 			__m128d xmm_src0, xmm_src1, xmm_src2, xmm_src3, xmm_src4, xmm_src5, xmm_src6, xmm_src7;
@@ -2507,7 +2509,7 @@ namespace core
 		}
 
 		template <>
-		void cvtpd_sse41_medium<unsigned char>(unsigned char* dst, const double* src, size_t n)
+		void cvtpd_sse41_medium<unsigned char>(unsigned char*& dst, const double*& src, size_t& n)
 		{
 			const __m128i xmm_mask = _mm_set_epi64x(0xffffffffffffffffi64, 0xffffffff0c080400i64);
 			__m128d xmm_src0, xmm_src1, xmm_src2, xmm_src3, xmm_src4, xmm_src5, xmm_src6, xmm_src7;
@@ -2575,7 +2577,7 @@ namespace core
 		}
 
 		template <>
-		void cvtpd_sse41_medium<signed short>(signed short* dst, const double* src, size_t n)
+		void cvtpd_sse41_medium<signed short>(signed short*& dst, const double*& src, size_t& n)
 		{
 			const __m128i xmm_mask = _mm_set_epi64x(0xffffffffffffffffi64, 0x0d0c090805040100i64);
 			__m128d xmm_src0, xmm_src1, xmm_src2, xmm_src3, xmm_src4, xmm_src5, xmm_src6, xmm_src7;
@@ -2643,7 +2645,7 @@ namespace core
 		}
 
 		template <>
-		void cvtpd_sse41_medium<unsigned short>(unsigned short* dst, const double* src, size_t n)
+		void cvtpd_sse41_medium<unsigned short>(unsigned short*& dst, const double*& src, size_t& n)
 		{
 			const __m128i xmm_mask = _mm_set_epi64x(0xffffffffffffffffi64, 0x0d0c090805040100i64);
 			__m128d xmm_src0, xmm_src1, xmm_src2, xmm_src3, xmm_src4, xmm_src5, xmm_src6, xmm_src7;
@@ -2711,7 +2713,7 @@ namespace core
 		}
 
 		template <>
-		void cvtpd_sse41_medium<signed int>(signed int* dst, const double* src, size_t n)
+		void cvtpd_sse41_medium<signed int>(signed int*& dst, const double*& src, size_t& n)
 		{
 			__m128d xmm_src0, xmm_src1, xmm_src2, xmm_src3, xmm_src4, xmm_src5, xmm_src6, xmm_src7;
 			__m128d xmm_src8, xmm_src9, xmm_srca, xmm_srcb, xmm_srcc, xmm_srcd, xmm_srce, xmm_srcf;
@@ -2778,7 +2780,7 @@ namespace core
 		}
 
 		template <>
-		void cvtpd_sse41_medium<unsigned int>(unsigned int* dst, const double* src, size_t n)
+		void cvtpd_sse41_medium<unsigned int>(unsigned int*& dst, const double*& src, size_t& n)
 		{
 			__m128d xmm_src0, xmm_src1, xmm_src2, xmm_src3, xmm_src4, xmm_src5, xmm_src6, xmm_src7;
 			__m128d xmm_src8, xmm_src9, xmm_srca, xmm_srcb, xmm_srcc, xmm_srcd, xmm_srce, xmm_srcf;
@@ -2845,7 +2847,7 @@ namespace core
 		}
 
 		template <>
-		void cvtpd_sse41_medium<float>(float* dst, const double* src, size_t n)
+		void cvtpd_sse41_medium<float>(float*& dst, const double*& src, size_t& n)
 		{
 			__m128d xmm_src0, xmm_src1, xmm_src2, xmm_src3, xmm_src4, xmm_src5, xmm_src6, xmm_src7;
 			__m128d xmm_src8, xmm_src9, xmm_srca, xmm_srcb, xmm_srcc, xmm_srcd, xmm_srce, xmm_srcf;
@@ -2914,13 +2916,13 @@ namespace core
 		// Function template cvtpd_sse41_large
 
 		template <class T>
-		inline void cvtpd_sse41_large(T* dst, const double* src, size_t n)
+		inline void cvtpd_sse41_large(T*& dst, const double*& src, size_t& n)
 		{
 			throw std::domain_error(UNIMPLEMENTED_FUNCTION);
 		}
 
 		template <>
-		void cvtpd_sse41_large<signed char>(signed char* dst, const double* src, size_t n)
+		void cvtpd_sse41_large<signed char>(signed char*& dst, const double*& src, size_t& n)
 		{
 			const size_t padding = 16 - (reinterpret_cast<size_t>(dst) & 15);
 			const __m128i xmm_mask = _mm_set_epi64x(0xffffffffffffffffi64, 0xffffffff0c080400i64);
@@ -3079,7 +3081,7 @@ namespace core
 		}
 
 		template <>
-		void cvtpd_sse41_large<unsigned char>(unsigned char* dst, const double* src, size_t n)
+		void cvtpd_sse41_large<unsigned char>(unsigned char*& dst, const double*& src, size_t& n)
 		{
 			const size_t padding = 16 - (reinterpret_cast<size_t>(dst) & 15);
 			const __m128i xmm_mask = _mm_set_epi64x(0xffffffffffffffffi64, 0xffffffff0c080400i64);
@@ -3238,7 +3240,7 @@ namespace core
 		}
 
 		template <>
-		void cvtpd_sse41_large<signed short>(signed short* dst, const double* src, size_t n)
+		void cvtpd_sse41_large<signed short>(signed short*& dst, const double*& src, size_t& n)
 		{
 			const size_t padding = 8 - (reinterpret_cast<size_t>(dst) & 7);
 			const __m128i xmm_mask = _mm_set_epi64x(0xffffffffffffffffi64, 0x0d0c090805040100i64);
@@ -3385,7 +3387,7 @@ namespace core
 		}
 
 		template <>
-		void cvtpd_sse41_large<unsigned short>(unsigned short* dst, const double* src, size_t n)
+		void cvtpd_sse41_large<unsigned short>(unsigned short*& dst, const double*& src, size_t& n)
 		{
 			const size_t padding = 8 - (reinterpret_cast<size_t>(dst) & 7);
 			const __m128i xmm_mask = _mm_set_epi64x(0xffffffffffffffffi64, 0x0d0c090805040100i64);
@@ -3532,7 +3534,7 @@ namespace core
 		}
 
 		template <>
-		void cvtpd_sse41_large<signed int>(signed int* dst, const double* src, size_t n)
+		void cvtpd_sse41_large<signed int>(signed int*& dst, const double*& src, size_t& n)
 		{
 			const size_t padding = 4 - (reinterpret_cast<size_t>(dst) & 3);
 			__m128d xmm_src0, xmm_src1, xmm_src2, xmm_src3, xmm_src4, xmm_src5, xmm_src6, xmm_src7;
@@ -3672,7 +3674,7 @@ namespace core
 		}
 
 		template <>
-		void cvtpd_sse41_large<unsigned int>(unsigned int* dst, const double* src, size_t n)
+		void cvtpd_sse41_large<unsigned int>(unsigned int*& dst, const double*& src, size_t& n)
 		{
 			const size_t padding = 4 - (reinterpret_cast<size_t>(dst) & 3);
 			__m128d xmm_src0, xmm_src1, xmm_src2, xmm_src3, xmm_src4, xmm_src5, xmm_src6, xmm_src7;
@@ -3812,7 +3814,7 @@ namespace core
 		}
 
 		template <>
-		void cvtpd_sse41_large<float>(float* dst, const double* src, size_t n)
+		void cvtpd_sse41_large<float>(float*& dst, const double*& src, size_t& n)
 		{
 			const size_t padding = 4 - (reinterpret_cast<size_t>(dst) & 3);
 			__m128d xmm_src0, xmm_src1, xmm_src2, xmm_src3, xmm_src4, xmm_src5, xmm_src6, xmm_src7;
@@ -3962,12 +3964,16 @@ namespace core
 				cvtpd_sse41_small(dst, src, n);
 			// Medium amount data type conversion.
 			else if (n < threshold)
+			{
 				cvtpd_sse41_medium(dst, src, n);
+				cvtpd_sse41_small(dst, src, n);
+			}
 			// Large amount data type conversion.
 			else
+			{
 				cvtpd_sse41_large(dst, src, n);
-			// Small amount of data type conversion.
-			cvtpd_sse41_small(dst, src, n & 127);
+				cvtpd_sse41_small(dst, src, n);
+			}
 		}
 
 	#else

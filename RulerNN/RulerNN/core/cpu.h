@@ -287,7 +287,8 @@ namespace core
 		{
 			if (src.empty() || dst.empty())
 				throw std::domain_error(TENSOR_NOT_INITIALIZED);
-			if (src.num() != dst.num() || src.rows() != dst.line() || src.line() != dst.rows())				throw std::invalid_argument(INVALID_SHAPE);
+			if (src.num() != dst.num() || src.rows() != dst.line() || src.line() != dst.rows())
+				throw std::invalid_argument(INVALID_SHAPE);
 			auto src_itr = src.mbegin();
 			auto dst_itr = dst.mbegin();
 			while (src_itr != src.mend() && dst_itr != dst.mend())

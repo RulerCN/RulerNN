@@ -901,13 +901,13 @@ namespace core
 		// Function template cvtspd_avx2_medium
 
 		template <class T>
-		inline void cvtspd_avx2_medium(T* dst, const double* src, size_t n)
+		inline void cvtspd_avx2_medium(T*& dst, const double*& src, size_t& n)
 		{
 			throw std::domain_error(UNIMPLEMENTED_FUNCTION);
 		}
 
 		template <>
-		void cvtspd_avx2_medium<signed char>(signed char* dst, const double* src, size_t n)
+		void cvtspd_avx2_medium<signed char>(signed char*& dst, const double*& src, size_t& n)
 		{
 			const __m256d min = _mm256_set1_pd(static_cast<double>(INT8_MIN));
 			const __m256d max = _mm256_set1_pd(static_cast<double>(INT8_MAX));
@@ -966,7 +966,7 @@ namespace core
 		}
 
 		template <>
-		void cvtspd_avx2_medium<unsigned char>(unsigned char* dst, const double* src, size_t n)
+		void cvtspd_avx2_medium<unsigned char>(unsigned char*& dst, const double*& src, size_t& n)
 		{
 			const __m256d min = _mm256_setzero_pd();
 			const __m256d max = _mm256_set1_pd(static_cast<double>(UINT8_MAX));
@@ -1025,7 +1025,7 @@ namespace core
 		}
 
 		template <>
-		void cvtspd_avx2_medium<signed short>(signed short* dst, const double* src, size_t n)
+		void cvtspd_avx2_medium<signed short>(signed short*& dst, const double*& src, size_t& n)
 		{
 			const __m256d min = _mm256_set1_pd(static_cast<double>(INT16_MIN));
 			const __m256d max = _mm256_set1_pd(static_cast<double>(INT16_MAX));
@@ -1084,7 +1084,7 @@ namespace core
 		}
 
 		template <>
-		void cvtspd_avx2_medium<unsigned short>(unsigned short* dst, const double* src, size_t n)
+		void cvtspd_avx2_medium<unsigned short>(unsigned short*& dst, const double*& src, size_t& n)
 		{
 			const __m256d min = _mm256_setzero_pd();
 			const __m256d max = _mm256_set1_pd(static_cast<double>(UINT16_MAX));
@@ -1143,7 +1143,7 @@ namespace core
 		}
 
 		template <>
-		void cvtspd_avx2_medium<signed int>(signed int* dst, const double* src, size_t n)
+		void cvtspd_avx2_medium<signed int>(signed int*& dst, const double*& src, size_t& n)
 		{
 			const __m256d min = _mm256_set1_pd(static_cast<double>(INT32_MIN));
 			const __m256d max = _mm256_set1_pd(static_cast<double>(INT32_MAX));
@@ -1202,7 +1202,7 @@ namespace core
 		}
 
 		template <>
-		void cvtspd_avx2_medium<unsigned int>(unsigned int* dst, const double* src, size_t n)
+		void cvtspd_avx2_medium<unsigned int>(unsigned int*& dst, const double*& src, size_t& n)
 		{
 			const __m256d min = _mm256_set1_pd(static_cast<double>(INT32_MIN));
 			const __m256d max = _mm256_set1_pd(static_cast<double>(INT32_MAX));
@@ -1279,7 +1279,7 @@ namespace core
 		}
 
 		template <>
-		void cvtspd_avx2_medium<float>(float* dst, const double* src, size_t n)
+		void cvtspd_avx2_medium<float>(float*& dst, const double*& src, size_t& n)
 		{
 			const __m256d min = _mm256_set1_pd(static_cast<double>(-FLT_MAX));
 			const __m256d max = _mm256_set1_pd(static_cast<double>(FLT_MAX));
@@ -1340,13 +1340,13 @@ namespace core
 		// Function template cvtspd_avx2_large
 
 		template <class T>
-		inline void cvtspd_avx2_large(T* dst, const double* src, size_t n)
+		inline void cvtspd_avx2_large(T*& dst, const double*& src, size_t& n)
 		{
 			throw std::domain_error(UNIMPLEMENTED_FUNCTION);
 		}
 
 		template <>
-		inline void cvtspd_avx2_large<signed char>(signed char* dst, const double* src, size_t n)
+		inline void cvtspd_avx2_large<signed char>(signed char*& dst, const double*& src, size_t& n)
 		{
 			const size_t padding = 16 - (reinterpret_cast<size_t>(dst) & 15);
 			const __m256d min = _mm256_set1_pd(static_cast<double>(INT8_MIN));
@@ -1484,7 +1484,7 @@ namespace core
 		}
 
 		template <>
-		inline void cvtspd_avx2_large<unsigned char>(unsigned char* dst, const double* src, size_t n)
+		inline void cvtspd_avx2_large<unsigned char>(unsigned char*& dst, const double*& src, size_t& n)
 		{
 			const size_t padding = 16 - (reinterpret_cast<size_t>(dst) & 15);
 			const __m256d min = _mm256_setzero_pd();
@@ -1622,7 +1622,7 @@ namespace core
 		}
 
 		template <>
-		inline void cvtspd_avx2_large<signed short>(signed short* dst, const double* src, size_t n)
+		inline void cvtspd_avx2_large<signed short>(signed short*& dst, const double*& src, size_t& n)
 		{
 			const size_t padding = 8 - (reinterpret_cast<size_t>(dst) & 7);
 			const __m256d min = _mm256_set1_pd(static_cast<double>(INT16_MIN));
@@ -1750,7 +1750,7 @@ namespace core
 		}
 
 		template <>
-		inline void cvtspd_avx2_large<unsigned short>(unsigned short* dst, const double* src, size_t n)
+		inline void cvtspd_avx2_large<unsigned short>(unsigned short*& dst, const double*& src, size_t& n)
 		{
 			const size_t padding = 8 - (reinterpret_cast<size_t>(dst) & 7);
 			const __m256d min = _mm256_setzero_pd();
@@ -1878,7 +1878,7 @@ namespace core
 		}
 
 		template <>
-		inline void cvtspd_avx2_large<signed int>(signed int* dst, const double* src, size_t n)
+		inline void cvtspd_avx2_large<signed int>(signed int*& dst, const double*& src, size_t& n)
 		{
 			const size_t padding = 4 - (reinterpret_cast<size_t>(dst) & 3);
 			const __m256d min = _mm256_set1_pd(static_cast<double>(INT32_MIN));
@@ -2001,7 +2001,7 @@ namespace core
 		}
 
 		template <>
-		inline void cvtspd_avx2_large<unsigned int>(unsigned int* dst, const double* src, size_t n)
+		inline void cvtspd_avx2_large<unsigned int>(unsigned int*& dst, const double*& src, size_t& n)
 		{
 			const size_t padding = 4 - (reinterpret_cast<size_t>(dst) & 3);
 			const __m256d min = _mm256_set1_pd(static_cast<double>(INT32_MIN));
@@ -2160,7 +2160,7 @@ namespace core
 		}
 
 		template <>
-		inline void cvtspd_avx2_large<float>(float* dst, const double* src, size_t n)
+		inline void cvtspd_avx2_large<float>(float*& dst, const double*& src, size_t& n)
 		{
 			const size_t padding = 4 - (reinterpret_cast<size_t>(dst) & 3);
 			const __m256d min = _mm256_set1_pd(static_cast<double>(-FLT_MAX));
@@ -2293,14 +2293,16 @@ namespace core
 				cvtspd_avx2_small(dst, src, n);
 			// Medium amount data type conversion.
 			else if (n < threshold)
+			{
 				cvtspd_avx2_medium(dst, src, n);
+				cvtspd_avx2_small(dst, src, n);
+			}
 			// Large amount data type conversion.
 			else
+			{
 				cvtspd_avx2_large(dst, src, n);
-			// Small amount of data type conversion.
-			cvtspd_avx2_small(dst, src, n & 127);
-			// Zero the upper 128 bits of all YMM registers.
-			_mm256_zeroupper();
+				cvtspd_avx2_small(dst, src, n);
+			}
 		}
 
 	#elif defined(__AVX__) || defined(__SSE4_2__) || defined(__SSE4_1__)
@@ -3548,13 +3550,13 @@ namespace core
 		// Function template cvtspd_sse41_medium
 
 		template <class T>
-		inline void cvtspd_sse41_medium(T* dst, const double* src, size_t n)
+		inline void cvtspd_sse41_medium(T*& dst, const double*& src, size_t& n)
 		{
 			throw std::domain_error(UNIMPLEMENTED_FUNCTION);
 		}
 
 		template <>
-		void cvtspd_sse41_medium<signed char>(signed char* dst, const double* src, size_t n)
+		void cvtspd_sse41_medium<signed char>(signed char*& dst, const double*& src, size_t& n)
 		{
 			const __m128d min = _mm_set1_pd(static_cast<double>(INT8_MIN));
 			const __m128d max = _mm_set1_pd(static_cast<double>(INT8_MAX));
@@ -3655,7 +3657,7 @@ namespace core
 		}
 
 		template <>
-		void cvtspd_sse41_medium<unsigned char>(unsigned char* dst, const double* src, size_t n)
+		void cvtspd_sse41_medium<unsigned char>(unsigned char*& dst, const double*& src, size_t& n)
 		{
 			const __m128d min = _mm_setzero_pd();
 			const __m128d max = _mm_set1_pd(static_cast<double>(UINT8_MAX));
@@ -3756,7 +3758,7 @@ namespace core
 		}
 
 		template <>
-		void cvtspd_sse41_medium<signed short>(signed short* dst, const double* src, size_t n)
+		void cvtspd_sse41_medium<signed short>(signed short*& dst, const double*& src, size_t& n)
 		{
 			const __m128d min = _mm_set1_pd(static_cast<double>(INT16_MIN));
 			const __m128d max = _mm_set1_pd(static_cast<double>(INT16_MAX));
@@ -3857,7 +3859,7 @@ namespace core
 		}
 
 		template <>
-		void cvtspd_sse41_medium<unsigned short>(unsigned short* dst, const double* src, size_t n)
+		void cvtspd_sse41_medium<unsigned short>(unsigned short*& dst, const double*& src, size_t& n)
 		{
 			const __m128d min = _mm_setzero_pd();
 			const __m128d max = _mm_set1_pd(static_cast<double>(UINT16_MAX));
@@ -3958,7 +3960,7 @@ namespace core
 		}
 
 		template <>
-		void cvtspd_sse41_medium<signed int>(signed int* dst, const double* src, size_t n)
+		void cvtspd_sse41_medium<signed int>(signed int*& dst, const double*& src, size_t& n)
 		{
 			const __m128d min = _mm_set1_pd(static_cast<double>(INT32_MIN));
 			const __m128d max = _mm_set1_pd(static_cast<double>(INT32_MAX));
@@ -4059,7 +4061,7 @@ namespace core
 		}
 
 		template <>
-		void cvtspd_sse41_medium<unsigned int>(unsigned int* dst, const double* src, size_t n)
+		void cvtspd_sse41_medium<unsigned int>(unsigned int*& dst, const double*& src, size_t& n)
 		{
 			const __m128d min = _mm_set1_pd(static_cast<double>(INT32_MIN));
 			const __m128d max = _mm_set1_pd(static_cast<double>(INT32_MAX));
@@ -4186,7 +4188,7 @@ namespace core
 		}
 
 		template <>
-		void cvtspd_sse41_medium<float>(float* dst, const double* src, size_t n)
+		void cvtspd_sse41_medium<float>(float*& dst, const double*& src, size_t& n)
 		{
 			const __m128d min = _mm_set1_pd(static_cast<double>(-FLT_MAX));
 			const __m128d max = _mm_set1_pd(static_cast<double>(FLT_MAX));
@@ -4289,13 +4291,13 @@ namespace core
 		// Function template cvtspd_sse41_large
 
 		template <class T>
-		inline void cvtspd_sse41_large(T* dst, const double* src, size_t n)
+		inline void cvtspd_sse41_large(T*& dst, const double*& src, size_t& n)
 		{
 			throw std::domain_error(UNIMPLEMENTED_FUNCTION);
 		}
 
 		template <>
-		void cvtspd_sse41_large<signed char>(signed char* dst, const double* src, size_t n)
+		void cvtspd_sse41_large<signed char>(signed char*& dst, const double*& src, size_t& n)
 		{
 			const size_t padding = 16 - (reinterpret_cast<size_t>(dst) & 15);
 			const __m128d min = _mm_set1_pd(static_cast<double>(INT8_MIN));
@@ -4535,7 +4537,7 @@ namespace core
 		}
 
 		template <>
-		void cvtspd_sse41_large<unsigned char>(unsigned char* dst, const double* src, size_t n)
+		void cvtspd_sse41_large<unsigned char>(unsigned char*& dst, const double*& src, size_t& n)
 		{
 			const size_t padding = 16 - (reinterpret_cast<size_t>(dst) & 15);
 			const __m128d min = _mm_setzero_pd();
@@ -4775,7 +4777,7 @@ namespace core
 		}
 
 		template <>
-		void cvtspd_sse41_large<signed short>(signed short* dst, const double* src, size_t n)
+		void cvtspd_sse41_large<signed short>(signed short*& dst, const double*& src, size_t& n)
 		{
 			const size_t padding = 8 - (reinterpret_cast<size_t>(dst) & 7);
 			const __m128d min = _mm_set1_pd(static_cast<double>(INT16_MIN));
@@ -4995,7 +4997,7 @@ namespace core
 		}
 
 		template <>
-		void cvtspd_sse41_large<unsigned short>(unsigned short* dst, const double* src, size_t n)
+		void cvtspd_sse41_large<unsigned short>(unsigned short*& dst, const double*& src, size_t& n)
 		{
 			const size_t padding = 8 - (reinterpret_cast<size_t>(dst) & 7);
 			const __m128d min = _mm_setzero_pd();
@@ -5215,7 +5217,7 @@ namespace core
 		}
 
 		template <>
-		void cvtspd_sse41_large<signed int>(signed int* dst, const double* src, size_t n)
+		void cvtspd_sse41_large<signed int>(signed int*& dst, const double*& src, size_t& n)
 		{
 			const size_t padding = 4 - (reinterpret_cast<size_t>(dst) & 3);
 			const __m128d min = _mm_set1_pd(static_cast<double>(INT32_MIN));
@@ -5425,7 +5427,7 @@ namespace core
 		}
 
 		template <>
-		void cvtspd_sse41_large<unsigned int>(unsigned int* dst, const double* src, size_t n)
+		void cvtspd_sse41_large<unsigned int>(unsigned int*& dst, const double*& src, size_t& n)
 		{
 			const size_t padding = 4 - (reinterpret_cast<size_t>(dst) & 3);
 			const __m128d min = _mm_set1_pd(static_cast<double>(INT32_MIN));
@@ -5688,7 +5690,7 @@ namespace core
 		}
 
 		template <>
-		void cvtspd_sse41_large<float>(float* dst, const double* src, size_t n)
+		void cvtspd_sse41_large<float>(float*& dst, const double*& src, size_t& n)
 		{
 			const size_t padding = 4 - (reinterpret_cast<size_t>(dst) & 3);
 			const __m128d min = _mm_set1_pd(static_cast<double>(-FLT_MAX));
@@ -5908,12 +5910,16 @@ namespace core
 				cvtspd_sse41_small(dst, src, n);
 			// Medium amount data type conversion.
 			else if (n < threshold)
+			{
 				cvtspd_sse41_medium(dst, src, n);
+				cvtspd_sse41_small(dst, src, n);
+			}
 			// Large amount data type conversion.
 			else
+			{
 				cvtspd_sse41_large(dst, src, n);
-			// Small amount of data type conversion.
-			cvtspd_sse41_small(dst, src, n & 127);
+				cvtspd_sse41_small(dst, src, n);
+			}
 		}
 
 	#else
