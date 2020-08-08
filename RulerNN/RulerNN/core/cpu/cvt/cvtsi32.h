@@ -732,13 +732,13 @@ namespace core
 		// Function template cvtsi32_avx2_medium
 
 		template <class T>
-		void cvtsi32_avx2_medium(T*& dst, const signed int*& src, size_t& n)
+		void cvtsi32_avx2_medium(T* dst, const signed int* src, size_t n)
 		{
 			throw std::domain_error(UNIMPLEMENTED_FUNCTION);
 		}
 
 		template <>
-		void cvtsi32_avx2_medium<signed char>(signed char*& dst, const signed int*& src, size_t& n)
+		void cvtsi32_avx2_medium<signed char>(signed char* dst, const signed int* src, size_t n)
 		{
 			__m128i xmm_src0, xmm_src1, xmm_src2, xmm_src3, xmm_src4, xmm_src5, xmm_src6, xmm_src7;
 			__m128i xmm_src8, xmm_src9, xmm_srca, xmm_srcb, xmm_srcc, xmm_srcd, xmm_srce, xmm_srcf;
@@ -789,7 +789,7 @@ namespace core
 		}
 
 		template <>
-		void cvtsi32_avx2_medium<unsigned char>(unsigned char*& dst, const signed int*& src, size_t& n)
+		void cvtsi32_avx2_medium<unsigned char>(unsigned char* dst, const signed int* src, size_t n)
 		{
 			__m128i xmm_src0, xmm_src1, xmm_src2, xmm_src3, xmm_src4, xmm_src5, xmm_src6, xmm_src7;
 			__m128i xmm_src8, xmm_src9, xmm_srca, xmm_srcb, xmm_srcc, xmm_srcd, xmm_srce, xmm_srcf;
@@ -840,7 +840,7 @@ namespace core
 		}
 
 		template <>
-		void cvtsi32_avx2_medium<signed short>(signed short*& dst, const signed int*& src, size_t& n)
+		void cvtsi32_avx2_medium<signed short>(signed short* dst, const signed int* src, size_t n)
 		{
 			__m128i xmm_src0, xmm_src1, xmm_src2, xmm_src3, xmm_src4, xmm_src5, xmm_src6, xmm_src7;
 			__m128i xmm_src8, xmm_src9, xmm_srca, xmm_srcb, xmm_srcc, xmm_srcd, xmm_srce, xmm_srcf;
@@ -891,7 +891,7 @@ namespace core
 		}
 
 		template <>
-		void cvtsi32_avx2_medium<unsigned short>(unsigned short*& dst, const signed int*& src, size_t& n)
+		void cvtsi32_avx2_medium<unsigned short>(unsigned short* dst, const signed int* src, size_t n)
 		{
 			__m128i xmm_src0, xmm_src1, xmm_src2, xmm_src3, xmm_src4, xmm_src5, xmm_src6, xmm_src7;
 			__m128i xmm_src8, xmm_src9, xmm_srca, xmm_srcb, xmm_srcc, xmm_srcd, xmm_srce, xmm_srcf;
@@ -942,7 +942,7 @@ namespace core
 		}
 
 		template <>
-		void cvtsi32_avx2_medium<float>(float*& dst, const signed int*& src, size_t& n)
+		void cvtsi32_avx2_medium<float>(float* dst, const signed int* src, size_t n)
 		{
 			__m256i ymm_src0, ymm_src1, ymm_src2, ymm_src3, ymm_src4, ymm_src5, ymm_src6, ymm_src7;
 			__m256 ymm_dst0, ymm_dst1, ymm_dst2, ymm_dst3, ymm_dst4, ymm_dst5, ymm_dst6, ymm_dst7;
@@ -983,7 +983,7 @@ namespace core
 		}
 
 		template <>
-		void cvtsi32_avx2_medium<double>(double*& dst, const signed int*& src, size_t& n)
+		void cvtsi32_avx2_medium<double>(double* dst, const signed int* src, size_t n)
 		{
 			__m128i xmm_src0, xmm_src1, xmm_src2, xmm_src3, xmm_src4, xmm_src5, xmm_src6, xmm_src7;
 			__m128i xmm_src8, xmm_src9, xmm_srca, xmm_srcb, xmm_srcc, xmm_srcd, xmm_srce, xmm_srcf;
@@ -1052,13 +1052,13 @@ namespace core
 		// Function template cvtsi32_avx2_large
 
 		template <class T>
-		void cvtsi32_avx2_large(T*& dst, const signed int*& src, size_t& n)
+		void cvtsi32_avx2_large(T* dst, const signed int* src, size_t n)
 		{
 			throw std::domain_error(UNIMPLEMENTED_FUNCTION);
 		}
 
 		template <>
-		void cvtsi32_avx2_large<signed char>(signed char*& dst, const signed int*& src, size_t& n)
+		void cvtsi32_avx2_large<signed char>(signed char* dst, const signed int* src, size_t n)
 		{
 			const size_t padding = 32 - (reinterpret_cast<size_t>(dst) & 31);
 			__m128i xmm_src0, xmm_src1, xmm_src2, xmm_src3, xmm_src4, xmm_src5, xmm_src6, xmm_src7;
@@ -1176,7 +1176,7 @@ namespace core
 		}
 
 		template <>
-		void cvtsi32_avx2_large<unsigned char>(unsigned char*& dst, const signed int*& src, size_t& n)
+		void cvtsi32_avx2_large<unsigned char>(unsigned char* dst, const signed int* src, size_t n)
 		{
 			const size_t padding = 32 - (reinterpret_cast<size_t>(dst) & 31);
 			__m128i xmm_src0, xmm_src1, xmm_src2, xmm_src3, xmm_src4, xmm_src5, xmm_src6, xmm_src7;
@@ -1294,7 +1294,7 @@ namespace core
 		}
 
 		template <>
-		void cvtsi32_avx2_large<signed short>(signed short*& dst, const signed int*& src, size_t& n)
+		void cvtsi32_avx2_large<signed short>(signed short* dst, const signed int* src, size_t n)
 		{
 			const size_t padding = 16 - (reinterpret_cast<size_t>(dst) & 15);
 			__m128i xmm_src0, xmm_src1, xmm_src2, xmm_src3, xmm_src4, xmm_src5, xmm_src6, xmm_src7;
@@ -1404,7 +1404,7 @@ namespace core
 		}
 
 		template <>
-		void cvtsi32_avx2_large<unsigned short>(unsigned short*& dst, const signed int*& src, size_t& n)
+		void cvtsi32_avx2_large<unsigned short>(unsigned short* dst, const signed int* src, size_t n)
 		{
 			const size_t padding = 16 - (reinterpret_cast<size_t>(dst) & 15);
 			__m128i xmm_src0, xmm_src1, xmm_src2, xmm_src3, xmm_src4, xmm_src5, xmm_src6, xmm_src7;
@@ -1514,7 +1514,7 @@ namespace core
 		}
 
 		template <>
-		void cvtsi32_avx2_large<float>(float*& dst, const signed int*& src, size_t& n)
+		void cvtsi32_avx2_large<float>(float* dst, const signed int* src, size_t n)
 		{
 			const size_t padding = 8 - (reinterpret_cast<size_t>(dst) & 7);
 			__m256i ymm_src0, ymm_src1, ymm_src2, ymm_src3, ymm_src4, ymm_src5, ymm_src6, ymm_src7;
@@ -1601,7 +1601,7 @@ namespace core
 		}
 
 		template <>
-		void cvtsi32_avx2_large<double>(double*& dst, const signed int*& src, size_t& n)
+		void cvtsi32_avx2_large<double>(double* dst, const signed int* src, size_t n)
 		{
 			const size_t padding = 4 - (reinterpret_cast<size_t>(dst) & 3);
 			__m128i xmm_src0, xmm_src1, xmm_src2, xmm_src3, xmm_src4, xmm_src5, xmm_src6, xmm_src7;
@@ -2158,13 +2158,13 @@ namespace core
 		// Function template cvtsi32_sse41_medium
 
 		template <class T>
-		void cvtsi32_sse41_medium(T*& dst, const signed int*& src, size_t& n)
+		void cvtsi32_sse41_medium(T* dst, const signed int* src, size_t n)
 		{
 			throw std::domain_error(UNIMPLEMENTED_FUNCTION);
 		}
 
 		template <>
-		void cvtsi32_sse41_medium<signed char>(signed char*& dst, const signed int*& src, size_t& n)
+		void cvtsi32_sse41_medium<signed char>(signed char* dst, const signed int* src, size_t n)
 		{
 			__m128i xmm_src0, xmm_src1, xmm_src2, xmm_src3, xmm_src4, xmm_src5, xmm_src6, xmm_src7;
 			__m128i xmm_dst0, xmm_dst1, xmm_dst2, xmm_dst3;
@@ -2197,7 +2197,7 @@ namespace core
 		}
 
 		template <>
-		void cvtsi32_sse41_medium<unsigned char>(unsigned char*& dst, const signed int*& src, size_t& n)
+		void cvtsi32_sse41_medium<unsigned char>(unsigned char* dst, const signed int* src, size_t n)
 		{
 			__m128i xmm_src0, xmm_src1, xmm_src2, xmm_src3, xmm_src4, xmm_src5, xmm_src6, xmm_src7;
 			__m128i xmm_dst0, xmm_dst1, xmm_dst2, xmm_dst3;
@@ -2230,7 +2230,7 @@ namespace core
 		}
 
 		template <>
-		void cvtsi32_sse41_medium<signed short>(signed short*& dst, const signed int*& src, size_t& n)
+		void cvtsi32_sse41_medium<signed short>(signed short* dst, const signed int* src, size_t n)
 		{
 			__m128i xmm_src0, xmm_src1, xmm_src2, xmm_src3, xmm_src4, xmm_src5, xmm_src6, xmm_src7;
 			__m128i xmm_dst0, xmm_dst1, xmm_dst2, xmm_dst3;
@@ -2263,7 +2263,7 @@ namespace core
 		}
 
 		template <>
-		void cvtsi32_sse41_medium<unsigned short>(unsigned short*& dst, const signed int*& src, size_t& n)
+		void cvtsi32_sse41_medium<unsigned short>(unsigned short* dst, const signed int* src, size_t n)
 		{
 			__m128i xmm_src0, xmm_src1, xmm_src2, xmm_src3, xmm_src4, xmm_src5, xmm_src6, xmm_src7;
 			__m128i xmm_dst0, xmm_dst1, xmm_dst2, xmm_dst3;
@@ -2296,7 +2296,7 @@ namespace core
 		}
 
 		template <>
-		void cvtsi32_sse41_medium<float>(float*& dst, const signed int*& src, size_t& n)
+		void cvtsi32_sse41_medium<float>(float* dst, const signed int* src, size_t n)
 		{
 			__m128i xmm_src0, xmm_src1, xmm_src2, xmm_src3, xmm_src4, xmm_src5, xmm_src6, xmm_src7;
 			__m128 xmm_dst0, xmm_dst1, xmm_dst2, xmm_dst3, xmm_dst4, xmm_dst5, xmm_dst6, xmm_dst7;
@@ -2337,7 +2337,7 @@ namespace core
 		}
 
 		template <>
-		void cvtsi32_sse41_medium<double>(double*& dst, const signed int*& src, size_t& n)
+		void cvtsi32_sse41_medium<double>(double* dst, const signed int* src, size_t n)
 		{
 			__m128i xmm_src0, xmm_src1, xmm_src2, xmm_src3, xmm_src4, xmm_src5, xmm_src6, xmm_src7;
 			__m128i xmm_src8, xmm_src9, xmm_srca, xmm_srcb, xmm_srcc, xmm_srcd, xmm_srce, xmm_srcf;
@@ -2406,13 +2406,13 @@ namespace core
 		// Function template cvtsi32_sse41_large
 
 		template <class T>
-		void cvtsi32_sse41_large(T*& dst, const signed int*& src, size_t& n)
+		void cvtsi32_sse41_large(T* dst, const signed int* src, size_t n)
 		{
 			throw std::domain_error(UNIMPLEMENTED_FUNCTION);
 		}
 
 		template <>
-		void cvtsi32_sse41_large<signed char>(signed char*& dst, const signed int*& src, size_t& n)
+		void cvtsi32_sse41_large<signed char>(signed char* dst, const signed int* src, size_t n)
 		{
 			const size_t padding = 16 - (reinterpret_cast<size_t>(dst) & 15);
 			__m128i xmm_src0, xmm_src1, xmm_src2, xmm_src3, xmm_src4, xmm_src5, xmm_src6, xmm_src7;
@@ -2488,7 +2488,7 @@ namespace core
 		}
 
 		template <>
-		void cvtsi32_sse41_large<unsigned char>(unsigned char*& dst, const signed int*& src, size_t& n)
+		void cvtsi32_sse41_large<unsigned char>(unsigned char* dst, const signed int* src, size_t n)
 		{
 			const size_t padding = 16 - (reinterpret_cast<size_t>(dst) & 15);
 			__m128i xmm_src0, xmm_src1, xmm_src2, xmm_src3, xmm_src4, xmm_src5, xmm_src6, xmm_src7;
@@ -2564,7 +2564,7 @@ namespace core
 		}
 
 		template <>
-		void cvtsi32_sse41_large<signed short>(signed short*& dst, const signed int*& src, size_t& n)
+		void cvtsi32_sse41_large<signed short>(signed short* dst, const signed int* src, size_t n)
 		{
 			const size_t padding = 8 - (reinterpret_cast<size_t>(dst) & 7);
 			__m128i xmm_src0, xmm_src1, xmm_src2, xmm_src3, xmm_src4, xmm_src5, xmm_src6, xmm_src7;
@@ -2636,7 +2636,7 @@ namespace core
 		}
 
 		template <>
-		void cvtsi32_sse41_large<unsigned short>(unsigned short*& dst, const signed int*& src, size_t& n)
+		void cvtsi32_sse41_large<unsigned short>(unsigned short* dst, const signed int* src, size_t n)
 		{
 			const size_t padding = 8 - (reinterpret_cast<size_t>(dst) & 7);
 			__m128i xmm_src0, xmm_src1, xmm_src2, xmm_src3, xmm_src4, xmm_src5, xmm_src6, xmm_src7;
@@ -2708,7 +2708,7 @@ namespace core
 		}
 
 		template <>
-		void cvtsi32_sse41_large<float>(float*& dst, const signed int*& src, size_t& n)
+		void cvtsi32_sse41_large<float>(float* dst, const signed int* src, size_t n)
 		{
 			const size_t padding = 4 - (reinterpret_cast<size_t>(dst) & 3);
 			__m128i xmm_src0, xmm_src1, xmm_src2, xmm_src3, xmm_src4, xmm_src5, xmm_src6, xmm_src7;
@@ -2795,7 +2795,7 @@ namespace core
 		}
 
 		template <>
-		void cvtsi32_sse41_large<double>(double*& dst, const signed int*& src, size_t& n)
+		void cvtsi32_sse41_large<double>(double* dst, const signed int* src, size_t n)
 		{
 			const size_t padding = 2 - (reinterpret_cast<size_t>(dst) & 1);
 			__m128i xmm_src0, xmm_src1, xmm_src2, xmm_src3, xmm_src4, xmm_src5, xmm_src6, xmm_src7;

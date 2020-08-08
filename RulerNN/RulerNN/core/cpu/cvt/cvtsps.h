@@ -1164,13 +1164,13 @@ namespace core
 		// Function template cvtsps_avx2_medium
 
 		template <class T>
-		inline void cvtsps_avx2_medium(T*& dst, const float*& src, size_t& n)
+		inline void cvtsps_avx2_medium(T* dst, const float* src, size_t n)
 		{
 			throw std::domain_error(UNIMPLEMENTED_FUNCTION);
 		}
 
 		template <>
-		void cvtsps_avx2_medium<signed char>(signed char*& dst, const float*& src, size_t& n)
+		void cvtsps_avx2_medium<signed char>(signed char* dst, const float* src, size_t n)
 		{
 			const __m256 min = _mm256_set1_ps(static_cast<float>(INT8_MIN));
 			const __m256 max = _mm256_set1_ps(static_cast<float>(INT8_MAX));
@@ -1246,7 +1246,7 @@ namespace core
 		}
 
 		template <>
-		void cvtsps_avx2_medium<unsigned char>(unsigned char*& dst, const float*& src, size_t& n)
+		void cvtsps_avx2_medium<unsigned char>(unsigned char* dst, const float* src, size_t n)
 		{
 			const __m256 min = _mm256_setzero_ps();
 			const __m256 max = _mm256_set1_ps(static_cast<float>(UINT8_MAX));
@@ -1322,7 +1322,7 @@ namespace core
 		}
 
 		template <>
-		void cvtsps_avx2_medium<signed short>(signed short*& dst, const float*& src, size_t& n)
+		void cvtsps_avx2_medium<signed short>(signed short* dst, const float* src, size_t n)
 		{
 			const __m256 min = _mm256_set1_ps(static_cast<float>(INT16_MIN));
 			const __m256 max = _mm256_set1_ps(static_cast<float>(INT16_MAX));
@@ -1398,7 +1398,7 @@ namespace core
 		}
 
 		template <>
-		void cvtsps_avx2_medium<unsigned short>(unsigned short*& dst, const float*& src, size_t& n)
+		void cvtsps_avx2_medium<unsigned short>(unsigned short* dst, const float* src, size_t n)
 		{
 			const __m256 min = _mm256_setzero_ps();
 			const __m256 max = _mm256_set1_ps(static_cast<float>(UINT16_MAX));
@@ -1474,7 +1474,7 @@ namespace core
 		}
 
 		template <>
-		void cvtsps_avx2_medium<signed int>(signed int*& dst, const float*& src, size_t& n)
+		void cvtsps_avx2_medium<signed int>(signed int* dst, const float* src, size_t n)
 		{
 			const __m256 min = _mm256_set1_ps(-2.14748352e+9F);
 			const __m256 max = _mm256_set1_ps(2.14748352e+9F);
@@ -1533,7 +1533,7 @@ namespace core
 		}
 
 		template <>
-		void cvtsps_avx2_medium<unsigned int>(unsigned int*& dst, const float*& src, size_t& n)
+		void cvtsps_avx2_medium<unsigned int>(unsigned int* dst, const float* src, size_t n)
 		{
 			const __m256 min = _mm256_set1_ps(-2.14748352e+9F);
 			const __m256 max = _mm256_set1_ps(2.14748352e+9F);
@@ -1610,7 +1610,7 @@ namespace core
 		}
 
 		template <>
-		void cvtsps_avx2_medium<double>(double*& dst, const float*& src, size_t& n)
+		void cvtsps_avx2_medium<double>(double* dst, const float* src, size_t n)
 		{
 			__m128 xmm_src0, xmm_src1, xmm_src2, xmm_src3, xmm_src4, xmm_src5, xmm_src6, xmm_src7;
 			__m128 xmm_src8, xmm_src9, xmm_srca, xmm_srcb, xmm_srcc, xmm_srcd, xmm_srce, xmm_srcf;
@@ -1679,13 +1679,13 @@ namespace core
 		// Function template cvtsps_avx2_large
 
 		template <class T>
-		inline void cvtsps_avx2_large(T*& dst, const float*& src, size_t& n)
+		inline void cvtsps_avx2_large(T* dst, const float* src, size_t n)
 		{
 			throw std::domain_error(UNIMPLEMENTED_FUNCTION);
 		}
 
 		template <>
-		inline void cvtsps_avx2_large<signed char>(signed char*& dst, const float*& src, size_t& n)
+		inline void cvtsps_avx2_large<signed char>(signed char* dst, const float* src, size_t n)
 		{
 			const size_t padding = 16 - (reinterpret_cast<size_t>(dst) & 15);
 			const __m256 min = _mm256_set1_ps(static_cast<float>(INT8_MIN));
@@ -1850,7 +1850,7 @@ namespace core
 		}
 
 		template <>
-		inline void cvtsps_avx2_large<unsigned char>(unsigned char*& dst, const float*& src, size_t& n)
+		inline void cvtsps_avx2_large<unsigned char>(unsigned char* dst, const float* src, size_t n)
 		{
 			const size_t padding = 16 - (reinterpret_cast<size_t>(dst) & 15);
 			const __m256 min = _mm256_setzero_ps();
@@ -2015,7 +2015,7 @@ namespace core
 		}
 
 		template <>
-		inline void cvtsps_avx2_large<signed short>(signed short*& dst, const float*& src, size_t& n)
+		inline void cvtsps_avx2_large<signed short>(signed short* dst, const float* src, size_t n)
 		{
 			const size_t padding = 8 - (reinterpret_cast<size_t>(dst) & 7);
 			const __m256 min = _mm256_set1_ps(static_cast<float>(INT16_MIN));
@@ -2173,7 +2173,7 @@ namespace core
 		}
 
 		template <>
-		inline void cvtsps_avx2_large<unsigned short>(unsigned short*& dst, const float*& src, size_t& n)
+		inline void cvtsps_avx2_large<unsigned short>(unsigned short* dst, const float* src, size_t n)
 		{
 			const size_t padding = 8 - (reinterpret_cast<size_t>(dst) & 7);
 			const __m256 min = _mm256_setzero_ps();
@@ -2331,7 +2331,7 @@ namespace core
 		}
 
 		template <>
-		inline void cvtsps_avx2_large<signed int>(signed int*& dst, const float*& src, size_t& n)
+		inline void cvtsps_avx2_large<signed int>(signed int* dst, const float* src, size_t n)
 		{
 			const size_t padding = 8 - (reinterpret_cast<size_t>(dst) & 7);
 			const __m256 min = _mm256_set1_ps(-2.14748352e+9F);
@@ -2454,7 +2454,7 @@ namespace core
 		}
 
 		template <>
-		inline void cvtsps_avx2_large<unsigned int>(unsigned int*& dst, const float*& src, size_t& n)
+		inline void cvtsps_avx2_large<unsigned int>(unsigned int* dst, const float* src, size_t n)
 		{
 			const size_t padding = 8 - (reinterpret_cast<size_t>(dst) & 7);
 			const __m256 min = _mm256_set1_ps(-2.14748352e+9F);
@@ -2613,7 +2613,7 @@ namespace core
 		}
 
 		template <>
-		inline void cvtsps_avx2_large<double>(double*& dst, const float*& src, size_t& n)
+		inline void cvtsps_avx2_large<double>(double* dst, const float* src, size_t n)
 		{
 			const size_t padding = 4 - (reinterpret_cast<size_t>(dst) & 3);
 			__m128 xmm_src0, xmm_src1, xmm_src2, xmm_src3, xmm_src4, xmm_src5, xmm_src6, xmm_src7;
@@ -3521,13 +3521,13 @@ namespace core
 		// Function template cvtsps_sse41_medium
 
 		template <class T>
-		inline void cvtsps_sse41_medium(T*& dst, const float*& src, size_t& n)
+		inline void cvtsps_sse41_medium(T* dst, const float* src, size_t n)
 		{
 			throw std::domain_error(UNIMPLEMENTED_FUNCTION);
 		}
 
 		template <>
-		void cvtsps_sse41_medium<signed char>(signed char*& dst, const float*& src, size_t& n)
+		void cvtsps_sse41_medium<signed char>(signed char* dst, const float* src, size_t n)
 		{
 			const __m128 min = _mm_set1_ps(static_cast<float>(INT8_MIN));
 			const __m128 max = _mm_set1_ps(static_cast<float>(INT8_MAX));
@@ -3586,7 +3586,7 @@ namespace core
 		}
 
 		template <>
-		void cvtsps_sse41_medium<unsigned char>(unsigned char*& dst, const float*& src, size_t& n)
+		void cvtsps_sse41_medium<unsigned char>(unsigned char* dst, const float* src, size_t n)
 		{
 			const __m128 min = _mm_setzero_ps();
 			const __m128 max = _mm_set1_ps(static_cast<float>(UINT8_MAX));
@@ -3645,7 +3645,7 @@ namespace core
 		}
 
 		template <>
-		void cvtsps_sse41_medium<signed short>(signed short*& dst, const float*& src, size_t& n)
+		void cvtsps_sse41_medium<signed short>(signed short* dst, const float* src, size_t n)
 		{
 			const __m128 min = _mm_set1_ps(static_cast<float>(INT16_MIN));
 			const __m128 max = _mm_set1_ps(static_cast<float>(INT16_MAX));
@@ -3704,7 +3704,7 @@ namespace core
 		}
 
 		template <>
-		void cvtsps_sse41_medium<unsigned short>(unsigned short*& dst, const float*& src, size_t& n)
+		void cvtsps_sse41_medium<unsigned short>(unsigned short* dst, const float* src, size_t n)
 		{
 			const __m128 min = _mm_setzero_ps();
 			const __m128 max = _mm_set1_ps(static_cast<float>(UINT16_MAX));
@@ -3763,7 +3763,7 @@ namespace core
 		}
 
 		template <>
-		void cvtsps_sse41_medium<signed int>(signed int*& dst, const float*& src, size_t& n)
+		void cvtsps_sse41_medium<signed int>(signed int* dst, const float* src, size_t n)
 		{
 			const __m128 min = _mm_set1_ps(-2.14748352e+9F);
 			const __m128 max = _mm_set1_ps(2.14748352e+9F);
@@ -3822,7 +3822,7 @@ namespace core
 		}
 
 		template <>
-		void cvtsps_sse41_medium<unsigned int>(unsigned int*& dst, const float*& src, size_t& n)
+		void cvtsps_sse41_medium<unsigned int>(unsigned int* dst, const float* src, size_t n)
 		{
 			const __m128 min = _mm_set1_ps(-2.14748352e+9F);
 			const __m128 max = _mm_set1_ps(2.14748352e+9F);
@@ -3899,7 +3899,7 @@ namespace core
 		}
 
 		template <>
-		void cvtsps_sse41_medium<double>(double*& dst, const float*& src, size_t& n)
+		void cvtsps_sse41_medium<double>(double* dst, const float* src, size_t n)
 		{
 			__m128 xmm_src0, xmm_src1, xmm_src2, xmm_src3, xmm_src4, xmm_src5, xmm_src6, xmm_src7;
 			__m128 xmm_src8, xmm_src9, xmm_srca, xmm_srcb, xmm_srcc, xmm_srcd, xmm_srce, xmm_srcf;
@@ -3968,13 +3968,13 @@ namespace core
 		// Function template cvtsps_sse41_large
 
 		template <class T>
-		inline void cvtsps_sse41_large(T*& dst, const float*& src, size_t& n)
+		inline void cvtsps_sse41_large(T* dst, const float* src, size_t n)
 		{
 			throw std::domain_error(UNIMPLEMENTED_FUNCTION);
 		}
 
 		template <>
-		void cvtsps_sse41_large<signed char>(signed char*& dst, const float*& src, size_t& n)
+		void cvtsps_sse41_large<signed char>(signed char* dst, const float* src, size_t n)
 		{
 			const size_t padding = 16 - (reinterpret_cast<size_t>(dst) & 15);
 			const __m128 min = _mm_set1_ps(static_cast<float>(INT8_MIN));
@@ -4112,7 +4112,7 @@ namespace core
 		}
 
 		template <>
-		void cvtsps_sse41_large<unsigned char>(unsigned char*& dst, const float*& src, size_t& n)
+		void cvtsps_sse41_large<unsigned char>(unsigned char* dst, const float* src, size_t n)
 		{
 			const size_t padding = 16 - (reinterpret_cast<size_t>(dst) & 15);
 			const __m128 min = _mm_setzero_ps();
@@ -4250,7 +4250,7 @@ namespace core
 		}
 
 		template <>
-		void cvtsps_sse41_large<signed short>(signed short*& dst, const float*& src, size_t& n)
+		void cvtsps_sse41_large<signed short>(signed short* dst, const float* src, size_t n)
 		{
 			const size_t padding = 8 - (reinterpret_cast<size_t>(dst) & 7);
 			const __m128 min = _mm_set1_ps(static_cast<float>(INT16_MIN));
@@ -4378,7 +4378,7 @@ namespace core
 		}
 
 		template <>
-		void cvtsps_sse41_large<unsigned short>(unsigned short*& dst, const float*& src, size_t& n)
+		void cvtsps_sse41_large<unsigned short>(unsigned short* dst, const float* src, size_t n)
 		{
 			const size_t padding = 8 - (reinterpret_cast<size_t>(dst) & 7);
 			const __m128 min = _mm_setzero_ps();
@@ -4506,7 +4506,7 @@ namespace core
 		}
 
 		template <>
-		void cvtsps_sse41_large<signed int>(signed int*& dst, const float*& src, size_t& n)
+		void cvtsps_sse41_large<signed int>(signed int* dst, const float* src, size_t n)
 		{
 			const size_t padding = 4 - (reinterpret_cast<size_t>(dst) & 3);
 			const __m128 min = _mm_set1_ps(-2.14748352e+9F);
@@ -4629,7 +4629,7 @@ namespace core
 		}
 
 		template <>
-		void cvtsps_sse41_large<unsigned int>(unsigned int*& dst, const float*& src, size_t& n)
+		void cvtsps_sse41_large<unsigned int>(unsigned int* dst, const float* src, size_t n)
 		{
 			const size_t padding = 4 - (reinterpret_cast<size_t>(dst) & 3);
 			const __m128 min = _mm_set1_ps(-2.14748352e+9F);
@@ -4788,7 +4788,7 @@ namespace core
 		}
 
 		template <>
-		void cvtsps_sse41_large<double>(double*& dst, const float*& src, size_t& n)
+		void cvtsps_sse41_large<double>(double* dst, const float* src, size_t n)
 		{
 			const size_t padding = 2 - (reinterpret_cast<size_t>(dst) & 1);
 			__m128 xmm_src0, xmm_src1, xmm_src2, xmm_src3, xmm_src4, xmm_src5, xmm_src6, xmm_src7;
