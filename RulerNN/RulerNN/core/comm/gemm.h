@@ -628,7 +628,7 @@ namespace core
 		// Function template add_dot_tiny
 
 		template <class T>
-		inline void add_dot_tiny(T* c, size_t ldc, const T* a, size_t lda, const T* b, size_t ldb, size_t m, size_t n, size_t p)
+		inline void add_dot_tiny(T* c, size_t ldc, const T* a, size_t lda, const T* b, size_t ldb, size_t m, size_t p, size_t n)
 		{
 			switch (m)
 			{
@@ -706,22 +706,22 @@ namespace core
 		// Function template impl_gemm
 
 		template <class T>
-		void impl_gemm(T* c, size_t ldc, const T* a, size_t lda, const T* b, size_t ldb, size_t m, size_t n, size_t p)
+		void impl_gemm(T* c, size_t ldc, const T* a, size_t lda, const T* b, size_t ldb, size_t m, size_t p, size_t n)
 		{
 			constexpr size_t block_m = gemm_block_m<T>();
-			constexpr size_t block_n = gemm_block_n<T>();
 			constexpr size_t block_p = gemm_block_p<T>();
-			std::stack<std::tuple<T*, const T*, size_t, size_t>> task;
+			constexpr size_t block_n = gemm_block_n<T>();
+			std::stack<std::tuple<T*, const T*, const T*, size_t, size_t, size_t>> task;
 			// General matrix multiplication
-			task.emplace(c, a, b, m, n, p);
+			task.emplace(c, a, b, m, p, n);
 			while (!task.empty())
 			{
 				auto c0 = std::get<0>(task.top());
 				auto a0 = std::get<1>(task.top());
 				auto b0 = std::get<2>(task.top());
 				size_t m0 = std::get<3>(task.top());
-				size_t n0 = std::get<4>(task.top());
-				size_t p0 = std::get<5>(task.top());
+				size_t p0 = std::get<4>(task.top());
+				size_t n0 = std::get<5>(task.top());
 				task.pop();
 				if (m0 > block_m)
 				{
@@ -748,22 +748,22 @@ namespace core
 							// Calculate: n1 = pow(2, exp)
 							size_t n1 = static_cast<size_t>(1) << exp;
 							// Block matrix multiplication
-							task.emplace(c0,      a0,      b0,           m1,      n1,      p1);
-							task.emplace(c0,      a0 + p1, b1,           m1,      n1, p0 - p1);
-							task.emplace(c0 + n1, a0,      b0 + n1,      m1, n0 - n1,      p1);
-							task.emplace(c0 + n1, a0 + p1, b1 + n1,      m1, n0 - n1, p0 - p1);
-							task.emplace(c1,      a1,      b0,      m0 - m1,      n1,      p1);
-							task.emplace(c1,      a1 + p1, b1,      m0 - m1,      n1, p0 - p1);
-							task.emplace(c1 + n1, a1,      b0 + n1, m0 - m1, n0 - n1,      p1);
-							task.emplace(c1 + n1, a1 + p1, b1 + n1, m0 - m1, n0 - n1, p0 - p1);
+							task.emplace(c0,      a0,      b0,           m1,      p1,      n1);
+							task.emplace(c0,      a0 + p1, b1,           m1, p0 - p1,      n1);
+							task.emplace(c0 + n1, a0,      b0 + n1,      m1,      p1, n0 - n1);
+							task.emplace(c0 + n1, a0 + p1, b1 + n1,      m1, p0 - p1, n0 - n1);
+							task.emplace(c1,      a1,      b0,      m0 - m1,      p1,      n1);
+							task.emplace(c1,      a1 + p1, b1,      m0 - m1, p0 - p1,      n1);
+							task.emplace(c1 + n1, a1,      b0 + n1, m0 - m1,      p1, n0 - n1);
+							task.emplace(c1 + n1, a1 + p1, b1 + n1, m0 - m1, p0 - p1, n0 - n1);
 						}
 						else
 						{
 							// Block matrix multiplication
-							task.emplace(c0, a0,      b0,      m1, n0,      p1);
-							task.emplace(c0, a0 + p1, b1,      m1, n0, p0 - p1);
-							task.emplace(c1, a1,      b0, m0 - m1, n0,      p1);
-							task.emplace(c1, a1 + p1, b1, m0 - m1, n0, p0 - p1);
+							task.emplace(c0, a0,      b0,      m1,      p1, n0);
+							task.emplace(c0, a0 + p1, b1,      m1, p0 - p1, n0);
+							task.emplace(c1, a1,      b0, m0 - m1,      p1, n0);
+							task.emplace(c1, a1 + p1, b1, m0 - m1, p0 - p1, n0);
 						}
 					}
 					else
@@ -776,16 +776,16 @@ namespace core
 							// Calculate: n1 = pow(2, exp)
 							size_t n1 = static_cast<size_t>(1) << exp;
 							// Block matrix multiplication
-							task.emplace(c0,      a0, b0,           m1,      n1, p0);
-							task.emplace(c0 + n1, a0, b0 + n1,      m1, n0 - n1, p0);
-							task.emplace(c1,      a1, b0,      m0 - m1,      n1, p0);
-							task.emplace(c1 + n1, a1, b0 + n1, m0 - m1, n0 - n1, p0);
+							task.emplace(c0,      a0, b0,           m1, p0,      n1);
+							task.emplace(c0 + n1, a0, b0 + n1,      m1, p0, n0 - n1);
+							task.emplace(c1,      a1, b0,      m0 - m1, p0,      n1);
+							task.emplace(c1 + n1, a1, b0 + n1, m0 - m1, p0, n0 - n1);
 						}
 						else
 						{
 							// Block matrix multiplication
-							task.emplace(c0, a0, b0,      m1, n0, p0);
-							task.emplace(c1, a1, b0, m0 - m1, n0, p0);
+							task.emplace(c0, a0, b0,      m1, p0, n0);
+							task.emplace(c1, a1, b0, m0 - m1, p0, n0);
 						}
 					}
 				}
@@ -807,16 +807,16 @@ namespace core
 							// Calculate: n1 = pow(2, exp)
 							size_t n1 = static_cast<size_t>(1) << exp;
 							// Block matrix multiplication
-							task.emplace(c0,      a0,      b0,      m0,      n1,      p1);
-							task.emplace(c0,      a0 + p1, b1,      m0,      n1, p0 - p1);
-							task.emplace(c0 + n1, a0,      b0 + n1, m0, n0 - n1,      p1);
-							task.emplace(c0 + n1, a0 + p1, b1 + n1, m0, n0 - n1, p0 - p1);
+							task.emplace(c0,      a0,      b0,      m0,      p1,      n1);
+							task.emplace(c0,      a0 + p1, b1,      m0, p0 - p1,      n1);
+							task.emplace(c0 + n1, a0,      b0 + n1, m0,      p1, n0 - n1);
+							task.emplace(c0 + n1, a0 + p1, b1 + n1, m0, p0 - p1, n0 - n1);
 						}
 						else
 						{
 							// Block matrix multiplication
-							task.emplace(c0, a0,      b0, m0, n0,      p1);
-							task.emplace(c0, a0 + p1, b1, m0, n0, p0 - p1);
+							task.emplace(c0, a0,      b0, m0,      p1, n0);
+							task.emplace(c0, a0 + p1, b1, m0, p0 - p1, n0);
 						}
 					}
 					else
@@ -829,15 +829,15 @@ namespace core
 							// Calculate: n1 = pow(2, exp)
 							size_t n1 = static_cast<size_t>(1) << exp;
 							// Block matrix multiplication
-							task.emplace(c0,      a0, b0,      m0,      n1, p0);
-							task.emplace(c0 + n1, a0, b0 + n1, m0, n0 - n1, p0);
+							task.emplace(c0,      a0, b0,      m0, p0,      n1);
+							task.emplace(c0 + n1, a0, b0 + n1, m0, p0, n0 - n1);
 						}
 						else
 						{
 							if (m0 == block_m && n0 == block_n)
 								add_dot_block(c0, ldc, a0, lda, b0, ldb, p0);
 							else
-								add_dot_tiny(c0, ldc, a0, lda, b0, ldb, m0, n0, p0);
+								add_dot_tiny(c0, ldc, a0, lda, b0, ldb, m0, p0, n0);
 						}
 					}
 				}

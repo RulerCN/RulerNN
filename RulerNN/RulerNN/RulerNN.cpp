@@ -108,6 +108,12 @@ std::ostream& operator<<(std::ostream& os, const core::matrix<double, A>& mat)
 	return os;
 }
 
+template<class T>
+void test_trp(const size_t m, const size_t n);
+
+template<class T>
+void test_gemm(const size_t m, const size_t p, const size_t n);
+
 int main()
 {
 	try
@@ -119,45 +125,65 @@ int main()
 		// Print L2 cache size.
 		std::cout << "L2 cache: " << core::simd::l2_cache_size << "\n";
 
-		core::device device;
-		core::device_cpu cpu;
-		core::device::steady_time_point start, end;
-		long long duration1, duration2;
-
-		size_t m = 10000;
-		size_t n = 10000;
-		signed char* x = new signed char[m * n];
-		signed char* y = new signed char[m * n];
-
-		core::matrix<signed char> src(m, n, 1, x, core::WITHOUT_COPY);
-		core::matrix<signed char> dst(m, n, 1, y, core::WITHOUT_COPY);
-
-		for (size_t i = 0; i < m * n; ++i)
-		{
-			x[i] = i;
-			y[i] = 0;
-		}
-		//std::cout << src;
-
-		start = core::device::steady_time();
-		cpu.trp(dst, src);
-		//device.trp(dst, src);
-		end = core::device::steady_time();
-		duration1 = core::device::get_milliseconds(start, end);
-		std::cout << "cpu:" << duration1 << "\n";
-
-		//start = core::device::steady_time();
-		//cpu.trp(dst, src);
-		//end = core::device::steady_time();
-		//duration2 = core::device::get_milliseconds(start, end);
-		//std::cout << "cpu:" << duration2 << "\n";
-
-		//std::cout << dst;
-		delete[] x;
-		delete[] y;
+		//test_trp<float>(10000, 10000);
+		test_gemm<float>(30, 10, 30);
 	}
 	catch (std::exception err)
 	{
 		std::cout << err.what() << "\n";
 	}
+}
+
+template<class T>
+void test_trp(const size_t m, const size_t n)
+{
+	core::device device;
+	core::device_cpu cpu;
+	core::matrix<T> a(m, n, 1);
+	core::matrix<T> b(n, m, 1);
+
+	// Matrix initialization.
+	T* ptr_a = a.data();
+	T* ptr_b = b.data();
+	for (size_t i = 0; i < a.size(); ++i)
+		ptr_a[i] = i;
+	for (size_t i = 0; i < b.size(); ++i)
+		ptr_b[i] = i;
+	// Matrix Transpose.
+	auto start = core::device::steady_time();
+	device.trp(b, a);
+	auto end = core::device::steady_time();
+	auto duration = core::device::get_milliseconds(start, end);
+	std::cout << "device::transpose(): " << duration << "ms\n";
+	// Matrix Transpose.
+	start = core::device::steady_time();
+	cpu.trp(b, a);
+	end = core::device::steady_time();
+	duration = core::device::get_milliseconds(start, end);
+	std::cout << "cpu::transpose(): " << duration << "ms\n";
+}
+
+template<class T>
+void test_gemm(const size_t m, const size_t p, const size_t n)
+{
+	core::device device;
+	core::device_cpu cpu;
+	core::matrix<T> a(m, p, 1);
+	core::matrix<T> b(p, n, 1);
+	core::matrix<T> c(m, n, 1, T(0));
+
+	// Matrix initialization.
+	T* ptr_a = a.data();
+	T* ptr_b = b.data();
+	for (size_t i = 0; i < a.size(); ++i)
+		ptr_a[i] = i;
+	for (size_t i = 0; i < b.size(); ++i)
+		ptr_b[i] = i;
+	// Matrix Multiply.
+	auto start = core::device::steady_time();
+	device.gemm(c, a, b);
+	auto end = core::device::steady_time();
+	auto duration = core::device::get_milliseconds(start, end);
+
+	std::cout << c;
 }

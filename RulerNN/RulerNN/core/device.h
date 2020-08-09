@@ -38,6 +38,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "tensor.h"
 #include "comm/cvt.h"
 #include "comm/trp.h"
+#include "comm/gemm.h"
 
 namespace core
 {
@@ -324,6 +325,37 @@ namespace core
 			}
 			return dst;
 		}
+
+		// Matrix Multiply.
+
+		template <class T, class A>
+		matrix<T, A>& gemm(matrix<T, A>& c, const matrix<T, A>& a, const matrix<T, A>& b)
+		{
+			if (a.empty() || b.empty() || c.empty())
+				throw std::domain_error(MATRIX_NOT_INITIALIZED);
+			if (c.rows() != a.rows() || c.line() != b.line() || a.line() != b.rows())
+				throw std::invalid_argument(INVALID_SHAPE);
+			comm::impl_gemm(c.data(), c.line(), a.data(), a.line(), b.data(), b.line(), a.rows(), a.line(), b.line());
+			return c;
+		}
+
+		//template <class T, class A>
+		//tensor<T, A>& gemm(tensor<T, A>& dst, const tensor<T, A>& src)
+		//{
+		//	if (a.empty() || b.empty() || c.empty())
+		//		throw std::domain_error(TENSOR_NOT_INITIALIZED);
+		//	if (src.num() != dst.num() || src.rows() != dst.line() || src.line() != dst.rows())
+		//		throw std::invalid_argument(INVALID_SHAPE);
+		//	auto src_itr = src.mbegin();
+		//	auto dst_itr = dst.mbegin();
+		//	while (src_itr != src.mend() && dst_itr != dst.mend())
+		//	{
+		//		comm::impl_gemm(dst_itr->data(), dst_itr->line(), src_itr->data(), src_itr->line(), src_itr->line(), src_itr->rows());
+		//		++src_itr;
+		//		++dst_itr;
+		//	}
+		//	return dst;
+		//}
 
 		// static functions:
 
