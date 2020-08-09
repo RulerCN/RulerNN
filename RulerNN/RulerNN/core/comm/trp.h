@@ -179,7 +179,7 @@ namespace core
 			constexpr size_t block_m = trp_block_m<T>();
 			constexpr size_t block_n = trp_block_n<T>();
 			std::stack<std::tuple<T*, const T*, size_t, size_t>> task;
-			// Transpose of a matrix
+			// Matrix transposition
 			task.emplace(dst, src, m, n);
 			while (!task.empty())
 			{

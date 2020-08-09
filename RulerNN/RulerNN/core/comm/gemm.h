@@ -748,21 +748,21 @@ namespace core
 							// Calculate: n1 = pow(2, exp)
 							size_t n1 = static_cast<size_t>(1) << exp;
 							// Block matrix multiplication
-							task.emplace(c0,      a0,      b0,           m1,      p1,      n1);
-							task.emplace(c0,      a0 + p1, b1,           m1, p0 - p1,      n1);
-							task.emplace(c0 + n1, a0,      b0 + n1,      m1,      p1, n0 - n1);
-							task.emplace(c0 + n1, a0 + p1, b1 + n1,      m1, p0 - p1, n0 - n1);
-							task.emplace(c1,      a1,      b0,      m0 - m1,      p1,      n1);
-							task.emplace(c1,      a1 + p1, b1,      m0 - m1, p0 - p1,      n1);
-							task.emplace(c1 + n1, a1,      b0 + n1, m0 - m1,      p1, n0 - n1);
+							task.emplace(c0, a0, b0, m1, p1, n1);
+							task.emplace(c0, a0 + p1, b1, m1, p0 - p1, n1);
+							task.emplace(c0 + n1, a0, b0 + n1, m1, p1, n0 - n1);
+							task.emplace(c0 + n1, a0 + p1, b1 + n1, m1, p0 - p1, n0 - n1);
+							task.emplace(c1, a1, b0, m0 - m1, p1, n1);
+							task.emplace(c1, a1 + p1, b1, m0 - m1, p0 - p1, n1);
+							task.emplace(c1 + n1, a1, b0 + n1, m0 - m1, p1, n0 - n1);
 							task.emplace(c1 + n1, a1 + p1, b1 + n1, m0 - m1, p0 - p1, n0 - n1);
 						}
 						else
 						{
 							// Block matrix multiplication
-							task.emplace(c0, a0,      b0,      m1,      p1, n0);
-							task.emplace(c0, a0 + p1, b1,      m1, p0 - p1, n0);
-							task.emplace(c1, a1,      b0, m0 - m1,      p1, n0);
+							task.emplace(c0, a0, b0, m1, p1, n0);
+							task.emplace(c0, a0 + p1, b1, m1, p0 - p1, n0);
+							task.emplace(c1, a1, b0, m0 - m1, p1, n0);
 							task.emplace(c1, a1 + p1, b1, m0 - m1, p0 - p1, n0);
 						}
 					}
@@ -776,15 +776,15 @@ namespace core
 							// Calculate: n1 = pow(2, exp)
 							size_t n1 = static_cast<size_t>(1) << exp;
 							// Block matrix multiplication
-							task.emplace(c0,      a0, b0,           m1, p0,      n1);
-							task.emplace(c0 + n1, a0, b0 + n1,      m1, p0, n0 - n1);
-							task.emplace(c1,      a1, b0,      m0 - m1, p0,      n1);
+							task.emplace(c0, a0, b0, m1, p0, n1);
+							task.emplace(c0 + n1, a0, b0 + n1, m1, p0, n0 - n1);
+							task.emplace(c1, a1, b0, m0 - m1, p0, n1);
 							task.emplace(c1 + n1, a1, b0 + n1, m0 - m1, p0, n0 - n1);
 						}
 						else
 						{
 							// Block matrix multiplication
-							task.emplace(c0, a0, b0,      m1, p0, n0);
+							task.emplace(c0, a0, b0, m1, p0, n0);
 							task.emplace(c1, a1, b0, m0 - m1, p0, n0);
 						}
 					}
@@ -807,15 +807,15 @@ namespace core
 							// Calculate: n1 = pow(2, exp)
 							size_t n1 = static_cast<size_t>(1) << exp;
 							// Block matrix multiplication
-							task.emplace(c0,      a0,      b0,      m0,      p1,      n1);
-							task.emplace(c0,      a0 + p1, b1,      m0, p0 - p1,      n1);
-							task.emplace(c0 + n1, a0,      b0 + n1, m0,      p1, n0 - n1);
+							task.emplace(c0, a0, b0, m0, p1, n1);
+							task.emplace(c0, a0 + p1, b1, m0, p0 - p1, n1);
+							task.emplace(c0 + n1, a0, b0 + n1, m0, p1, n0 - n1);
 							task.emplace(c0 + n1, a0 + p1, b1 + n1, m0, p0 - p1, n0 - n1);
 						}
 						else
 						{
 							// Block matrix multiplication
-							task.emplace(c0, a0,      b0, m0,      p1, n0);
+							task.emplace(c0, a0, b0, m0, p1, n0);
 							task.emplace(c0, a0 + p1, b1, m0, p0 - p1, n0);
 						}
 					}
@@ -829,7 +829,7 @@ namespace core
 							// Calculate: n1 = pow(2, exp)
 							size_t n1 = static_cast<size_t>(1) << exp;
 							// Block matrix multiplication
-							task.emplace(c0,      a0, b0,      m0, p0,      n1);
+							task.emplace(c0, a0, b0, m0, p0, n1);
 							task.emplace(c0 + n1, a0, b0 + n1, m0, p0, n0 - n1);
 						}
 						else
