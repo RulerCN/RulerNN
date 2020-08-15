@@ -864,17 +864,17 @@ namespace core
 			//	}
 			//}
 
-			//// (2)
-			//for (size_t i = 0; i < m; ++i)
-			//{
-			//	for (size_t k = 0; k < p; ++k)
-			//	{
-			//		for (size_t j = 0; j < n; ++j)
-			//		{
-			//			c[i * ldc + j] += a[i * lda + k] * b[k * ldb + j];
-			//		}
-			//	}
-			//}
+			// (2)
+			for (size_t i = 0; i < m; ++i)
+			{
+				for (size_t k = 0; k < p; ++k)
+				{
+					for (size_t j = 0; j < n; ++j)
+					{
+						c[i * ldc + j] += a[i * lda + k] * b[k * ldb + j];
+					}
+				}
+			}
 
 			//// (3)
 			//for (size_t i = 0; i < m; ++i)
@@ -892,14 +892,14 @@ namespace core
 			//	c += ldc;
 			//}
 
-			// (4)
-			for (size_t i = 0; i < m; i += block_m)
-			{
-				for (size_t j = 0; j < n; j += block_n)
-				{
-					add_dot_block(c + i * ldc + j, ldc, a + i * lda, lda, b + j, ldb, p);
-				}
-			}
+			//// (4)
+			//for (size_t i = 0; i < m; i += block_m)
+			//{
+			//	for (size_t j = 0; j < n; j += block_n)
+			//	{
+			//		add_dot_block(c + i * ldc + j, ldc, a + i * lda, lda, b + j, ldb, p);
+			//	}
+			//}
 			
 		}
 

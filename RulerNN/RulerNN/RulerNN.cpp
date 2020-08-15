@@ -126,7 +126,31 @@ int main()
 		// std::cout << "L2 cache: " << core::simd::l2_cache_size << "\n";
 
 		//test_trp<float>(10000, 10000);
-		test_gemm<float>(100, 100, 100);
+		test_gemm<float>(  50,   50,   50);
+		test_gemm<float>(  60,   60,   60);
+		test_gemm<float>(  70,   70,   70);
+		test_gemm<float>(  80,   80,   80);
+		test_gemm<float>(  90,   90,   90);
+		test_gemm<float>( 100,  100,  100);
+		test_gemm<float>( 200,  200,  200);
+		test_gemm<float>( 300,  300,  300);
+		test_gemm<float>( 400,  400,  400);
+		test_gemm<float>( 500,  500,  500);
+		test_gemm<float>( 600,  600,  600);
+		test_gemm<float>( 700,  700,  700);
+		test_gemm<float>( 800,  800,  800);
+		test_gemm<float>( 900,  900,  900);
+		test_gemm<float>(1000, 1000, 1000);
+		test_gemm<float>(1100, 2100, 1100);
+		test_gemm<float>(1200, 2200, 1200);
+		test_gemm<float>(1300, 2300, 1300);
+		test_gemm<float>(1400, 2400, 1400);
+		test_gemm<float>(1500, 2500, 1500);
+		test_gemm<float>(1600, 2600, 1600);
+		test_gemm<float>(1700, 2700, 1700);
+		test_gemm<float>(1800, 2800, 1800);
+		test_gemm<float>(1900, 2900, 1900);
+		test_gemm<float>(2000, 2000, 2000);
 	}
 	catch (std::exception err)
 	{
@@ -171,35 +195,32 @@ void test_gemm(const size_t m, const size_t p, const size_t n)
 	core::matrix<T> a(m, p, 1);
 	core::matrix<T> b(p, n, 1);
 	core::matrix<T> c(m, n, 1, T(0));
+	float max = static_cast<float>(1024 * 1024 * 1024);
+	float size = static_cast<float>(m * p * n);
+	size_t loop = static_cast<size_t>(std::ceilf(max / size));
 
 	// Matrix initialization.
 	T* ptr_a = a.data();
 	T* ptr_b = b.data();
 	T* ptr_c = c.data();
 	for (size_t i = 0; i < a.size(); ++i)
-		ptr_a[i] = i;
+		ptr_a[i] = i * 1.0e-4f;
 	for (size_t i = 0; i < b.size(); ++i)
-		ptr_b[i] = i;
+		ptr_b[i] = i * 1.0e-4f;
 	// Matrix Multiply.
 	auto start = core::device::steady_time();
-
-	device.gemm(c, a, b);
-	device.gemm(c, a, b);
-	device.gemm(c, a, b);
-	device.gemm(c, a, b);
-	device.gemm(c, a, b);
-	device.gemm(c, a, b);
-	device.gemm(c, a, b);
-	device.gemm(c, a, b);
-	device.gemm(c, a, b);
-	device.gemm(c, a, b);
-
+	for (size_t i = 0 ; i < loop; ++i)
+		device.gemm(c, a, b);
 	auto end = core::device::steady_time();
-	auto duration = core::device::get_microseconds(start, end) / 10;
-	std::cout << "device.gemm(): " << duration << "us\n";
-	std::cout << "device.gemm(): " << 2 * 9.31322574615478515625E-4 * m * p * n / duration << " GFOPS\n";
+	auto duration = core::device::get_microseconds(start, end);
 
-	std::cout << std::setiosflags(std::ios::scientific) << std::setprecision(8);
-	std::cout << ptr_c[0] << "\t" << ptr_c[1] << "\t" << ptr_c[2] << "\n";
-	std::cout << ptr_c[c.size() - 3] << "\t" << ptr_c[c.size() - 2] << "\t" << ptr_c[c.size() - 1];
+	std::cout << "device.gemm() "
+		<< "size: " << size << "\t"
+		<< "loop: " << loop << "\t"
+		<< "time: " << duration << "us\t"
+		<< 2.0f * size * loop / max * 1000000 / duration << " GFOPS\n";
+
+	//std::cout << std::setiosflags(std::ios::scientific) << std::setprecision(8);
+	//std::cout << ptr_c[0] << "\t" << ptr_c[1] << "\t" << ptr_c[2] << "\n";
+	//std::cout << ptr_c[c.size() - 3] << "\t" << ptr_c[c.size() - 2] << "\t" << ptr_c[c.size() - 1];
 }
