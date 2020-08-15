@@ -47,18 +47,18 @@ namespace core
 			return static_cast<size_t>(4);
 		}
 
-		// Function template gemm_block_n
-
-		template <class T>
-		constexpr size_t gemm_block_n(void)
-		{
-			return static_cast<size_t>(4);
-		}
-
 		// Function template gemm_block_p
 
 		template <class T>
 		constexpr size_t gemm_block_p(void)
+		{
+			return static_cast<size_t>(4);
+		}
+
+		// Function template gemm_block_n
+
+		template <class T>
+		constexpr size_t gemm_block_n(void)
 		{
 			return static_cast<size_t>(4);
 		}
@@ -703,10 +703,10 @@ namespace core
 			}
 		}
 
-		// Function template impl_gemm
+		// Function template kernel_gemm
 
 		template <class T>
-		void impl_gemm(T* c, size_t ldc, const T* a, size_t lda, const T* b, size_t ldb, size_t m, size_t p, size_t n)
+		void impl_gemm0(T* c, size_t ldc, const T* a, size_t lda, const T* b, size_t ldb, size_t m, size_t p, size_t n)
 		{
 			constexpr size_t block_m = gemm_block_m<T>();
 			constexpr size_t block_p = gemm_block_p<T>();
@@ -842,6 +842,65 @@ namespace core
 					}
 				}
 			}
+		}
+
+		// Function template impl_gemm
+
+		template <class T>
+		void impl_gemm(T* c, size_t ldc, const T* a, size_t lda, const T* b, size_t ldb, size_t m, size_t p, size_t n)
+		{
+			constexpr size_t block_m = 4;
+			constexpr size_t block_n = 4;
+
+			//// (1)
+			//for (size_t i = 0; i < m; ++i)
+			//{
+			//	for (size_t j = 0; j < n; ++j)
+			//	{
+			//		for (size_t k = 0; k < p; ++k)
+			//		{
+			//			c[i * ldc + j] += a[i * lda + k] * b[k * ldb + j];
+			//		}
+			//	}
+			//}
+
+			//// (2)
+			//for (size_t i = 0; i < m; ++i)
+			//{
+			//	for (size_t k = 0; k < p; ++k)
+			//	{
+			//		for (size_t j = 0; j < n; ++j)
+			//		{
+			//			c[i * ldc + j] += a[i * lda + k] * b[k * ldb + j];
+			//		}
+			//	}
+			//}
+
+			//// (3)
+			//for (size_t i = 0; i < m; ++i)
+			//{
+			//	const T* ptr_b = b;
+			//	for (size_t k = 0; k < p; ++k)
+			//	{
+			//		for (size_t j = 0; j < n; ++j)
+			//		{
+			//			c[j] += a[k] * ptr_b[j];
+			//		}
+			//		ptr_b += ldb;
+			//	}
+			//	a += lda;
+			//	c += ldc;
+			//}
+
+			// (4)
+			for (size_t i = 0; i < m; i += block_m)
+			{
+				for (size_t j = 0; j < n; j += block_n)
+				{
+					add_dot_block(c + i * ldc + j, ldc, a + i * lda, lda, b + j, ldb, p);
+				}
+			}
+			
 		}
 
 	} // namespace comm

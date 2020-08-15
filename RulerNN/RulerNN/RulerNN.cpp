@@ -123,10 +123,10 @@ int main()
 		// Print number of threads.
 		std::cout << "threads: " << core::openmp::num_thread << "\n";
 		// Print L2 cache size.
-		std::cout << "L2 cache: " << core::simd::l2_cache_size << "\n";
+		// std::cout << "L2 cache: " << core::simd::l2_cache_size << "\n";
 
 		//test_trp<float>(10000, 10000);
-		test_gemm<float>(30, 10, 30);
+		test_gemm<float>(100, 100, 100);
 	}
 	catch (std::exception err)
 	{
@@ -154,13 +154,13 @@ void test_trp(const size_t m, const size_t n)
 	device.trp(b, a);
 	auto end = core::device::steady_time();
 	auto duration = core::device::get_milliseconds(start, end);
-	std::cout << "device::transpose(): " << duration << "ms\n";
+	std::cout << "device.transpose(): " << duration << "ms\n";
 	// Matrix Transpose.
 	start = core::device::steady_time();
 	cpu.trp(b, a);
 	end = core::device::steady_time();
 	duration = core::device::get_milliseconds(start, end);
-	std::cout << "cpu::transpose(): " << duration << "ms\n";
+	std::cout << "cpu.transpose(): " << duration << "ms\n";
 }
 
 template<class T>
@@ -175,15 +175,31 @@ void test_gemm(const size_t m, const size_t p, const size_t n)
 	// Matrix initialization.
 	T* ptr_a = a.data();
 	T* ptr_b = b.data();
+	T* ptr_c = c.data();
 	for (size_t i = 0; i < a.size(); ++i)
 		ptr_a[i] = i;
 	for (size_t i = 0; i < b.size(); ++i)
 		ptr_b[i] = i;
 	// Matrix Multiply.
 	auto start = core::device::steady_time();
-	device.gemm(c, a, b);
-	auto end = core::device::steady_time();
-	auto duration = core::device::get_milliseconds(start, end);
 
-	std::cout << c;
+	device.gemm(c, a, b);
+	device.gemm(c, a, b);
+	device.gemm(c, a, b);
+	device.gemm(c, a, b);
+	device.gemm(c, a, b);
+	device.gemm(c, a, b);
+	device.gemm(c, a, b);
+	device.gemm(c, a, b);
+	device.gemm(c, a, b);
+	device.gemm(c, a, b);
+
+	auto end = core::device::steady_time();
+	auto duration = core::device::get_microseconds(start, end) / 10;
+	std::cout << "device.gemm(): " << duration << "us\n";
+	std::cout << "device.gemm(): " << 2 * 9.31322574615478515625E-4 * m * p * n / duration << " GFOPS\n";
+
+	std::cout << std::setiosflags(std::ios::scientific) << std::setprecision(8);
+	std::cout << ptr_c[0] << "\t" << ptr_c[1] << "\t" << ptr_c[2] << "\n";
+	std::cout << ptr_c[c.size() - 3] << "\t" << ptr_c[c.size() - 2] << "\t" << ptr_c[c.size() - 1];
 }
