@@ -364,7 +364,7 @@ namespace core
 				throw std::domain_error(MATRIX_NOT_INITIALIZED);
 			if (a.line() != b.rows())
 				throw std::invalid_argument(INVALID_SHAPE);
-			matrix<T, A> c(a.rows(), b.line(), static_cast<size_t>(1));
+			matrix<T, A> c(a.rows(), b.line(), static_cast<size_t>(1), 0);
 			comm::impl_gemm(c.data(), c.line(), a.data(), a.line(), b.data(), b.line(), a.rows(), a.line(), b.line());
 			return c;
 		}
@@ -376,7 +376,7 @@ namespace core
 				throw std::domain_error(TENSOR_NOT_INITIALIZED);
 			if (a.num() != b.num() || a.line() != b.rows())
 				throw std::invalid_argument(INVALID_SHAPE);
-			tensor<T, A> c(a.num(), a.rows(), b.line(), static_cast<size_t>(1));
+			tensor<T, A> c(a.num(), a.rows(), b.line(), static_cast<size_t>(1), 0);
 			auto itr_a = a.mbegin();
 			auto itr_b = b.mbegin();
 			auto itr_c = c.mbegin();

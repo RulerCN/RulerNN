@@ -46,6 +46,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "cpu/simd.h"
 #include "cpu/cvt.h"
 #include "cpu/trp.h"
+#include "cpu/gemm.h"
 
 namespace core
 {
@@ -300,24 +301,22 @@ namespace core
 			return dst;
 		}
 
-		template <class T, class U, class A>
-		matrix<T, typename A::template rebind<T>::other> trp(const matrix<U, A>& src)
+		template <class T, class A>
+		matrix<T, typename A::template rebind<T>::other> trp(const matrix<T, A>& src)
 		{
 			if (src.empty())
 				throw std::domain_error(MATRIX_NOT_INITIALIZED);
-			using Allocator = typename A::template rebind<T>::other;
-			matrix<T, Allocator> dst(src.line(), src.rows(), static_cast<size_t>(1));
+			matrix<T, A> dst(src.line(), src.rows(), static_cast<size_t>(1));
 			cpu::impl_trp(dst.data(), dst.line(), src.data(), src.line(), src.rows(), src.line());
 			return dst;
 		}
 
-		template <class T, class U, class A>
-		tensor<T, typename A::template rebind<T>::other> trp(const tensor<U, A>& src)
+		template <class T, class A>
+		tensor<T, typename A::template rebind<T>::other> trp(const tensor<T, A>& src)
 		{
 			if (src.empty())
 				throw std::domain_error(TENSOR_NOT_INITIALIZED);
-			using Allocator = typename A::template rebind<T>::other;
-			tensor<T, Allocator> dst(src.num(), src.line(), src.rows(), static_cast<size_t>(1));
+			tensor<T, A> dst(src.num(), src.line(), src.rows(), static_cast<size_t>(1));
 			auto src_itr = src.mbegin();
 			auto dst_itr = dst.mbegin();
 			while (src_itr != src.mend() && dst_itr != dst.mend())
@@ -327,6 +326,72 @@ namespace core
 				++dst_itr;
 			}
 			return dst;
+		}
+
+		// General matrix multiplication.
+
+		template <class T, class A>
+		matrix<T, A>& gemm(matrix<T, A>& c, const matrix<T, A>& a, const matrix<T, A>& b)
+		{
+			if (a.empty() || b.empty() || c.empty())
+				throw std::domain_error(MATRIX_NOT_INITIALIZED);
+			if (c.rows() != a.rows() || c.line() != b.line() || a.line() != b.rows())
+				throw std::invalid_argument(INVALID_SHAPE);
+			cpu::impl_gemm(c.data(), c.line(), a.data(), a.line(), b.data(), b.line(), a.rows(), a.line(), b.line());
+			return c;
+		}
+
+		template <class T, class A>
+		tensor<T, A>& gemm(tensor<T, A>& c, const tensor<T, A>& a, const tensor<T, A>& b)
+		{
+			if (a.empty() || b.empty() || c.empty())
+				throw std::domain_error(TENSOR_NOT_INITIALIZED);
+			if (c.num() != a.num() || c.num() != b.num() || c.rows() != a.rows() || c.line() != b.line() || a.line() != b.rows())
+				throw std::invalid_argument(INVALID_SHAPE);
+			auto itr_a = a.mbegin();
+			auto itr_b = b.mbegin();
+			auto itr_c = c.mbegin();
+			while (itr_a != a.mend() && itr_b != b.mend() && itr_c != c.mend())
+			{
+				cpu::impl_gemm(itr_c->data(), itr_c->line(), itr_a->data(), itr_a->line(), itr_b->data(), itr_b->line(), itr_a->rows(), itr_a->line(), itr_b->line());
+				++itr_a;
+				++itr_b;
+				++itr_c;
+			}
+			return c;
+		}
+
+		template <class T, class A>
+		matrix<T, A> gemm(const matrix<T, A>& a, const matrix<T, A>& b)
+		{
+			if (a.empty() || b.empty())
+				throw std::domain_error(MATRIX_NOT_INITIALIZED);
+			if (a.line() != b.rows())
+				throw std::invalid_argument(INVALID_SHAPE);
+			matrix<T, A> c(a.rows(), b.line(), static_cast<size_t>(1), 0);
+			cpu::impl_gemm(c.data(), c.line(), a.data(), a.line(), b.data(), b.line(), a.rows(), a.line(), b.line());
+			return c;
+		}
+
+		template <class T, class A>
+		tensor<T, A> gemm(const tensor<T, A>& a, const tensor<T, A>& b)
+		{
+			if (a.empty() || b.empty())
+				throw std::domain_error(TENSOR_NOT_INITIALIZED);
+			if (a.num() != b.num() || a.line() != b.rows())
+				throw std::invalid_argument(INVALID_SHAPE);
+			tensor<T, A> c(a.num(), a.rows(), b.line(), static_cast<size_t>(1), 0);
+			auto itr_a = a.mbegin();
+			auto itr_b = b.mbegin();
+			auto itr_c = c.mbegin();
+			while (itr_a != a.mend() && itr_b != b.mend() && itr_c != c.mend())
+			{
+				cpu::impl_gemm(itr_c->data(), itr_c->line(), itr_a->data(), itr_a->line(), itr_b->data(), itr_b->line(), itr_a->rows(), itr_a->line(), itr_b->line());
+				++itr_a;
+				++itr_b;
+				++itr_c;
+			}
+			return c;
 		}
 
 	};

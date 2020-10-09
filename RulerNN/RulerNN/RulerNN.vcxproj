@@ -200,6 +200,8 @@
     <ClInclude Include="core\cpu\cvt\cvtu8.h" />
     <ClInclude Include="core\cpu\define.h" />
     <ClInclude Include="core\cpu\error.h" />
+    <ClInclude Include="core\cpu\gemm.h" />
+    <ClInclude Include="core\cpu\gemm\gemmps.h" />
     <ClInclude Include="core\cpu\simd.h" />
     <ClInclude Include="core\cpu\trp.h" />
     <ClInclude Include="core\cpu\trp\trpi16.h" />
@@ -210,6 +212,8 @@
     <ClInclude Include="core\cpu\trp\trpu16.h" />
     <ClInclude Include="core\cpu\trp\trpu32.h" />
     <ClInclude Include="core\cpu\trp\trpu8.h" />
+    <ClInclude Include="core\cpu\zigzag.h" />
+    <ClInclude Include="core\cpu\zigzag\zigzagps.h" />
     <ClInclude Include="core\define.h" />
     <ClInclude Include="core\device.h" />
     <ClInclude Include="core\endian.h" />

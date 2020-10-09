@@ -34,6 +34,9 @@
     <Filter Include="头文件\core\cpu\gemm">
       <UniqueIdentifier>{0f306ba0-1101-4ad6-97e5-b1a8ef496c07}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\core\cpu\zigzag">
+      <UniqueIdentifier>{d0fa844a-af1a-4305-9f47-1f095fde6bc8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="RulerNN.cpp">
@@ -244,6 +247,18 @@
     </ClInclude>
     <ClInclude Include="core\comm\gemm.h">
       <Filter>头文件\core\comm</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\gemm\gemmps.h">
+      <Filter>头文件\core\cpu\gemm</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\gemm.h">
+      <Filter>头文件\core\cpu</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\zigzag\zigzagps.h">
+      <Filter>头文件\core\cpu\zigzag</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\zigzag.h">
+      <Filter>头文件\core\cpu</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
