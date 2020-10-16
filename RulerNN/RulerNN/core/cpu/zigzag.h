@@ -62,7 +62,7 @@ namespace core
 		// Function template zigzag_block
 
 		template <class T>
-		inline void zigzag_block(T* dst, const T* src, size_t src_rs)
+		inline T* zigzag_block(T* b, const T* a, size_t lda)
 		{
 			throw std::domain_error(UNIMPLEMENTED_FUNCTION);
 		}
@@ -70,7 +70,7 @@ namespace core
 		// Function template zigzag_tiny
 
 		template <class T>
-		inline void zigzag_tiny(T* dst, const T* src, size_t src_rs, size_t m, size_t n)
+		inline T* zigzag_tiny(T* b, const T* a, size_t lda, size_t m, size_t n)
 		{
 			throw std::domain_error(UNIMPLEMENTED_FUNCTION);
 		}
@@ -78,71 +78,81 @@ namespace core
 		// Function template impl_zigzag
 
 		template <class T>
-		void impl_zigzag(T* dst, size_t dst_rs, const T* src, size_t src_rs, size_t m, size_t n)
+		void impl_zigzag(T* b, const T* a, size_t lda, size_t m, size_t n)
 		{
 			constexpr size_t block_m = zigzag_block_m<T>();
 			constexpr size_t block_n = zigzag_block_n<T>();
-			std::stack<std::tuple<T*, const T*, size_t, size_t>> task;
-			// Zigzag Encode
-			task.emplace(dst, src, m, n);
-			while (!task.empty())
+			size_t i = 0;
+			size_t j = 0;
+			std::stack<std::tuple<const T*, size_t, size_t, size_t, size_t>> task;
+			for (;;)
 			{
-				auto dst0 = std::get<0>(task.top());
-				auto src0 = std::get<1>(task.top());
-				size_t m0 = std::get<2>(task.top());
-				size_t n0 = std::get<3>(task.top());
-				task.pop();
-				if (m0 > block_m)
+				if (m > block_m)
 				{
-					// Calculate: exp = log2(m0 - 1)
-					float tmp = static_cast<float>(m0 - 1);
+					// exp = log2(m - 1)
+					float tmp = static_cast<float>(m - 1);
 					size_t exp = ((*reinterpret_cast<unsigned int*>(&tmp)) >> 23 & 0xFFu) - 0x7Fu;
-					// Calculate: m1 = pow(2, exp)
-					size_t m1 = static_cast<size_t>(1) << exp;
-					auto src1 = src0 + m1 * src_rs;
-					if (n0 > block_n)
+					// m0 = pow(2, exp)
+					size_t m0 = static_cast<size_t>(1) << exp;
+					size_t m1 = m - m0;
+					if (n > block_n)
 					{
-						// Calculate: exp = log2(n0 - 1)
-						float tmp = static_cast<float>(n0 - 1);
+						// exp = log2(n - 1)
+						float tmp = static_cast<float>(n - 1);
 						size_t exp = ((*reinterpret_cast<unsigned int*>(&tmp)) >> 23 & 0xFFu) - 0x7Fu;
-						// Calculate: n1 = pow(2, exp)
-						size_t n1 = static_cast<size_t>(1) << exp;
-						auto dst1 = dst0 + n1 * dst_rs;
-						// Transpose of four submatrices
-						task.emplace(dst1 + m1, src1 + n1, m0 - m1, n0 - n1);
-						task.emplace(dst0 + m1, src1, m0 - m1, n1);
-						task.emplace(dst1, src0 + n1, m1, n0 - n1);
-						task.emplace(dst0, src0, m1, n1);
+						// n0 = pow(2, exp)
+						size_t n0 = static_cast<size_t>(1) << exp;
+						size_t n1 = n - n0;
+						// push the elements
+						task.emplace(a,      i, j,      m0, n0);
+						task.emplace(a + n0, i, j + n0, m0, n1);
+						i += m0;
+						a += m0 * lda;
+						task.emplace(a,      i, j,      m1, n0);
+						task.emplace(a + n0, i, j + n0, m1, n1);
 					}
 					else
 					{
-						// Transpose of two submatrices
-						task.emplace(dst0 + m1, src1, m0 - m1, n0);
-						task.emplace(dst0, src0, m1, n0);
+						task.emplace(a, i, j, m0, n);
+						i += m0;
+						a += m0 * lda;
+						task.emplace(a, i, j, m1, n);
 					}
 				}
 				else
 				{
-					if (n0 > block_n)
+					if (n > block_n)
 					{
-						// Calculate: exp = log2(n0 - 1)
-						float tmp = static_cast<float>(n0 - 1);
+						// exp = log2(n - 1)
+						float tmp = static_cast<float>(n - 1);
 						size_t exp = ((*reinterpret_cast<unsigned int*>(&tmp)) >> 23 & 0xFFu) - 0x7Fu;
-						// Calculate: n1 = pow(2, exp)
-						size_t n1 = static_cast<size_t>(1) << exp;
-						auto dst1 = dst0 + n1 * dst_rs;
-						// Transpose of two submatrices
-						task.emplace(dst1, src0 + n1, m0, n0 - n1);
-						task.emplace(dst0, src0, m0, n1);
+						// n0 = pow(2, exp)
+						size_t n0 = static_cast<size_t>(1) << exp;
+						size_t n1 = n - n0;
+						// push the elements
+						task.emplace(a,      i, j,      m, n0);
+						task.emplace(a + n0, i, j + n0, m, n1);
 					}
 					else
 					{
-						if (m0 == block_m && n0 == block_n)
-							zigzag_block(dst0, dst_rs, src0, src_rs);
+						if (m == block_m && n == block_n)
+						{
+							b = zigzag_block(b, a, lda);
+						}
 						else
-							zigzag_tiny(dst0, dst_rs, src0, src_rs, m0, n0);
+						{
+							b = zigzag_tiny(b, a, lda, m, n);
+						}
 					}
 				}
+				if (task.empty())
+					break;
+				a = std::get<0>(task.top());
+				i = std::get<1>(task.top());
+				j = std::get<2>(task.top());
+				m = std::get<3>(task.top());
+				n = std::get<4>(task.top());
+				task.pop();
 			}
 		}
 

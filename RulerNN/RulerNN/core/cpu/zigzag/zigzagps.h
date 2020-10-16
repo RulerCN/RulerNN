@@ -64,7 +64,7 @@ namespace core
 		// Function template zigzag_block
 
 		template <>
-		inline void zigzag_block<float>(float* b, const float* a, size_t lda)
+		inline float* zigzag_block<float>(float* b, const float* a, size_t lda)
 		{
 			const __m256 ymm_a0 = _mm256_loadu_ps(a);
 			const __m256 ymm_a1 = _mm256_loadu_ps(a + lda);
@@ -82,12 +82,13 @@ namespace core
 			_mm256_storeu_ps(b + 40, ymm_a5);
 			_mm256_storeu_ps(b + 48, ymm_a6);
 			_mm256_storeu_ps(b + 56, ymm_a7);
+			return b + 64;
 		}
 
 		// Function template zigzag_tiny
 
 		template <>
-		inline void zigzag_tiny<float>(float* b, const float* a, size_t lda, size_t m, size_t n)
+		inline float* zigzag_tiny<float>(float* b, const float* a, size_t lda, size_t m, size_t n)
 		{
 			__m256 ymm_a = _mm256_setzero_ps();
 			for (size_t i = 0; i < m; ++i)
@@ -107,6 +108,7 @@ namespace core
 				a += lda;
 				b += 8;
 			}
+			return b;
 		}
 
 	#endif

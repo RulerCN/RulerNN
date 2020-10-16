@@ -114,6 +114,9 @@ void test_trp(const size_t m, const size_t n);
 template<class T>
 void test_gemm(const size_t m, const size_t p, const size_t n);
 
+template <class T>
+void impl_zig(T* b, const T* a, size_t lda, size_t m, size_t n);
+
 int main()
 {
 	try
@@ -124,6 +127,8 @@ int main()
 		std::cout << "threads: " << core::openmp::num_thread << "\n";
 		// Print L2 cache size.
 		// std::cout << "L2 cache: " << core::simd::l2_cache_size << "\n";
+
+		impl_zig((float*)nullptr, (float*)nullptr, 45, 45, 45);
 
 		//test_trp<float>(10000, 10000);
 		//test_gemm<float>(  50,   50,   50);
@@ -138,7 +143,7 @@ int main()
 		//test_gemm<float>( 500,  500,  500);
 		//test_gemm<float>( 600,  600,  600);
 		//test_gemm<float>( 700,  700,  700);
-		test_gemm<float>( 800,  800,  800);
+	//	test_gemm<float>( 800,  800,  800);
 		//test_gemm<float>( 900,  900,  900);
 		//test_gemm<float>(1000, 1000, 1000);
 		//test_gemm<float>(1100, 2100, 1100);
@@ -155,6 +160,98 @@ int main()
 	catch (std::exception err)
 	{
 		std::cout << err.what() << "\n";
+	}
+}
+
+// Function template zigzag_block_m
+template<class T>
+constexpr size_t zigzag_block_m(void)
+{
+	return static_cast<size_t>(8);
+}
+
+// Function template zigzag_block_n
+template<class T>
+constexpr size_t zigzag_block_n(void)
+{
+	return static_cast<size_t>(8);
+}
+
+template <class T>
+void impl_zig(T* b, const T* a, size_t lda, size_t m, size_t n)
+{
+	constexpr size_t block_m = zigzag_block_m<T>();
+	constexpr size_t block_n = zigzag_block_n<T>();
+	size_t i = 0;
+	size_t j = 0;
+	std::stack<std::tuple<const T*, size_t, size_t, size_t, size_t>> task;
+	for (;;)
+	{
+		if (m > block_m)
+		{
+			// exp = log2(m - 1)
+			float tmp = static_cast<float>(m - 1);
+			size_t exp = ((*reinterpret_cast<unsigned int*>(&tmp)) >> 23 & 0xFFu) - 0x7Fu;
+			// m0 = pow(2, exp)
+			size_t m0 = static_cast<size_t>(1) << exp;
+			size_t m1 = m - m0;
+			const T* p = a + m0 * lda;
+			if (n > block_n)
+			{
+				// exp = log2(n - 1)
+				float tmp = static_cast<float>(n - 1);
+				size_t exp = ((*reinterpret_cast<unsigned int*>(&tmp)) >> 23 & 0xFFu) - 0x7Fu;
+				// n0 = pow(2, exp)
+				size_t n0 = static_cast<size_t>(1) << exp;
+				size_t n1 = n - n0;
+				// push the elements
+				task.emplace(p + n0, i + m0, j + n0, m1, n1);
+				task.emplace(p,      i + m0, j,      m1, n0);
+				task.emplace(a + n0, i,      j + n0, m0, n1);
+				task.emplace(a,      i,      j,      m0, n0);
+			}
+			else
+			{
+				task.emplace(p, i + m0, j, m1, n);
+				task.emplace(a, i,      j, m0, n);
+			}
+		}
+		else
+		{
+			if (n > block_n)
+			{
+				// exp = log2(n - 1)
+				float tmp = static_cast<float>(n - 1);
+				size_t exp = ((*reinterpret_cast<unsigned int*>(&tmp)) >> 23 & 0xFFu) - 0x7Fu;
+				// n0 = pow(2, exp)
+				size_t n0 = static_cast<size_t>(1) << exp;
+				size_t n1 = n - n0;
+				// push the elements
+				task.emplace(a + n0, i, j + n0, m, n1);
+				task.emplace(a,      i, j,      m, n0);
+			}
+			else
+			{
+				if (m == block_m && n == block_n)
+				{
+					//b = zigzag_block(b, a, lda);
+					std::cout << "block: (" << i << ", " << j << ") " << m << " x " << n << "\n";
+				}
+				else
+				{
+					//b = zigzag_tiny(b, a, lda, m, n);
+					std::cout << "tiny: (" << i << ", " << j << ") " << m << " x " << n << "\n";
+				}
+			}
+		}
+		if (task.empty())
+			break;
+		a = std::get<0>(task.top());
+		i = std::get<1>(task.top());
+		j = std::get<2>(task.top());
+		m = std::get<3>(task.top());
+		n = std::get<4>(task.top());
+		task.pop();
 	}
 }
 
