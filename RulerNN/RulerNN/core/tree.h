@@ -1647,50 +1647,50 @@ namespace core
 
 		void copy_child_node(const node_pointer pos, const node_pointer node)
 		{
-			node_pointer dst = pos;
-			node_pointer src = node;
+			node_pointer b = pos;
+			node_pointer a = node;
 			tree_node_state state = tree_state_root;
 			do
 			{
 				if (state != tree_state_parent)
 				{
-					if (src->first_child != src)
+					if (a->first_child != a)
 					{
-						src = src->first_child;
+						a = a->first_child;
 						state = tree_state_child;
-						dst = append_node(dst, src->data);
+						b = append_node(b, a->data);
 						++count;
 					}
-					else if (src->next_sibling != src->parent)
+					else if (a->next_sibling != a->parent)
 					{
-						src = src->next_sibling;
+						a = a->next_sibling;
 						state = tree_state_sibling;
-						dst = append_node(dst->parent, src->data);
+						b = append_node(b->parent, a->data);
 						++count;
 					}
 					else
 					{
-						src = src->parent;
-						dst = dst->parent;
+						a = a->parent;
+						b = b->parent;
 						state = tree_state_parent;
 					}
 				}
 				else
 				{
-					if (src->next_sibling != src->parent)
+					if (a->next_sibling != a->parent)
 					{
-						src = src->next_sibling;
+						a = a->next_sibling;
 						state = tree_state_sibling;
-						dst = append_node(dst->parent, src->data);
+						b = append_node(b->parent, a->data);
 						++count;
 					}
 					else
 					{
-						src = src->parent;
-						dst = dst->parent;
+						a = a->parent;
+						b = b->parent;
 					}
 				}
-			} while (src != node);
+			} while (a != node);
 		}
 
 		//void copy_child_node(const node_pointer pos, const node_pointer node)
@@ -1815,22 +1815,22 @@ namespace core
 		//{
 		//	if (pos != node)
 		//	{
-		//		node_pointer dst = pos->first_child;
-		//		node_pointer src = node->first_child;
+		//		node_pointer b = pos->first_child;
+		//		node_pointer a = node->first_child;
 
-		//		while (dst != nullptr && src != nullptr)
+		//		while (b != nullptr && a != nullptr)
 		//		{
-		//			if (comp(src->data, dst->data))
+		//			if (comp(a->data, b->data))
 		//			{
-		//				node_pointer next = src->next_sibling;
-		//				splice_node(pos, dst, src);
-		//				src = next;
+		//				node_pointer next = a->next_sibling;
+		//				splice_node(pos, b, a);
+		//				a = next;
 		//			}
 		//			else
-		//				dst = dst->next_sibling;
+		//				b = b->next_sibling;
 		//		}
-		//		if (src != nullptr)
-		//			splice_node(pos, pos, src, node);
+		//		if (a != nullptr)
+		//			splice_node(pos, pos, a, node);
 		//	}
 		//}
 

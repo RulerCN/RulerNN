@@ -32,6 +32,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "../simd.h"
 
+
 namespace core
 {
 	namespace cpu
@@ -43,10 +44,10 @@ namespace core
 		template <class T> constexpr size_t trp_block_n(void);
 
 		// Function template trp_block
-		template <class T> inline void trp_block(T* dst, size_t dst_rs, const T* src, size_t src_rs);
+		template <class T> inline void trp_block(T* b, size_t ldb, const T* a, size_t lda);
 
 		// Function template trp_tiny
-		template <class T> inline void trp_tiny(T* dst, size_t dst_rs, const T* src, size_t src_rs, size_t m, size_t n);
+		template <class T> inline void trp_tiny(T* b, size_t ldb, const T* a, size_t lda, size_t m, size_t n);
 
 	#if defined(__AVX2__) || defined(__AVX__)
 
@@ -55,7 +56,7 @@ namespace core
 		template <>
 		constexpr size_t trp_block_m<double>(void)
 		{
-			return static_cast<size_t>(8);
+			return static_cast<size_t>(4);
 		}
 
 		template <>
@@ -65,77 +66,44 @@ namespace core
 		}
 
 		template <>
-		inline void trp_block<double>(double* dst, size_t dst_rs, const double* src, size_t src_rs)
+		inline void trp_block<double>(double* b, size_t ldb, const double* a, size_t lda)
 		{
-			double* ptr_dst0 = dst;
-			double* ptr_dst1 = ptr_dst0 + dst_rs;
-			double* ptr_dst2 = ptr_dst1 + dst_rs;
-			double* ptr_dst3 = ptr_dst2 + dst_rs;
-			double* ptr_dst4 = ptr_dst3 + dst_rs;
-			double* ptr_dst5 = ptr_dst4 + dst_rs;
-			double* ptr_dst6 = ptr_dst5 + dst_rs;
-			double* ptr_dst7 = ptr_dst6 + dst_rs;
-			const double* ptr_src0 = src;
-			const double* ptr_src1 = ptr_src0 + src_rs;
-			const double* ptr_src2 = ptr_src1 + src_rs;
-			const double* ptr_src3 = ptr_src2 + src_rs;
-			const double* ptr_src4 = ptr_src3 + src_rs;
-			const double* ptr_src5 = ptr_src4 + src_rs;
-			const double* ptr_src6 = ptr_src5 + src_rs;
-			const double* ptr_src7 = ptr_src6 + src_rs;
-			__m256d ymm_src0 = _mm256_castpd128_pd256(_mm_loadu_pd(ptr_src0));
-			__m256d ymm_src1 = _mm256_castpd128_pd256(_mm_loadu_pd(ptr_src1));
-			__m256d ymm_src2 = _mm256_castpd128_pd256(_mm_loadu_pd(ptr_src0 + 2));
-			__m256d ymm_src3 = _mm256_castpd128_pd256(_mm_loadu_pd(ptr_src1 + 2));
-			__m256d ymm_src4 = _mm256_castpd128_pd256(_mm_loadu_pd(ptr_src4));
-			__m256d ymm_src5 = _mm256_castpd128_pd256(_mm_loadu_pd(ptr_src5));
-			__m256d ymm_src6 = _mm256_castpd128_pd256(_mm_loadu_pd(ptr_src4 + 2));
-			__m256d ymm_src7 = _mm256_castpd128_pd256(_mm_loadu_pd(ptr_src5 + 2));
-			__m256d ymm_dst0 = _mm256_insertf128_pd(ymm_src0, _mm_loadu_pd(ptr_src2), 1);
-			__m256d ymm_dst1 = _mm256_insertf128_pd(ymm_src1, _mm_loadu_pd(ptr_src3), 1);
-			__m256d ymm_dst2 = _mm256_insertf128_pd(ymm_src2, _mm_loadu_pd(ptr_src2 + 2), 1);
-			__m256d ymm_dst3 = _mm256_insertf128_pd(ymm_src3, _mm_loadu_pd(ptr_src3 + 2), 1);
-			__m256d ymm_dst4 = _mm256_insertf128_pd(ymm_src4, _mm_loadu_pd(ptr_src6), 1);
-			__m256d ymm_dst5 = _mm256_insertf128_pd(ymm_src5, _mm_loadu_pd(ptr_src7), 1);
-			__m256d ymm_dst6 = _mm256_insertf128_pd(ymm_src6, _mm_loadu_pd(ptr_src6 + 2), 1);
-			__m256d ymm_dst7 = _mm256_insertf128_pd(ymm_src7, _mm_loadu_pd(ptr_src7 + 2), 1);
-			ymm_src0 = _mm256_shuffle_pd(ymm_dst0, ymm_dst1, _MM_SHUFFLE(0, 0, 0, 0));
-			ymm_src1 = _mm256_shuffle_pd(ymm_dst0, ymm_dst1, _MM_SHUFFLE(0, 0, 3, 3));
-			ymm_src2 = _mm256_shuffle_pd(ymm_dst2, ymm_dst3, _MM_SHUFFLE(0, 0, 0, 0));
-			ymm_src3 = _mm256_shuffle_pd(ymm_dst2, ymm_dst3, _MM_SHUFFLE(0, 0, 3, 3));
-			ymm_src4 = _mm256_shuffle_pd(ymm_dst4, ymm_dst5, _MM_SHUFFLE(0, 0, 0, 0));
-			ymm_src5 = _mm256_shuffle_pd(ymm_dst4, ymm_dst5, _MM_SHUFFLE(0, 0, 3, 3));
-			ymm_src6 = _mm256_shuffle_pd(ymm_dst6, ymm_dst7, _MM_SHUFFLE(0, 0, 0, 0));
-			ymm_src7 = _mm256_shuffle_pd(ymm_dst6, ymm_dst7, _MM_SHUFFLE(0, 0, 3, 3));
-			_mm256_storeu_pd(ptr_dst0, ymm_src0);
-			_mm256_storeu_pd(ptr_dst1, ymm_src1);
-			_mm256_storeu_pd(ptr_dst2, ymm_src2);
-			_mm256_storeu_pd(ptr_dst3, ymm_src3);
-			_mm256_storeu_pd(ptr_dst0 + 4, ymm_src4);
-			_mm256_storeu_pd(ptr_dst1 + 4, ymm_src5);
-			_mm256_storeu_pd(ptr_dst2 + 4, ymm_src6);
-			_mm256_storeu_pd(ptr_dst3 + 4, ymm_src7);
+			const double* ptr_a0 = a;
+			const double* ptr_a1 = a + lda;
+			const double* ptr_a2 = a + lda * 2;
+			const double* ptr_a3 = a + lda * 3;
+			__m256d ymm_a0 = _mm256_castpd128_pd256(_mm_loadu_pd(ptr_a0));
+			__m256d ymm_a1 = _mm256_castpd128_pd256(_mm_loadu_pd(ptr_a1));
+			__m256d ymm_a2 = _mm256_castpd128_pd256(_mm_loadu_pd(ptr_a0 + 2));
+			__m256d ymm_a3 = _mm256_castpd128_pd256(_mm_loadu_pd(ptr_a1 + 2));
+			__m256d ymm_b0 = _mm256_insertf128_pd(ymm_a0, _mm_loadu_pd(ptr_a2), 1);
+			__m256d ymm_b1 = _mm256_insertf128_pd(ymm_a1, _mm_loadu_pd(ptr_a3), 1);
+			__m256d ymm_b2 = _mm256_insertf128_pd(ymm_a2, _mm_loadu_pd(ptr_a2 + 2), 1);
+			__m256d ymm_b3 = _mm256_insertf128_pd(ymm_a3, _mm_loadu_pd(ptr_a3 + 2), 1);
+			ymm_a0 = _mm256_shuffle_pd(ymm_b0, ymm_b1, _MM_SHUFFLE(0, 0, 0, 0));
+			ymm_a1 = _mm256_shuffle_pd(ymm_b0, ymm_b1, _MM_SHUFFLE(0, 0, 3, 3));
+			ymm_a2 = _mm256_shuffle_pd(ymm_b2, ymm_b3, _MM_SHUFFLE(0, 0, 0, 0));
+			ymm_a3 = _mm256_shuffle_pd(ymm_b2, ymm_b3, _MM_SHUFFLE(0, 0, 3, 3));
+			_mm256_storeu_pd(b,           ymm_a0);
+			_mm256_storeu_pd(b + ldb,     ymm_a1);
+			_mm256_storeu_pd(b + ldb * 2, ymm_a2);
+			_mm256_storeu_pd(b + ldb * 3, ymm_a3);
 		}
 
 		template <>
-		inline void trp_tiny<double>(double* dst, size_t dst_rs, const double* src, size_t src_rs, size_t m, size_t n)
+		inline void trp_tiny<double>(double* b, size_t ldb, const double* a, size_t lda, size_t m, size_t n)
 		{
-			const size_t row0 = 0;
-			const size_t row1 = dst_rs;
-			const size_t row2 = row1 + dst_rs;
-			const size_t row3 = row2 + dst_rs;
-
-			for (size_t i = 0; i < m; ++i)
+			for (size_t i = 0; i < n; ++i)
 			{
-				switch (n)
+				switch (m)
 				{
-				case 4: dst[row3 + i] = src[3];
-				case 3: dst[row2 + i] = src[2];
-				case 2: dst[row1 + i] = src[1];
-				case 1: dst[row0 + i] = src[0];
-					break;
+				case 4: b[3] = a[lda * 3]; [[fallthrough]];
+				case 3: b[2] = a[lda * 2]; [[fallthrough]];
+				case 2: b[1] = a[lda];     [[fallthrough]];
+				case 1: b[0] = a[0];       [[fallthrough]];
 				}
-				src += src_rs;
+				a += 1;
+				b += ldb;
 			}
 		}
 
@@ -146,71 +114,38 @@ namespace core
 		template <>
 		constexpr size_t trp_block_m<double>(void)
 		{
-			return static_cast<size_t>(4);
+			return static_cast<size_t>(2);
 		}
 
 		template <>
 		constexpr size_t trp_block_n<double>(void)
 		{
-			return static_cast<size_t>(4);
+			return static_cast<size_t>(2);
 		}
 
 		template <>
-		inline void trp_block<double>(double* dst, size_t dst_rs, const double* src, size_t src_rs)
+		inline void trp_block<double>(double* b, size_t ldb, const double* a, size_t lda)
 		{
-			double* ptr_dst0 = dst;
-			double* ptr_dst1 = ptr_dst0 + dst_rs;
-			double* ptr_dst2 = ptr_dst1 + dst_rs;
-			double* ptr_dst3 = ptr_dst2 + dst_rs;
-			const double* ptr_src0 = src;
-			const double* ptr_src1 = ptr_src0 + src_rs;
-			const double* ptr_src2 = ptr_src1 + src_rs;
-			const double* ptr_src3 = ptr_src2 + src_rs;
-			__m128d xmm_src0 = _mm_loadu_pd(ptr_src0);
-			__m128d xmm_src1 = _mm_loadu_pd(ptr_src1);
-			__m128d xmm_src2 = _mm_loadu_pd(ptr_src0 + 2);
-			__m128d xmm_src3 = _mm_loadu_pd(ptr_src1 + 2);
-			__m128d xmm_src4 = _mm_loadu_pd(ptr_src2);
-			__m128d xmm_src5 = _mm_loadu_pd(ptr_src3);
-			__m128d xmm_src6 = _mm_loadu_pd(ptr_src2 + 2);
-			__m128d xmm_src7 = _mm_loadu_pd(ptr_src3 + 2);
-			__m128d xmm_dst0 = _mm_shuffle_pd(xmm_src0, xmm_src1, _MM_SHUFFLE(0, 0, 0, 0));
-			__m128d xmm_dst1 = _mm_shuffle_pd(xmm_src0, xmm_src1, _MM_SHUFFLE(0, 0, 3, 3));
-			__m128d xmm_dst2 = _mm_shuffle_pd(xmm_src2, xmm_src3, _MM_SHUFFLE(0, 0, 0, 0));
-			__m128d xmm_dst3 = _mm_shuffle_pd(xmm_src2, xmm_src3, _MM_SHUFFLE(0, 0, 3, 3));
-			__m128d xmm_dst4 = _mm_shuffle_pd(xmm_src4, xmm_src5, _MM_SHUFFLE(0, 0, 0, 0));
-			__m128d xmm_dst5 = _mm_shuffle_pd(xmm_src4, xmm_src5, _MM_SHUFFLE(0, 0, 3, 3));
-			__m128d xmm_dst6 = _mm_shuffle_pd(xmm_src6, xmm_src7, _MM_SHUFFLE(0, 0, 0, 0));
-			__m128d xmm_dst7 = _mm_shuffle_pd(xmm_src6, xmm_src7, _MM_SHUFFLE(0, 0, 3, 3));
-			_mm_storeu_pd(ptr_dst0, xmm_dst0);
-			_mm_storeu_pd(ptr_dst1, xmm_dst1);
-			_mm_storeu_pd(ptr_dst2, xmm_dst2);
-			_mm_storeu_pd(ptr_dst3, xmm_dst3);
-			_mm_storeu_pd(ptr_dst0 + 2, xmm_dst4);
-			_mm_storeu_pd(ptr_dst1 + 2, xmm_dst5);
-			_mm_storeu_pd(ptr_dst2 + 2, xmm_dst6);
-			_mm_storeu_pd(ptr_dst3 + 2, xmm_dst7);
+			__m128d xmm_a0 = _mm_loadu_pd(a);
+			__m128d xmm_a1 = _mm_loadu_pd(a + lda);
+			__m128d xmm_b0 = _mm_shuffle_pd(xmm_a0, xmm_a1, _MM_SHUFFLE(0, 0, 0, 0));
+			__m128d xmm_b1 = _mm_shuffle_pd(xmm_a0, xmm_a1, _MM_SHUFFLE(0, 0, 3, 3));
+			_mm_storeu_pd(b,       xmm_b0);
+			_mm_storeu_pd(b + ldb, xmm_b1);
 		}
 
 		template <>
-		inline void trp_tiny<double>(double* dst, size_t dst_rs, const double* src, size_t src_rs, size_t m, size_t n)
+		inline void trp_tiny<double>(double* b, size_t ldb, const double* a, size_t lda, size_t m, size_t n)
 		{
-			const size_t row0 = 0;
-			const size_t row1 = dst_rs;
-			const size_t row2 = row1 + dst_rs;
-			const size_t row3 = row2 + dst_rs;
-
-			for (size_t i = 0; i < m; ++i)
+			for (size_t i = 0; i < n; ++i)
 			{
-				switch (n)
+				switch (m)
 				{
-				case 4: dst[row3 + i] = src[3];
-				case 3: dst[row2 + i] = src[2];
-				case 2: dst[row1 + i] = src[1];
-				case 1: dst[row0 + i] = src[0];
-					break;
+				case 2: b[1] = a[lda]; [[fallthrough]];
+				case 1: b[0] = a[0];   [[fallthrough]];
 				}
-				src += src_rs;
+				a += 1;
+				b += ldb;
 			}
 		}
 

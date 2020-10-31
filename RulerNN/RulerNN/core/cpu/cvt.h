@@ -55,113 +55,113 @@ namespace core
 		// Function template impl_cvt
 
 		template <class T, class U>
-		void impl_cvt(T* dst, const U* src, size_t n)
+		void impl_cvt(T* b, const U* a, size_t n)
 		{
 			throw std::domain_error(UNIMPLEMENTED_CONVERT);
 		}
 
 		template <class T>
-		void impl_cvt(T* dst, const signed char* src, size_t n)
+		void impl_cvt(T* b, const signed char* a, size_t n)
 		{
-			impl_cvti8<T>(dst, src, n);
+			impl_cvti8<T>(b, a, n);
 		};
 
 		template <class T>
-		void impl_cvt(T* dst, const signed short* src, size_t n)
+		void impl_cvt(T* b, const signed short* a, size_t n)
 		{
-			impl_cvti16<T>(dst, src, n);
+			impl_cvti16<T>(b, a, n);
 		};
 
 		template <class T>
-		void impl_cvt(T* dst, const signed int* src, size_t n)
+		void impl_cvt(T* b, const signed int* a, size_t n)
 		{
-			impl_cvti32<T>(dst, src, n);
+			impl_cvti32<T>(b, a, n);
 		};
 
 		template <class T>
-		void impl_cvt(T* dst, const unsigned char* src, size_t n)
+		void impl_cvt(T* b, const unsigned char* a, size_t n)
 		{
-			impl_cvtu8<T>(dst, src, n);
+			impl_cvtu8<T>(b, a, n);
 		};
 
 		template <class T>
-		void impl_cvt(T* dst, const unsigned short* src, size_t n)
+		void impl_cvt(T* b, const unsigned short* a, size_t n)
 		{
-			impl_cvtu16<T>(dst, src, n);
+			impl_cvtu16<T>(b, a, n);
 		};
 
 		template <class T>
-		void impl_cvt(T* dst, const unsigned int* src, size_t n)
+		void impl_cvt(T* b, const unsigned int* a, size_t n)
 		{
-			impl_cvtu32<T>(dst, src, n);
+			impl_cvtu32<T>(b, a, n);
 		};
 
 		template <class T>
-		void impl_cvt(T* dst, const float* src, size_t n)
+		void impl_cvt(T* b, const float* a, size_t n)
 		{
-			impl_cvtps<T>(dst, src, n);
+			impl_cvtps<T>(b, a, n);
 		};
 
 		template <class T>
-		void impl_cvt(T* dst, const double* src, size_t n)
+		void impl_cvt(T* b, const double* a, size_t n)
 		{
-			impl_cvtpd<T>(dst, src, n);
+			impl_cvtpd<T>(b, a, n);
 		};
 
 		// Function template impl_cvts
 
 		template <class T, class U>
-		void impl_cvts(T* dst, const U* src, size_t n)
+		void impl_cvts(T* b, const U* a, size_t n)
 		{
 			throw std::domain_error(UNIMPLEMENTED_CONVERT);
 		}
 
 		template <class T>
-		void impl_cvts(T* dst, const signed char* src, size_t n)
+		void impl_cvts(T* b, const signed char* a, size_t n)
 		{
-			impl_cvtsi8<T>(dst, src, n);
+			impl_cvtsi8<T>(b, a, n);
 		};
 
 		template <class T>
-		void impl_cvts(T* dst, const signed short* src, size_t n)
+		void impl_cvts(T* b, const signed short* a, size_t n)
 		{
-			impl_cvtsi16<T>(dst, src, n);
+			impl_cvtsi16<T>(b, a, n);
 		};
 
 		template <class T>
-		void impl_cvts(T* dst, const signed int* src, size_t n)
+		void impl_cvts(T* b, const signed int* a, size_t n)
 		{
-			impl_cvtsi32<T>(dst, src, n);
+			impl_cvtsi32<T>(b, a, n);
 		};
 
 		template <class T>
-		void impl_cvts(T* dst, const unsigned char* src, size_t n)
+		void impl_cvts(T* b, const unsigned char* a, size_t n)
 		{
-			impl_cvtsu8<T>(dst, src, n);
+			impl_cvtsu8<T>(b, a, n);
 		};
 
 		template <class T>
-		void impl_cvts(T* dst, const unsigned short* src, size_t n)
+		void impl_cvts(T* b, const unsigned short* a, size_t n)
 		{
-			impl_cvtsu16<T>(dst, src, n);
+			impl_cvtsu16<T>(b, a, n);
 		};
 
 		template <class T>
-		void impl_cvts(T* dst, const unsigned int* src, size_t n)
+		void impl_cvts(T* b, const unsigned int* a, size_t n)
 		{
-			impl_cvtsu32<T>(dst, src, n);
+			impl_cvtsu32<T>(b, a, n);
 		};
 
 		template <class T>
-		void impl_cvts(T* dst, const float* src, size_t n)
+		void impl_cvts(T* b, const float* a, size_t n)
 		{
-			impl_cvtsps<T>(dst, src, n);
+			impl_cvtsps<T>(b, a, n);
 		};
 
 		template <class T>
-		void impl_cvts(T* dst, const double* src, size_t n)
+		void impl_cvts(T* b, const double* a, size_t n)
 		{
-			impl_cvtspd<T>(dst, src, n);
+			impl_cvtspd<T>(b, a, n);
 		};
 
 	} // namespace cpu

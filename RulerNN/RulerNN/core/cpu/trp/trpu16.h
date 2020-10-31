@@ -32,6 +32,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "../simd.h"
 
+
 namespace core
 {
 	namespace cpu
@@ -43,10 +44,10 @@ namespace core
 		template <class T> constexpr size_t trp_block_n(void);
 
 		// Function template trp_block
-		template <class T> inline void trp_block(T* dst, size_t dst_rs, const T* src, size_t src_rs);
+		template <class T> inline void trp_block(T* b, size_t ldb, const T* a, size_t lda);
 
 		// Function template trp_tiny
-		template <class T> inline void trp_tiny(T* dst, size_t dst_rs, const T* src, size_t src_rs, size_t m, size_t n);
+		template <class T> inline void trp_tiny(T* b, size_t ldb, const T* a, size_t lda, size_t m, size_t n);
 
 	#ifdef __AVX2__
 
@@ -65,109 +66,84 @@ namespace core
 		}
 
 		template <>
-		inline void trp_block<unsigned short>(unsigned short* dst, size_t dst_rs, const unsigned short* src, size_t src_rs)
+		inline void trp_block<unsigned short>(unsigned short* b, size_t ldb, const unsigned short* a, size_t lda)
 		{
-			unsigned short* ptr_dst0 = dst;
-			unsigned short* ptr_dst1 = ptr_dst0 + dst_rs;
-			unsigned short* ptr_dst2 = ptr_dst1 + dst_rs;
-			unsigned short* ptr_dst3 = ptr_dst2 + dst_rs;
-			unsigned short* ptr_dst4 = ptr_dst3 + dst_rs;
-			unsigned short* ptr_dst5 = ptr_dst4 + dst_rs;
-			unsigned short* ptr_dst6 = ptr_dst5 + dst_rs;
-			unsigned short* ptr_dst7 = ptr_dst6 + dst_rs;
-			const unsigned short* ptr_src0 = src;
-			const unsigned short* ptr_src1 = ptr_src0 + src_rs;
-			const unsigned short* ptr_src2 = ptr_src1 + src_rs;
-			const unsigned short* ptr_src3 = ptr_src2 + src_rs;
-			const unsigned short* ptr_src4 = ptr_src3 + src_rs;
-			const unsigned short* ptr_src5 = ptr_src4 + src_rs;
-			const unsigned short* ptr_src6 = ptr_src5 + src_rs;
-			const unsigned short* ptr_src7 = ptr_src6 + src_rs;
-			const unsigned short* ptr_src8 = ptr_src7 + dst_rs;
-			const unsigned short* ptr_src9 = ptr_src8 + dst_rs;
-			const unsigned short* ptr_srca = ptr_src9 + dst_rs;
-			const unsigned short* ptr_srcb = ptr_srca + dst_rs;
-			const unsigned short* ptr_srcc = ptr_srcb + dst_rs;
-			const unsigned short* ptr_srcd = ptr_srcc + dst_rs;
-			const unsigned short* ptr_srce = ptr_srcd + dst_rs;
-			const unsigned short* ptr_srcf = ptr_srce + dst_rs;
-			__m256i ymm_src0 = _mm256_castsi128_si256(_mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_src0)));
-			__m256i ymm_src1 = _mm256_castsi128_si256(_mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_src1)));
-			__m256i ymm_src2 = _mm256_castsi128_si256(_mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_src2)));
-			__m256i ymm_src3 = _mm256_castsi128_si256(_mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_src3)));
-			__m256i ymm_src4 = _mm256_castsi128_si256(_mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_src4)));
-			__m256i ymm_src5 = _mm256_castsi128_si256(_mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_src5)));
-			__m256i ymm_src6 = _mm256_castsi128_si256(_mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_src6)));
-			__m256i ymm_src7 = _mm256_castsi128_si256(_mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_src7)));
-			__m256i ymm_dst0 = _mm256_insertf128_si256(ymm_src0, _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_src8)), 1);
-			__m256i ymm_dst1 = _mm256_insertf128_si256(ymm_src1, _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_src9)), 1);
-			__m256i ymm_dst2 = _mm256_insertf128_si256(ymm_src2, _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_srca)), 1);
-			__m256i ymm_dst3 = _mm256_insertf128_si256(ymm_src3, _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_srcb)), 1);
-			__m256i ymm_dst4 = _mm256_insertf128_si256(ymm_src4, _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_srcc)), 1);
-			__m256i ymm_dst5 = _mm256_insertf128_si256(ymm_src5, _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_srcd)), 1);
-			__m256i ymm_dst6 = _mm256_insertf128_si256(ymm_src6, _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_srce)), 1);
-			__m256i ymm_dst7 = _mm256_insertf128_si256(ymm_src7, _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_srcf)), 1);
-			ymm_src0 = _mm256_unpacklo_epi16(ymm_dst0, ymm_dst1);
-			ymm_src1 = _mm256_unpacklo_epi16(ymm_dst2, ymm_dst3);
-			ymm_src2 = _mm256_unpacklo_epi16(ymm_dst4, ymm_dst5);
-			ymm_src3 = _mm256_unpacklo_epi16(ymm_dst6, ymm_dst7);
-			ymm_src4 = _mm256_unpackhi_epi16(ymm_dst0, ymm_dst1);
-			ymm_src5 = _mm256_unpackhi_epi16(ymm_dst2, ymm_dst3);
-			ymm_src6 = _mm256_unpackhi_epi16(ymm_dst4, ymm_dst5);
-			ymm_src7 = _mm256_unpackhi_epi16(ymm_dst6, ymm_dst7);
-			ymm_dst0 = _mm256_unpacklo_epi32(ymm_src0, ymm_src1);
-			ymm_dst1 = _mm256_unpacklo_epi32(ymm_src2, ymm_src3);
-			ymm_dst2 = _mm256_unpackhi_epi32(ymm_src0, ymm_src1);
-			ymm_dst3 = _mm256_unpackhi_epi32(ymm_src2, ymm_src3);
-			ymm_dst4 = _mm256_unpacklo_epi32(ymm_src4, ymm_src5);
-			ymm_dst5 = _mm256_unpacklo_epi32(ymm_src6, ymm_src7);
-			ymm_dst6 = _mm256_unpackhi_epi32(ymm_src4, ymm_src5);
-			ymm_dst7 = _mm256_unpackhi_epi32(ymm_src6, ymm_src7);
-			ymm_src0 = _mm256_unpacklo_epi64(ymm_dst0, ymm_dst1);
-			ymm_src1 = _mm256_unpackhi_epi64(ymm_dst0, ymm_dst1);
-			ymm_src2 = _mm256_unpacklo_epi64(ymm_dst2, ymm_dst3);
-			ymm_src3 = _mm256_unpackhi_epi64(ymm_dst2, ymm_dst3);
-			ymm_src4 = _mm256_unpacklo_epi64(ymm_dst4, ymm_dst5);
-			ymm_src5 = _mm256_unpackhi_epi64(ymm_dst4, ymm_dst5);
-			ymm_src6 = _mm256_unpacklo_epi64(ymm_dst6, ymm_dst7);
-			ymm_src7 = _mm256_unpackhi_epi64(ymm_dst6, ymm_dst7);
-			_mm256_storeu_si256(reinterpret_cast<__m256i*>(ptr_dst0), ymm_src0);
-			_mm256_storeu_si256(reinterpret_cast<__m256i*>(ptr_dst1), ymm_src1);
-			_mm256_storeu_si256(reinterpret_cast<__m256i*>(ptr_dst2), ymm_src2);
-			_mm256_storeu_si256(reinterpret_cast<__m256i*>(ptr_dst3), ymm_src3);
-			_mm256_storeu_si256(reinterpret_cast<__m256i*>(ptr_dst4), ymm_src4);
-			_mm256_storeu_si256(reinterpret_cast<__m256i*>(ptr_dst5), ymm_src5);
-			_mm256_storeu_si256(reinterpret_cast<__m256i*>(ptr_dst6), ymm_src6);
-			_mm256_storeu_si256(reinterpret_cast<__m256i*>(ptr_dst7), ymm_src7);
+			__m256i ymm_a0 = _mm256_castsi128_si256(_mm_loadu_si128(reinterpret_cast<const __m128i*>(a)));
+			__m256i ymm_a1 = _mm256_castsi128_si256(_mm_loadu_si128(reinterpret_cast<const __m128i*>(a + lda)));
+			__m256i ymm_a2 = _mm256_castsi128_si256(_mm_loadu_si128(reinterpret_cast<const __m128i*>(a + lda * 2)));
+			__m256i ymm_a3 = _mm256_castsi128_si256(_mm_loadu_si128(reinterpret_cast<const __m128i*>(a + lda * 3)));
+			__m256i ymm_a4 = _mm256_castsi128_si256(_mm_loadu_si128(reinterpret_cast<const __m128i*>(a + lda * 4)));
+			__m256i ymm_a5 = _mm256_castsi128_si256(_mm_loadu_si128(reinterpret_cast<const __m128i*>(a + lda * 5)));
+			__m256i ymm_a6 = _mm256_castsi128_si256(_mm_loadu_si128(reinterpret_cast<const __m128i*>(a + lda * 6)));
+			__m256i ymm_a7 = _mm256_castsi128_si256(_mm_loadu_si128(reinterpret_cast<const __m128i*>(a + lda * 7)));
+			__m256i ymm_b0 = _mm256_insertf128_si256(ymm_a0, _mm_loadu_si128(reinterpret_cast<const __m128i*>(a + lda * 8)), 1);
+			__m256i ymm_b1 = _mm256_insertf128_si256(ymm_a1, _mm_loadu_si128(reinterpret_cast<const __m128i*>(a + lda * 9)), 1);
+			__m256i ymm_b2 = _mm256_insertf128_si256(ymm_a2, _mm_loadu_si128(reinterpret_cast<const __m128i*>(a + lda * 10)), 1);
+			__m256i ymm_b3 = _mm256_insertf128_si256(ymm_a3, _mm_loadu_si128(reinterpret_cast<const __m128i*>(a + lda * 11)), 1);
+			__m256i ymm_b4 = _mm256_insertf128_si256(ymm_a4, _mm_loadu_si128(reinterpret_cast<const __m128i*>(a + lda * 12)), 1);
+			__m256i ymm_b5 = _mm256_insertf128_si256(ymm_a5, _mm_loadu_si128(reinterpret_cast<const __m128i*>(a + lda * 13)), 1);
+			__m256i ymm_b6 = _mm256_insertf128_si256(ymm_a6, _mm_loadu_si128(reinterpret_cast<const __m128i*>(a + lda * 14)), 1);
+			__m256i ymm_b7 = _mm256_insertf128_si256(ymm_a7, _mm_loadu_si128(reinterpret_cast<const __m128i*>(a + lda * 15)), 1);
+			ymm_a0 = _mm256_unpacklo_epi16(ymm_b0, ymm_b1);
+			ymm_a1 = _mm256_unpacklo_epi16(ymm_b2, ymm_b3);
+			ymm_a2 = _mm256_unpacklo_epi16(ymm_b4, ymm_b5);
+			ymm_a3 = _mm256_unpacklo_epi16(ymm_b6, ymm_b7);
+			ymm_a4 = _mm256_unpackhi_epi16(ymm_b0, ymm_b1);
+			ymm_a5 = _mm256_unpackhi_epi16(ymm_b2, ymm_b3);
+			ymm_a6 = _mm256_unpackhi_epi16(ymm_b4, ymm_b5);
+			ymm_a7 = _mm256_unpackhi_epi16(ymm_b6, ymm_b7);
+			ymm_b0 = _mm256_unpacklo_epi32(ymm_a0, ymm_a1);
+			ymm_b1 = _mm256_unpacklo_epi32(ymm_a2, ymm_a3);
+			ymm_b2 = _mm256_unpackhi_epi32(ymm_a0, ymm_a1);
+			ymm_b3 = _mm256_unpackhi_epi32(ymm_a2, ymm_a3);
+			ymm_b4 = _mm256_unpacklo_epi32(ymm_a4, ymm_a5);
+			ymm_b5 = _mm256_unpacklo_epi32(ymm_a6, ymm_a7);
+			ymm_b6 = _mm256_unpackhi_epi32(ymm_a4, ymm_a5);
+			ymm_b7 = _mm256_unpackhi_epi32(ymm_a6, ymm_a7);
+			ymm_a0 = _mm256_unpacklo_epi64(ymm_b0, ymm_b1);
+			ymm_a1 = _mm256_unpackhi_epi64(ymm_b0, ymm_b1);
+			ymm_a2 = _mm256_unpacklo_epi64(ymm_b2, ymm_b3);
+			ymm_a3 = _mm256_unpackhi_epi64(ymm_b2, ymm_b3);
+			ymm_a4 = _mm256_unpacklo_epi64(ymm_b4, ymm_b5);
+			ymm_a5 = _mm256_unpackhi_epi64(ymm_b4, ymm_b5);
+			ymm_a6 = _mm256_unpacklo_epi64(ymm_b6, ymm_b7);
+			ymm_a7 = _mm256_unpackhi_epi64(ymm_b6, ymm_b7);
+			_mm256_storeu_si256(reinterpret_cast<__m256i*>(b),           ymm_a0);
+			_mm256_storeu_si256(reinterpret_cast<__m256i*>(b + ldb),     ymm_a1);
+			_mm256_storeu_si256(reinterpret_cast<__m256i*>(b + ldb * 2), ymm_a2);
+			_mm256_storeu_si256(reinterpret_cast<__m256i*>(b + ldb * 3), ymm_a3);
+			_mm256_storeu_si256(reinterpret_cast<__m256i*>(b + ldb * 4), ymm_a4);
+			_mm256_storeu_si256(reinterpret_cast<__m256i*>(b + ldb * 5), ymm_a5);
+			_mm256_storeu_si256(reinterpret_cast<__m256i*>(b + ldb * 6), ymm_a6);
+			_mm256_storeu_si256(reinterpret_cast<__m256i*>(b + ldb * 7), ymm_a7);
 		}
 
 		template <>
-		inline void trp_tiny<unsigned short>(unsigned short* dst, size_t dst_rs, const unsigned short* src, size_t src_rs, size_t m, size_t n)
+		inline void trp_tiny<unsigned short>(unsigned short* b, size_t ldb, const unsigned short* a, size_t lda, size_t m, size_t n)
 		{
-			const size_t row0 = 0;
-			const size_t row1 = dst_rs;
-			const size_t row2 = row1 + dst_rs;
-			const size_t row3 = row2 + dst_rs;
-			const size_t row4 = row3 + dst_rs;
-			const size_t row5 = row4 + dst_rs;
-			const size_t row6 = row5 + dst_rs;
-			const size_t row7 = row6 + dst_rs;
-
-			for (size_t i = 0; i < m; ++i)
+			for (size_t i = 0; i < n; ++i)
 			{
-				switch (n)
+				switch (m)
 				{
-				case 8: dst[row7 + i] = src[7];
-				case 7: dst[row6 + i] = src[6];
-				case 6: dst[row5 + i] = src[5];
-				case 5: dst[row4 + i] = src[4];
-				case 4: dst[row3 + i] = src[3];
-				case 3: dst[row2 + i] = src[2];
-				case 2: dst[row1 + i] = src[1];
-				case 1: dst[row0 + i] = src[0];
-					break;
+				case 16: b[15] = a[lda * 15]; [[fallthrough]];
+				case 15: b[14] = a[lda * 14]; [[fallthrough]];
+				case 14: b[13] = a[lda * 13]; [[fallthrough]];
+				case 13: b[12] = a[lda * 12]; [[fallthrough]];
+				case 12: b[11] = a[lda * 11]; [[fallthrough]];
+				case 11: b[10] = a[lda * 10]; [[fallthrough]];
+				case 10: b[9]  = a[lda * 9];  [[fallthrough]];
+				case 9:  b[8]  = a[lda * 8];  [[fallthrough]];
+				case 8:  b[7]  = a[lda * 7];  [[fallthrough]];
+				case 7:  b[6]  = a[lda * 6];  [[fallthrough]];
+				case 6:  b[5]  = a[lda * 5];  [[fallthrough]];
+				case 5:  b[4]  = a[lda * 4];  [[fallthrough]];
+				case 4:  b[3]  = a[lda * 3];  [[fallthrough]];
+				case 3:  b[2]  = a[lda * 2];  [[fallthrough]];
+				case 2:  b[1]  = a[lda];      [[fallthrough]];
+				case 1:  b[0]  = a[0];        [[fallthrough]];
 				}
-				src += src_rs;
+				a += 1;
+				b += ldb;
 			}
 		}
 
@@ -188,93 +164,68 @@ namespace core
 		}
 
 		template <>
-		inline void trp_block<unsigned short>(unsigned short* dst, size_t dst_rs, const unsigned short* src, size_t src_rs)
+		inline void trp_block<unsigned short>(unsigned short* b, size_t ldb, const unsigned short* a, size_t lda)
 		{
-			unsigned short* ptr_dst0 = dst;
-			unsigned short* ptr_dst1 = ptr_dst0 + dst_rs;
-			unsigned short* ptr_dst2 = ptr_dst1 + dst_rs;
-			unsigned short* ptr_dst3 = ptr_dst2 + dst_rs;
-			unsigned short* ptr_dst4 = ptr_dst3 + dst_rs;
-			unsigned short* ptr_dst5 = ptr_dst4 + dst_rs;
-			unsigned short* ptr_dst6 = ptr_dst5 + dst_rs;
-			unsigned short* ptr_dst7 = ptr_dst6 + dst_rs;
-			const unsigned short* ptr_src0 = src;
-			const unsigned short* ptr_src1 = ptr_src0 + src_rs;
-			const unsigned short* ptr_src2 = ptr_src1 + src_rs;
-			const unsigned short* ptr_src3 = ptr_src2 + src_rs;
-			const unsigned short* ptr_src4 = ptr_src3 + src_rs;
-			const unsigned short* ptr_src5 = ptr_src4 + src_rs;
-			const unsigned short* ptr_src6 = ptr_src5 + src_rs;
-			const unsigned short* ptr_src7 = ptr_src6 + src_rs;
-			__m128i xmm_src0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_src0));
-			__m128i xmm_src1 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_src1));
-			__m128i xmm_src2 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_src2));
-			__m128i xmm_src3 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_src3));
-			__m128i xmm_src4 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_src4));
-			__m128i xmm_src5 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_src5));
-			__m128i xmm_src6 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_src6));
-			__m128i xmm_src7 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_src7));
-			__m128i xmm_dst0 = _mm_unpacklo_epi16(xmm_src0, xmm_src1);
-			__m128i xmm_dst1 = _mm_unpacklo_epi16(xmm_src2, xmm_src3);
-			__m128i xmm_dst2 = _mm_unpacklo_epi16(xmm_src4, xmm_src5);
-			__m128i xmm_dst3 = _mm_unpacklo_epi16(xmm_src6, xmm_src7);
-			__m128i xmm_dst4 = _mm_unpackhi_epi16(xmm_src0, xmm_src1);
-			__m128i xmm_dst5 = _mm_unpackhi_epi16(xmm_src2, xmm_src3);
-			__m128i xmm_dst6 = _mm_unpackhi_epi16(xmm_src4, xmm_src5);
-			__m128i xmm_dst7 = _mm_unpackhi_epi16(xmm_src6, xmm_src7);
-			xmm_src0 = _mm_unpacklo_epi32(xmm_dst0, xmm_dst1);
-			xmm_src1 = _mm_unpacklo_epi32(xmm_dst2, xmm_dst3);
-			xmm_src2 = _mm_unpackhi_epi32(xmm_dst0, xmm_dst1);
-			xmm_src3 = _mm_unpackhi_epi32(xmm_dst2, xmm_dst3);
-			xmm_src4 = _mm_unpacklo_epi32(xmm_dst4, xmm_dst5);
-			xmm_src5 = _mm_unpacklo_epi32(xmm_dst6, xmm_dst7);
-			xmm_src6 = _mm_unpackhi_epi32(xmm_dst4, xmm_dst5);
-			xmm_src7 = _mm_unpackhi_epi32(xmm_dst6, xmm_dst7);
-			xmm_dst0 = _mm_unpacklo_epi64(xmm_src0, xmm_src1);
-			xmm_dst1 = _mm_unpackhi_epi64(xmm_src0, xmm_src1);
-			xmm_dst2 = _mm_unpacklo_epi64(xmm_src2, xmm_src3);
-			xmm_dst3 = _mm_unpackhi_epi64(xmm_src2, xmm_src3);
-			xmm_dst4 = _mm_unpacklo_epi64(xmm_src4, xmm_src5);
-			xmm_dst5 = _mm_unpackhi_epi64(xmm_src4, xmm_src5);
-			xmm_dst6 = _mm_unpacklo_epi64(xmm_src6, xmm_src7);
-			xmm_dst7 = _mm_unpackhi_epi64(xmm_src6, xmm_src7);
-			_mm_storeu_si128(reinterpret_cast<__m128i*>(ptr_dst0), xmm_dst0);
-			_mm_storeu_si128(reinterpret_cast<__m128i*>(ptr_dst1), xmm_dst1);
-			_mm_storeu_si128(reinterpret_cast<__m128i*>(ptr_dst2), xmm_dst2);
-			_mm_storeu_si128(reinterpret_cast<__m128i*>(ptr_dst3), xmm_dst3);
-			_mm_storeu_si128(reinterpret_cast<__m128i*>(ptr_dst4), xmm_dst4);
-			_mm_storeu_si128(reinterpret_cast<__m128i*>(ptr_dst5), xmm_dst5);
-			_mm_storeu_si128(reinterpret_cast<__m128i*>(ptr_dst6), xmm_dst6);
-			_mm_storeu_si128(reinterpret_cast<__m128i*>(ptr_dst7), xmm_dst7);
+			__m128i xmm_a0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a));
+			__m128i xmm_a1 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a + lda));
+			__m128i xmm_a2 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a + lda * 2));
+			__m128i xmm_a3 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a + lda * 3));
+			__m128i xmm_a4 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a + lda * 4));
+			__m128i xmm_a5 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a + lda * 5));
+			__m128i xmm_a6 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a + lda * 6));
+			__m128i xmm_a7 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a + lda * 7));
+			__m128i xmm_b0 = _mm_unpacklo_epi16(xmm_a0, xmm_a1);
+			__m128i xmm_b1 = _mm_unpacklo_epi16(xmm_a2, xmm_a3);
+			__m128i xmm_b2 = _mm_unpacklo_epi16(xmm_a4, xmm_a5);
+			__m128i xmm_b3 = _mm_unpacklo_epi16(xmm_a6, xmm_a7);
+			__m128i xmm_b4 = _mm_unpackhi_epi16(xmm_a0, xmm_a1);
+			__m128i xmm_b5 = _mm_unpackhi_epi16(xmm_a2, xmm_a3);
+			__m128i xmm_b6 = _mm_unpackhi_epi16(xmm_a4, xmm_a5);
+			__m128i xmm_b7 = _mm_unpackhi_epi16(xmm_a6, xmm_a7);
+			xmm_a0 = _mm_unpacklo_epi32(xmm_b0, xmm_b1);
+			xmm_a1 = _mm_unpacklo_epi32(xmm_b2, xmm_b3);
+			xmm_a2 = _mm_unpackhi_epi32(xmm_b0, xmm_b1);
+			xmm_a3 = _mm_unpackhi_epi32(xmm_b2, xmm_b3);
+			xmm_a4 = _mm_unpacklo_epi32(xmm_b4, xmm_b5);
+			xmm_a5 = _mm_unpacklo_epi32(xmm_b6, xmm_b7);
+			xmm_a6 = _mm_unpackhi_epi32(xmm_b4, xmm_b5);
+			xmm_a7 = _mm_unpackhi_epi32(xmm_b6, xmm_b7);
+			xmm_b0 = _mm_unpacklo_epi64(xmm_a0, xmm_a1);
+			xmm_b1 = _mm_unpackhi_epi64(xmm_a0, xmm_a1);
+			xmm_b2 = _mm_unpacklo_epi64(xmm_a2, xmm_a3);
+			xmm_b3 = _mm_unpackhi_epi64(xmm_a2, xmm_a3);
+			xmm_b4 = _mm_unpacklo_epi64(xmm_a4, xmm_a5);
+			xmm_b5 = _mm_unpackhi_epi64(xmm_a4, xmm_a5);
+			xmm_b6 = _mm_unpacklo_epi64(xmm_a6, xmm_a7);
+			xmm_b7 = _mm_unpackhi_epi64(xmm_a6, xmm_a7);
+			_mm_storeu_si128(reinterpret_cast<__m128i*>(b),           xmm_b0);
+			_mm_storeu_si128(reinterpret_cast<__m128i*>(b + ldb),     xmm_b1);
+			_mm_storeu_si128(reinterpret_cast<__m128i*>(b + ldb * 2), xmm_b2);
+			_mm_storeu_si128(reinterpret_cast<__m128i*>(b + ldb * 3), xmm_b3);
+			_mm_storeu_si128(reinterpret_cast<__m128i*>(b + ldb * 4), xmm_b4);
+			_mm_storeu_si128(reinterpret_cast<__m128i*>(b + ldb * 5), xmm_b5);
+			_mm_storeu_si128(reinterpret_cast<__m128i*>(b + ldb * 6), xmm_b6);
+			_mm_storeu_si128(reinterpret_cast<__m128i*>(b + ldb * 7), xmm_b7);
 		}
 
 		template <>
-		inline void trp_tiny<unsigned short>(unsigned short* dst, size_t dst_rs, const unsigned short* src, size_t src_rs, size_t m, size_t n)
+		inline void trp_tiny<unsigned short>(unsigned short* b, size_t ldb, const unsigned short* a, size_t lda, size_t m, size_t n)
 		{
-			const size_t row0 = 0;
-			const size_t row1 = dst_rs;
-			const size_t row2 = row1 + dst_rs;
-			const size_t row3 = row2 + dst_rs;
-			const size_t row4 = row3 + dst_rs;
-			const size_t row5 = row4 + dst_rs;
-			const size_t row6 = row5 + dst_rs;
-			const size_t row7 = row6 + dst_rs;
-
-			for (size_t i = 0; i < m; ++i)
+			for (size_t i = 0; i < n; ++i)
 			{
-				switch (n)
+				switch (m)
 				{
-				case 8: dst[row7 + i] = src[7];
-				case 7: dst[row6 + i] = src[6];
-				case 6: dst[row5 + i] = src[5];
-				case 5: dst[row4 + i] = src[4];
-				case 4: dst[row3 + i] = src[3];
-				case 3: dst[row2 + i] = src[2];
-				case 2: dst[row1 + i] = src[1];
-				case 1: dst[row0 + i] = src[0];
-					break;
+				case 8: b[7] = a[lda * 7]; [[fallthrough]];
+				case 7: b[6] = a[lda * 6]; [[fallthrough]];
+				case 6: b[5] = a[lda * 5]; [[fallthrough]];
+				case 5: b[4] = a[lda * 4]; [[fallthrough]];
+				case 4: b[3] = a[lda * 3]; [[fallthrough]];
+				case 3: b[2] = a[lda * 2]; [[fallthrough]];
+				case 2: b[1] = a[lda];     [[fallthrough]];
+				case 1: b[0] = a[0];       [[fallthrough]];
 				}
-				src += src_rs;
+				a += 1;
+				b += ldb;
 			}
 		}
 

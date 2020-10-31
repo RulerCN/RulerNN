@@ -117,6 +117,103 @@ void test_gemm(const size_t m, const size_t p, const size_t n);
 template <class T>
 void impl_zig(T* b, const T* a, size_t lda, size_t m, size_t n);
 
+
+float* trp_block(float* b, const float* a, size_t lda)
+{
+	const float* ptr_a0 = a;
+	const float* ptr_a1 = a + lda;
+	const float* ptr_a2 = ptr_a1 + lda;
+	const float* ptr_a3 = ptr_a2 + lda;
+	const float* ptr_a4 = ptr_a3 + lda;
+	const float* ptr_a5 = ptr_a4 + lda;
+	const float* ptr_a6 = ptr_a5 + lda;
+	const float* ptr_a7 = ptr_a6 + lda;
+	__m256 ymm_a0 = _mm256_castps128_ps256(_mm_loadu_ps(ptr_a0));
+	__m256 ymm_a1 = _mm256_castps128_ps256(_mm_loadu_ps(ptr_a1));
+	__m256 ymm_a2 = _mm256_castps128_ps256(_mm_loadu_ps(ptr_a2));
+	__m256 ymm_a3 = _mm256_castps128_ps256(_mm_loadu_ps(ptr_a3));
+	__m256 ymm_a4 = _mm256_castps128_ps256(_mm_loadu_ps(ptr_a0 + 4));
+	__m256 ymm_a5 = _mm256_castps128_ps256(_mm_loadu_ps(ptr_a1 + 4));
+	__m256 ymm_a6 = _mm256_castps128_ps256(_mm_loadu_ps(ptr_a2 + 4));
+	__m256 ymm_a7 = _mm256_castps128_ps256(_mm_loadu_ps(ptr_a3 + 4));
+	__m256 ymm_b0 = _mm256_insertf128_ps(ymm_a0, _mm_loadu_ps(ptr_a4), 1);
+	__m256 ymm_b1 = _mm256_insertf128_ps(ymm_a1, _mm_loadu_ps(ptr_a5), 1);
+	__m256 ymm_b2 = _mm256_insertf128_ps(ymm_a2, _mm_loadu_ps(ptr_a6), 1);
+	__m256 ymm_b3 = _mm256_insertf128_ps(ymm_a3, _mm_loadu_ps(ptr_a7), 1);
+	__m256 ymm_b4 = _mm256_insertf128_ps(ymm_a4, _mm_loadu_ps(ptr_a4 + 4), 1);
+	__m256 ymm_b5 = _mm256_insertf128_ps(ymm_a5, _mm_loadu_ps(ptr_a5 + 4), 1);
+	__m256 ymm_b6 = _mm256_insertf128_ps(ymm_a6, _mm_loadu_ps(ptr_a6 + 4), 1);
+	__m256 ymm_b7 = _mm256_insertf128_ps(ymm_a7, _mm_loadu_ps(ptr_a7 + 4), 1);
+	ymm_a0 = _mm256_shuffle_ps(ymm_b0, ymm_b1, _MM_SHUFFLE(1, 0, 1, 0));
+	ymm_a1 = _mm256_shuffle_ps(ymm_b2, ymm_b3, _MM_SHUFFLE(1, 0, 1, 0));
+	ymm_a2 = _mm256_shuffle_ps(ymm_b0, ymm_b1, _MM_SHUFFLE(3, 2, 3, 2));
+	ymm_a3 = _mm256_shuffle_ps(ymm_b2, ymm_b3, _MM_SHUFFLE(3, 2, 3, 2));
+	ymm_a4 = _mm256_shuffle_ps(ymm_b4, ymm_b5, _MM_SHUFFLE(1, 0, 1, 0));
+	ymm_a5 = _mm256_shuffle_ps(ymm_b6, ymm_b7, _MM_SHUFFLE(1, 0, 1, 0));
+	ymm_a6 = _mm256_shuffle_ps(ymm_b4, ymm_b5, _MM_SHUFFLE(3, 2, 3, 2));
+	ymm_a7 = _mm256_shuffle_ps(ymm_b6, ymm_b7, _MM_SHUFFLE(3, 2, 3, 2));
+	ymm_b0 = _mm256_shuffle_ps(ymm_a0, ymm_a1, _MM_SHUFFLE(2, 0, 2, 0));
+	ymm_b1 = _mm256_shuffle_ps(ymm_a0, ymm_a1, _MM_SHUFFLE(3, 1, 3, 1));
+	ymm_b2 = _mm256_shuffle_ps(ymm_a2, ymm_a3, _MM_SHUFFLE(2, 0, 2, 0));
+	ymm_b3 = _mm256_shuffle_ps(ymm_a2, ymm_a3, _MM_SHUFFLE(3, 1, 3, 1));
+	ymm_b4 = _mm256_shuffle_ps(ymm_a4, ymm_a5, _MM_SHUFFLE(2, 0, 2, 0));
+	ymm_b5 = _mm256_shuffle_ps(ymm_a4, ymm_a5, _MM_SHUFFLE(3, 1, 3, 1));
+	ymm_b6 = _mm256_shuffle_ps(ymm_a6, ymm_a7, _MM_SHUFFLE(2, 0, 2, 0));
+	ymm_b7 = _mm256_shuffle_ps(ymm_a6, ymm_a7, _MM_SHUFFLE(3, 1, 3, 1));
+	_mm256_storeu_ps(b, ymm_b0);
+	_mm256_storeu_ps(b + 8, ymm_b1);
+	_mm256_storeu_ps(b + 16, ymm_b2);
+	_mm256_storeu_ps(b + 24, ymm_b3);
+	_mm256_storeu_ps(b + 32, ymm_b4);
+	_mm256_storeu_ps(b + 40, ymm_b5);
+	_mm256_storeu_ps(b + 48, ymm_b6);
+	_mm256_storeu_ps(b + 56, ymm_b7);
+	return b + 64;
+}
+
+float* trp_tiny(float* b, const float* a, size_t lda, size_t m, size_t n)
+{
+	__m256 ymm_a = _mm256_setzero_ps();
+	for (size_t i = 0; i < n; ++i)
+	{
+		switch (m)
+		{
+		case 8: reinterpret_cast<float*>(&ymm_a)[7] = a[lda * 7];
+		case 7: reinterpret_cast<float*>(&ymm_a)[6] = a[lda * 6];
+		case 6: reinterpret_cast<float*>(&ymm_a)[5] = a[lda * 5];
+		case 5: reinterpret_cast<float*>(&ymm_a)[4] = a[lda * 4];
+		case 4: reinterpret_cast<float*>(&ymm_a)[3] = a[lda * 3];
+		case 3: reinterpret_cast<float*>(&ymm_a)[2] = a[lda * 2];
+		case 2: reinterpret_cast<float*>(&ymm_a)[1] = a[lda];
+		case 1: reinterpret_cast<float*>(&ymm_a)[0] = a[0];
+		}
+		_mm256_storeu_ps(b, ymm_a);
+		a += 1;
+		b += 8;
+	}
+	return b;
+}
+
+inline void trp_tiny1(float* b, size_t ldb, const float* a, size_t lda, size_t m, size_t n)
+{
+	for (size_t i = 0; i < n; ++i)
+	{
+		switch (m)
+		{
+		case 8: b[7] = a[lda * 7]; [[fallthrough]];
+		case 7: b[6] = a[lda * 6]; [[fallthrough]];
+		case 6: b[5] = a[lda * 5]; [[fallthrough]];
+		case 5: b[4] = a[lda * 4]; [[fallthrough]];
+		case 4: b[3] = a[lda * 3]; [[fallthrough]];
+		case 3: b[2] = a[lda * 2]; [[fallthrough]];
+		case 2: b[1] = a[lda]; [[fallthrough]];
+		case 1: b[0] = a[0]; [[fallthrough]];
+		}
+		a += 1;
+		b += ldb;
+	}
+}
+
 int main()
 {
 	try
@@ -128,7 +225,34 @@ int main()
 		// Print L2 cache size.
 		// std::cout << "L2 cache: " << core::simd::l2_cache_size << "\n";
 
-		impl_zig((float*)nullptr, (float*)nullptr, 45, 45, 45);
+		float a[64] = {
+			11, 12, 13, 14, 15, 16, 17, 18,
+			21, 22, 23, 24, 25, 26, 27, 28,
+			31, 32, 33, 34, 35, 36, 37, 38,
+			41, 42, 43, 44, 45, 46, 47, 48,
+			51, 52, 53, 54, 55, 56, 57, 58,
+			61, 62, 63, 64, 65, 66, 67, 68,
+			71, 72, 73, 74, 75, 76, 77, 78,
+			81, 82, 83, 84, 85, 86, 87, 88
+		};
+		float b[64];
+		trp_tiny1(b, 8, a, 8, 8, 8);
+
+		for (int i = 0; i < 8; i++)
+		{
+			for (int j = 0; j < 8; j++)
+				std::cout << a[i * 8 + j] << "\t";
+			std::cout << "\n";
+		}
+		std::cout << "\n";
+		for (int i = 0; i < 8; i++)
+		{
+			for (int j = 0; j < 8; j++)
+				std::cout << b[i * 8 + j] << "\t";
+			std::cout << "\n";
+		}
+
+		//impl_zig((float*)nullptr, (float*)nullptr, 45, 45, 45);
 
 		//test_trp<float>(10000, 10000);
 		//test_gemm<float>(  50,   50,   50);
@@ -143,7 +267,7 @@ int main()
 		//test_gemm<float>( 500,  500,  500);
 		//test_gemm<float>( 600,  600,  600);
 		//test_gemm<float>( 700,  700,  700);
-	//	test_gemm<float>( 800,  800,  800);
+		//test_gemm<float>( 800,  800,  800);
 		//test_gemm<float>( 900,  900,  900);
 		//test_gemm<float>(1000, 1000, 1000);
 		//test_gemm<float>(1100, 2100, 1100);

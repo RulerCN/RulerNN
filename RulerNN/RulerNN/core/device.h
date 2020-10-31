@@ -89,239 +89,239 @@ namespace core
 		// Converts data type with truncation.
 
 		template <class T, class U, class A1, class A2>
-		scalar<T, A1> cvt(scalar<T, A1>& dst, const scalar<U, A1>& src)
+		scalar<T, A1> cvt(scalar<T, A1>& b, const scalar<U, A1>& a)
 		{
-			if (src.empty() || dst.empty())
+			if (a.empty() || b.empty())
 				throw std::domain_error(SCALAR_NOT_INITIALIZED);
-			if (src.size() != dst.size())
+			if (a.size() != b.size())
 				throw std::invalid_argument(INVALID_SIZE);
-			comm::impl_cvt(dst.data(), src.data(), src.size());
-			return dst;
+			comm::impl_cvt(b.data(), a.data(), a.size());
+			return b;
 		}
 
 		template <class T, class U, class A1, class A2>
-		vector<T, A1> cvt(vector<T, A1>& dst, const vector<U, A1>& src)
+		vector<T, A1> cvt(vector<T, A1>& b, const vector<U, A1>& a)
 		{
-			if (src.empty() || dst.empty())
+			if (a.empty() || b.empty())
 				throw std::domain_error(VECTOR_NOT_INITIALIZED);
-			if (src.size() != dst.size())
+			if (a.size() != b.size())
 				throw std::invalid_argument(INVALID_SIZE);
-			comm::impl_cvt(dst.data(), src.data(), src.size());
-			return dst;
+			comm::impl_cvt(b.data(), a.data(), a.size());
+			return b;
 		}
 
 		template <class T, class U, class A1, class A2>
-		matrix<T, A1>& cvt(matrix<T, A1>& dst, const matrix<U, A2>& src)
+		matrix<T, A1>& cvt(matrix<T, A1>& b, const matrix<U, A2>& a)
 		{
-			if (src.empty() || dst.empty())
+			if (a.empty() || b.empty())
 				throw std::domain_error(MATRIX_NOT_INITIALIZED);
-			if (src.size() != dst.size())
+			if (a.size() != b.size())
 				throw std::invalid_argument(INVALID_SIZE);
-			comm::impl_cvt(dst.data(), src.data(), src.size());
-			return dst;
+			comm::impl_cvt(b.data(), a.data(), a.size());
+			return b;
 		}
 
 		template <class T, class U, class A1, class A2>
-		tensor<T, A1>& cvt(tensor<T, A1>& dst, const tensor<U, A2>& src)
+		tensor<T, A1>& cvt(tensor<T, A1>& b, const tensor<U, A2>& a)
 		{
-			if (src.empty() || dst.empty())
+			if (a.empty() || b.empty())
 				throw std::domain_error(TENSOR_NOT_INITIALIZED);
-			if (src.size() != dst.size())
+			if (a.size() != b.size())
 				throw std::invalid_argument(INVALID_SIZE);
-			comm::impl_cvt(dst.data(), src.data(), src.size());
-			return dst;
+			comm::impl_cvt(b.data(), a.data(), a.size());
+			return b;
 		}
 
 		template <class T, class U, class A>
-		scalar<T, typename A::template rebind<T>::other> cvt(const scalar<U, A>& src)
+		scalar<T, typename A::template rebind<T>::other> cvt(const scalar<U, A>& a)
 		{
-			if (src.empty())
+			if (a.empty())
 				throw std::domain_error(SCALAR_NOT_INITIALIZED);
 			using Allocator = typename A::template rebind<T>::other;
-			scalar<T, Allocator> dst(src.dim());
-			comm::impl_cvt(dst.data(), src.data(), src.size());
-			return dst;
+			scalar<T, Allocator> b(a.dim());
+			comm::impl_cvt(b.data(), a.data(), a.size());
+			return b;
 		}
 
 		template <class T, class U, class A>
-		vector<T, typename A::template rebind<T>::other> cvt(const vector<U, A>& src)
+		vector<T, typename A::template rebind<T>::other> cvt(const vector<U, A>& a)
 		{
-			if (src.empty())
+			if (a.empty())
 				throw std::domain_error(VECTOR_NOT_INITIALIZED);
 			using Allocator = typename A::template rebind<T>::other;
-			vector<T, Allocator> dst(src.len(), src.dim());
-			comm::impl_cvt(dst.data(), src.data(), src.size());
-			return dst;
+			vector<T, Allocator> b(a.len(), a.dim());
+			comm::impl_cvt(b.data(), a.data(), a.size());
+			return b;
 		}
 
 		template <class T, class U, class A>
-		matrix<T, typename A::template rebind<T>::other> cvt(const matrix<U, A>& src)
+		matrix<T, typename A::template rebind<T>::other> cvt(const matrix<U, A>& a)
 		{
-			if (src.empty())
+			if (a.empty())
 				throw std::domain_error(MATRIX_NOT_INITIALIZED);
 			using Allocator = typename A::template rebind<T>::other;
-			matrix<T, Allocator> dst(src.rows(), src.cols(), src.dim());
-			comm::impl_cvt(dst.data(), src.data(), src.size());
-			return dst;
+			matrix<T, Allocator> b(a.rows(), a.cols(), a.dim());
+			comm::impl_cvt(b.data(), a.data(), a.size());
+			return b;
 		}
 
 		template <class T, class U, class A>
-		tensor<T, typename A::template rebind<T>::other> cvt(const tensor<U, A>& src)
+		tensor<T, typename A::template rebind<T>::other> cvt(const tensor<U, A>& a)
 		{
-			if (src.empty())
+			if (a.empty())
 				throw std::domain_error(TENSOR_NOT_INITIALIZED);
 			using Allocator = typename A::template rebind<T>::other;
-			tensor<T, Allocator> dst(src.num(), src.rows(), src.cols(), src.dim());
-			comm::impl_cvt(dst.data(), src.data(), src.size());
-			return dst;
+			tensor<T, Allocator> b(a.num(), a.rows(), a.cols(), a.dim());
+			comm::impl_cvt(b.data(), a.data(), a.size());
+			return b;
 		}
 
 		// Converts data type with saturation.
 
 		template <class T, class U, class A1, class A2>
-		scalar<T, A1> cvts(scalar<T, A1>& dst, const scalar<U, A1>& src)
+		scalar<T, A1> cvts(scalar<T, A1>& b, const scalar<U, A1>& a)
 		{
-			if (src.empty() || dst.empty())
+			if (a.empty() || b.empty())
 				throw std::domain_error(SCALAR_NOT_INITIALIZED);
-			if (src.size() != dst.size())
+			if (a.size() != b.size())
 				throw std::invalid_argument(INVALID_SIZE);
-			comm::impl_cvts(dst.data(), src.data(), src.size());
-			return dst;
+			comm::impl_cvts(b.data(), a.data(), a.size());
+			return b;
 		}
 
 		template <class T, class U, class A1, class A2>
-		vector<T, A1> cvts(vector<T, A1>& dst, const vector<U, A1>& src)
+		vector<T, A1> cvts(vector<T, A1>& b, const vector<U, A1>& a)
 		{
-			if (src.empty() || dst.empty())
+			if (a.empty() || b.empty())
 				throw std::domain_error(VECTOR_NOT_INITIALIZED);
-			if (src.size() != dst.size())
+			if (a.size() != b.size())
 				throw std::invalid_argument(INVALID_SIZE);
-			comm::impl_cvts(dst.data(), src.data(), src.size());
-			return dst;
+			comm::impl_cvts(b.data(), a.data(), a.size());
+			return b;
 		}
 
 		template <class T, class U, class A1, class A2>
-		matrix<T, A1>& cvts(matrix<T, A1>& dst, const matrix<U, A2>& src)
+		matrix<T, A1>& cvts(matrix<T, A1>& b, const matrix<U, A2>& a)
 		{
-			if (src.empty() || dst.empty())
+			if (a.empty() || b.empty())
 				throw std::domain_error(MATRIX_NOT_INITIALIZED);
-			if (src.size() != dst.size())
+			if (a.size() != b.size())
 				throw std::invalid_argument(INVALID_SIZE);
-			comm::impl_cvts(dst.data(), src.data(), src.size());
-			return dst;
+			comm::impl_cvts(b.data(), a.data(), a.size());
+			return b;
 		}
 
 		template <class T, class U, class A1, class A2>
-		tensor<T, A1>& cvts(tensor<T, A1>& dst, const tensor<U, A2>& src)
+		tensor<T, A1>& cvts(tensor<T, A1>& b, const tensor<U, A2>& a)
 		{
-			if (src.empty() || dst.empty())
+			if (a.empty() || b.empty())
 				throw std::domain_error(TENSOR_NOT_INITIALIZED);
-			if (src.size() != dst.size())
+			if (a.size() != b.size())
 				throw std::invalid_argument(INVALID_SIZE);
-			comm::impl_cvts(dst.data(), src.data(), src.size());
-			return dst;
+			comm::impl_cvts(b.data(), a.data(), a.size());
+			return b;
 		}
 
 		template <class T, class U, class A>
-		scalar<T, typename A::template rebind<T>::other> cvts(const scalar<U, A>& src)
+		scalar<T, typename A::template rebind<T>::other> cvts(const scalar<U, A>& a)
 		{
-			if (src.empty())
+			if (a.empty())
 				throw std::domain_error(SCALAR_NOT_INITIALIZED);
 			using Allocator = typename A::template rebind<T>::other;
-			scalar<T, Allocator> dst(src.dim());
-			comm::impl_cvts(dst.data(), src.data(), src.size());
-			return dst;
+			scalar<T, Allocator> b(a.dim());
+			comm::impl_cvts(b.data(), a.data(), a.size());
+			return b;
 		}
 
 		template <class T, class U, class A>
-		vector<T, typename A::template rebind<T>::other> cvts(const vector<U, A>& src)
+		vector<T, typename A::template rebind<T>::other> cvts(const vector<U, A>& a)
 		{
-			if (src.empty())
+			if (a.empty())
 				throw std::domain_error(VECTOR_NOT_INITIALIZED);
 			using Allocator = typename A::template rebind<T>::other;
-			vector<T, Allocator> dst(src.len(), src.dim());
-			comm::impl_cvts(dst.data(), src.data(), src.size());
-			return dst;
+			vector<T, Allocator> b(a.len(), a.dim());
+			comm::impl_cvts(b.data(), a.data(), a.size());
+			return b;
 		}
 
 		template <class T, class U, class A>
-		matrix<T, typename A::template rebind<T>::other> cvts(const matrix<U, A>& src)
+		matrix<T, typename A::template rebind<T>::other> cvts(const matrix<U, A>& a)
 		{
-			if (src.empty())
+			if (a.empty())
 				throw std::domain_error(MATRIX_NOT_INITIALIZED);
 			using Allocator = typename A::template rebind<T>::other;
-			matrix<T, Allocator> dst(src.rows(), src.cols(), src.dim());
-			comm::impl_cvts(dst.data(), src.data(), src.size());
-			return dst;
+			matrix<T, Allocator> b(a.rows(), a.cols(), a.dim());
+			comm::impl_cvts(b.data(), a.data(), a.size());
+			return b;
 		}
 
 		template <class T, class U, class A>
-		tensor<T, typename A::template rebind<T>::other> cvts(const tensor<U, A>& src)
+		tensor<T, typename A::template rebind<T>::other> cvts(const tensor<U, A>& a)
 		{
-			if (src.empty())
+			if (a.empty())
 				throw std::domain_error(TENSOR_NOT_INITIALIZED);
 			using Allocator = typename A::template rebind<T>::other;
-			tensor<T, Allocator> dst(src.num(), src.rows(), src.cols(), src.dim());
-			comm::impl_cvts(dst.data(), src.data(), src.size());
-			return dst;
+			tensor<T, Allocator> b(a.num(), a.rows(), a.cols(), a.dim());
+			comm::impl_cvts(b.data(), a.data(), a.size());
+			return b;
 		}
 
 		// Matrix transposition.
 
 		template <class T, class A>
-		matrix<T, A>& trp(matrix<T, A>& dst, const matrix<T, A>& src)
+		matrix<T, A>& trp(matrix<T, A>& b, const matrix<T, A>& a)
 		{
-			if (src.empty() || dst.empty())
+			if (a.empty() || b.empty())
 				throw std::domain_error(MATRIX_NOT_INITIALIZED);
-			if (src.rows() != dst.line() || src.line() != dst.rows())
+			if (a.rows() != b.line() || a.line() != b.rows())
 				throw std::invalid_argument(INVALID_SHAPE);
-			comm::impl_trp(dst.data(), dst.line(), src.data(), src.line(), src.rows(), src.line());
-			return dst;
+			comm::impl_trp(b.data(), b.line(), a.data(), a.line(), a.rows(), a.line());
+			return b;
 		}
 
 		template <class T, class A>
-		tensor<T, A>& trp(tensor<T, A>& dst, const tensor<T, A>& src)
+		tensor<T, A>& trp(tensor<T, A>& b, const tensor<T, A>& a)
 		{
-			if (src.empty() || dst.empty())
+			if (a.empty() || b.empty())
 				throw std::domain_error(TENSOR_NOT_INITIALIZED);
-			if (src.num() != dst.num() || src.rows() != dst.line() || src.line() != dst.rows())
+			if (a.num() != b.num() || a.rows() != b.line() || a.line() != b.rows())
 				throw std::invalid_argument(INVALID_SHAPE);
-			auto itr_src = src.mbegin();
-			auto itr_dst = dst.mbegin();
-			while (itr_src != src.mend() && itr_dst != dst.mend())
+			auto itr_a = a.mbegin();
+			auto itr_b = b.mbegin();
+			while (itr_a != a.mend() && itr_b != b.mend())
 			{
-				comm::impl_trp(itr_dst->data(), itr_dst->line(), itr_src->data(), itr_src->line(), itr_src->rows(), itr_src->line());
-				++itr_src;
-				++itr_dst;
+				comm::impl_trp(itr_b->data(), itr_b->line(), itr_a->data(), itr_a->line(), itr_a->rows(), itr_a->line());
+				++itr_a;
+				++itr_b;
 			}
-			return dst;
+			return b;
 		}
 
 		template <class T, class A>
-		matrix<T, A> trp(const matrix<T, A>& src)
+		matrix<T, A> trp(const matrix<T, A>& a)
 		{
-			if (src.empty())
+			if (a.empty())
 				throw std::domain_error(MATRIX_NOT_INITIALIZED);
-			matrix<T, A> dst(src.line(), src.rows(), static_cast<size_t>(1));
-			comm::impl_trp(dst.data(), dst.line(), src.data(), src.line(), src.rows(), src.line());
-			return dst;
+			matrix<T, A> b(a.line(), a.rows(), static_cast<size_t>(1));
+			comm::impl_trp(b.data(), b.line(), a.data(), a.line(), a.rows(), a.line());
+			return b;
 		}
 
 		template <class T, class A>
-		tensor<T, T> trp(const tensor<T, A>& src)
+		tensor<T, T> trp(const tensor<T, A>& a)
 		{
-			if (src.empty())
+			if (a.empty())
 				throw std::domain_error(TENSOR_NOT_INITIALIZED);
-			tensor<T, A> dst(src.num(), src.line(), src.rows(), static_cast<size_t>(1));
-			auto itr_src = src.mbegin();
-			auto itr_dst = dst.mbegin();
-			while (itr_src != src.mend() && itr_dst != dst.mend())
+			tensor<T, A> b(a.num(), a.line(), a.rows(), static_cast<size_t>(1));
+			auto itr_a = a.mbegin();
+			auto itr_b = b.mbegin();
+			while (itr_a != a.mend() && itr_b != b.mend())
 			{
-				comm::impl_trp(itr_dst->data(), itr_dst->line(), itr_src->data(), itr_src->line(), itr_src->rows(), itr_src->line());
-				++itr_src;
-				++itr_dst;
+				comm::impl_trp(itr_b->data(), itr_b->line(), itr_a->data(), itr_a->line(), itr_a->rows(), itr_a->line());
+				++itr_a;
+				++itr_b;
 			}
-			return dst;
+			return b;
 		}
 
 		// General matrix multiplication.

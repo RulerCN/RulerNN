@@ -81,9 +81,9 @@ namespace core
 		return ((cpuidfield & CPUIDFIELD_MASK_LEN) >> CPUIDFIELD_SHIFT_LEN) + 1;
 	}
 
-	constexpr unsigned int CPUID_GETBITS32(unsigned int src, unsigned int pos, unsigned int len)
+	constexpr unsigned int CPUID_GETBITS32(unsigned int a, unsigned int pos, unsigned int len)
 	{
-		return (src >> pos) & (0xffffffffU >> (32 - len));
+		return (a >> pos) & (0xffffffffU >> (32 - len));
 	}
 
 	static constexpr unsigned int CPUF_LFuncStd                 = CPUIDFIELD_MAKE(0x00000000u, 0, 0, 0, 32);

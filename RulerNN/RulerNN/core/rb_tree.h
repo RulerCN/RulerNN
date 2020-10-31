@@ -1209,84 +1209,84 @@ namespace core
 
 		void copy_root(const node_pointer root)
 		{
-			node_pointer src = root;
-			node_pointer dst = header;
+			node_pointer a = root;
+			node_pointer b = header;
 			rb_tree_node_state state = rb_tree_state_root;
 			node_pointer node = this->create_node(root->data);
 			node->color = root->color;
-			node->parent = dst;
+			node->parent = b;
 			node->left = nullptr;
 			node->right = nullptr;
-			dst->parent = node;
-			dst = node;
+			b->parent = node;
+			b = node;
 			do
 			{
 				if (state != rb_tree_state_parent)
 				{
-					if (src->left != nullptr)
+					if (a->left != nullptr)
 					{
-						src = src->left;
+						a = a->left;
 						state = rb_tree_state_left;
-						node = this->create_node(src->data);
-						node->color = src->color;
-						node->parent = dst;
+						node = this->create_node(a->data);
+						node->color = a->color;
+						node->parent = b;
 						node->left = nullptr;
 						node->right = nullptr;
-						dst->left = node;
-						dst = node;
+						b->left = node;
+						b = node;
 					}
-					else if (src->right != nullptr)
+					else if (a->right != nullptr)
 					{
-						src = src->right;
+						a = a->right;
 						state = rb_tree_state_right;
-						node = this->create_node(src->data);
-						node->color = src->color;
-						node->parent = dst;
+						node = this->create_node(a->data);
+						node->color = a->color;
+						node->parent = b;
 						node->left = nullptr;
 						node->right = nullptr;
-						dst->right = node;
-						dst = node;
+						b->right = node;
+						b = node;
 					}
-					else if (src != src->parent->parent && src != src->parent->right)
+					else if (a != a->parent->parent && a != a->parent->right)
 					{
-						src = src->parent->right;
+						a = a->parent->right;
 						state = rb_tree_state_sibling;
-						node = this->create_node(src->data);
-						node->color = src->color;
-						node->parent = dst->parent;
+						node = this->create_node(a->data);
+						node->color = a->color;
+						node->parent = b->parent;
 						node->left = nullptr;
 						node->right = nullptr;
-						dst->parent->right = node;
-						dst = node;
+						b->parent->right = node;
+						b = node;
 					}
 					else
 					{
-						src = src->parent;
-						dst = dst->parent;
+						a = a->parent;
+						b = b->parent;
 						state = rb_tree_state_parent;
 					}
 				}
 				else
 				{
-					if (src != src->parent->parent && src != src->parent->right)
+					if (a != a->parent->parent && a != a->parent->right)
 					{
-						src = src->parent->right;
+						a = a->parent->right;
 						state = rb_tree_state_sibling;
-						node = this->create_node(src->data);
-						node->color = src->color;
-						node->parent = dst->parent;
+						node = this->create_node(a->data);
+						node->color = a->color;
+						node->parent = b->parent;
 						node->left = nullptr;
 						node->right = nullptr;
-						dst->parent->right = node;
-						dst = node;
+						b->parent->right = node;
+						b = node;
 					}
 					else
 					{
-						src = src->parent;
-						dst = dst->parent;
+						a = a->parent;
+						b = b->parent;
 					}
 				}
-			} while (src != root);
+			} while (a != root);
 			header->left = get_leftmost(header->parent);
 			header->right = get_rightmost(header->parent);
 		}

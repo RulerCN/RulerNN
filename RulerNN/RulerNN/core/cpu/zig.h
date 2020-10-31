@@ -27,61 +27,70 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __CORE_CPU_ZIGZAG_H__
-#define __CORE_CPU_ZIGZAG_H__
+#ifndef __CORE_CPU_ZIG_H__
+#define __CORE_CPU_ZIG_H__
 
-//#include "zigzag/zigzagi8.h"
-//#include "zigzag/zigzagi16.h"
-//#include "zigzag/zigzagi32.h"
-//#include "zigzag/zigzagu8.h"
-//#include "zigzag/zigzagu16.h"
-//#include "zigzag/zigzagu32.h"
-#include "zigzag/zigzagps.h"
-//#include "zigzag/zigzagpd.h"
+#include "zig/zigcpyi8.h"
+#include "zig/zigcpyi16.h"
+#include "zig/zigcpyi32.h"
+#include "zig/zigcpyu8.h"
+#include "zig/zigcpyu16.h"
+#include "zig/zigcpyu32.h"
+#include "zig/zigcpyps.h"
+#include "zig/zigcpypd.h"
+#include "zig/zigtrpi8.h"
+#include "zig/zigtrpi16.h"
+#include "zig/zigtrpi32.h"
+#include "zig/zigtrpu8.h"
+#include "zig/zigtrpu16.h"
+#include "zig/zigtrpu32.h"
+#include "zig/zigtrpps.h"
+#include "zig/zigtrppd.h"
+
 
 namespace core
 {
 	namespace cpu
 	{
-		// Function template zigzag_block_m
+		// Function template zig_block_m
 
 		template <class T>
-		constexpr size_t zigzag_block_m(void)
+		constexpr size_t zig_block_m(void)
 		{
 			throw std::domain_error(UNIMPLEMENTED_FUNCTION);
 		}
 
-		// Function template zigzag_block_n
+		// Function template zig_block_n
 
 		template <class T>
-		constexpr size_t zigzag_block_n(void)
+		constexpr size_t zig_block_n(void)
 		{
 			throw std::domain_error(UNIMPLEMENTED_FUNCTION);
 		}
 
-		// Function template zigzag_block
+		// Function template zig_block
 
 		template <class T>
-		inline T* zigzag_block(T* b, const T* a, size_t lda)
+		inline T* zig_block(T* b, const T* a, size_t lda)
 		{
 			throw std::domain_error(UNIMPLEMENTED_FUNCTION);
 		}
 
-		// Function template zigzag_tiny
+		// Function template zig_tiny
 
 		template <class T>
-		inline T* zigzag_tiny(T* b, const T* a, size_t lda, size_t m, size_t n)
+		inline T* zig_tiny(T* b, const T* a, size_t lda, size_t m, size_t n)
 		{
 			throw std::domain_error(UNIMPLEMENTED_FUNCTION);
 		}
 
-		// Function template impl_zigzag
+		// Function template impl_zig
 
 		template <class T>
-		void impl_zigzag(T* b, const T* a, size_t lda, size_t m, size_t n)
+		void impl_zig(T* b, const T* a, size_t lda, size_t m, size_t n)
 		{
-			constexpr size_t block_m = zigzag_block_m<T>();
-			constexpr size_t block_n = zigzag_block_n<T>();
+			constexpr size_t block_m = zig_block_m<T>();
+			constexpr size_t block_n = zig_block_n<T>();
 			size_t i = 0;
 			size_t j = 0;
 			std::stack<std::tuple<const T*, size_t, size_t, size_t, size_t>> task;
@@ -137,11 +146,11 @@ namespace core
 					{
 						if (m == block_m && n == block_n)
 						{
-							b = zigzag_block(b, a, lda);
+							b = zig_block(b, a, lda);
 						}
 						else
 						{
-							b = zigzag_tiny(b, a, lda, m, n);
+							b = zig_tiny(b, a, lda, m, n);
 						}
 					}
 				}

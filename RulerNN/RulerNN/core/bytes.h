@@ -43,256 +43,256 @@ namespace core
 		// converts a 8-bit signed integer to bytes
 		static void to_bytes(char **ptr, signed char val)
 		{
-			signed char *dst = reinterpret_cast<signed char*>(*ptr);
-			*dst = val;
+			signed char *b = reinterpret_cast<signed char*>(*ptr);
+			*b = val;
 			*ptr += 1;
 		}
 
 		// converts a 8-bit unsigned integer to bytes
 		static void to_bytes(char **ptr, unsigned char val)
 		{
-			unsigned char *dst = reinterpret_cast<unsigned char*>(*ptr);
-			*dst = val;
+			unsigned char *b = reinterpret_cast<unsigned char*>(*ptr);
+			*b = val;
 			*ptr += 1;
 		}
 
 		// converts a 16-bit little-endian signed integer to bytes
 		static void to_little_bytes(char **ptr, signed short val)
 		{
-			signed short *dst = reinterpret_cast<signed short*>(*ptr);
-			*dst = val;
+			signed short *b = reinterpret_cast<signed short*>(*ptr);
+			*b = val;
 			*ptr += 2;
 		}
 
 		// converts a 16-bit little-endian unsigned integer to bytes
 		static void to_little_bytes(char **ptr, unsigned short val)
 		{
-			unsigned short *dst = reinterpret_cast<unsigned short*>(*ptr);
-			*dst = val;
+			unsigned short *b = reinterpret_cast<unsigned short*>(*ptr);
+			*b = val;
 			*ptr += 2;
 		}
 
 		// converts a 32-bit little-endian signed integer to bytes
 		static void to_little_bytes(char **ptr, signed int val)
 		{
-			signed int *dst = reinterpret_cast<signed int*>(*ptr);
-			*dst = val;
+			signed int *b = reinterpret_cast<signed int*>(*ptr);
+			*b = val;
 			*ptr += 4;
 		}
 
 		// converts a 32-bit little-endian unsigned integer to bytes
 		static void to_little_bytes(char **ptr, unsigned int val)
 		{
-			unsigned int *dst = reinterpret_cast<unsigned int*>(*ptr);
-			*dst = val;
+			unsigned int *b = reinterpret_cast<unsigned int*>(*ptr);
+			*b = val;
 			*ptr += 4;
 		}
 
 		// converts a 32-bit little-endian signed integer to bytes
 		static void to_little_bytes(char **ptr, signed long val)
 		{
-			signed long *dst = reinterpret_cast<signed long*>(*ptr);
-			*dst = val;
+			signed long *b = reinterpret_cast<signed long*>(*ptr);
+			*b = val;
 			*ptr += 4;
 		}
 
 		// converts a 32-bit little-endian unsigned integer to bytes
 		static void to_little_bytes(char **ptr, unsigned long val)
 		{
-			unsigned long *dst = reinterpret_cast<unsigned long*>(*ptr);
-			*dst = val;
+			unsigned long *b = reinterpret_cast<unsigned long*>(*ptr);
+			*b = val;
 			*ptr += 4;
 		}
 
 		// converts a 64-bit little-endian signed integer to bytes
 		static void to_little_bytes(char **ptr, signed long long val)
 		{
-			signed long long *dst = reinterpret_cast<signed long long*>(*ptr);
-			*dst = val;
+			signed long long *b = reinterpret_cast<signed long long*>(*ptr);
+			*b = val;
 			*ptr += 8;
 		}
 
 		// converts a 64-bit little-endian unsigned integer to bytes
 		static void to_little_bytes(char **ptr, unsigned long long val)
 		{
-			unsigned long long *dst = reinterpret_cast<unsigned long long*>(*ptr);
-			*dst = val;
+			unsigned long long *b = reinterpret_cast<unsigned long long*>(*ptr);
+			*b = val;
 			*ptr += 8;
 		}
 
 		// converts a 32-bit little-endian floating point value to bytes
 		static void to_little_bytes(char **ptr, float val)
 		{
-			float *dst = reinterpret_cast<float*>(*ptr);
-			*dst = val;
+			float *b = reinterpret_cast<float*>(*ptr);
+			*b = val;
 			*ptr += 4;
 		}
 
 		// converts a 64-bit little-endian floating point value to bytes
 		static void to_little_bytes(char **ptr, double val)
 		{
-			double *dst = reinterpret_cast<double*>(*ptr);
-			*dst = val;
+			double *b = reinterpret_cast<double*>(*ptr);
+			*b = val;
 			*ptr += 8;
 		}
 
 		// converts a 128-bit little-endian floating point value to bytes
 		static void to_little_bytes(char **ptr, long double val)
 		{
-			long double *dst = reinterpret_cast<long double*>(*ptr);
-			*dst = val;
+			long double *b = reinterpret_cast<long double*>(*ptr);
+			*b = val;
 			*ptr += 16;
 		}
 
 		// converts a 16-bit big-endian signed integer to bytes
 		static void to_big_bytes(char **ptr, signed short val)
 		{
-			const char *src = reinterpret_cast<const char*>(&val);
-			char *dst = *ptr;
-			dst[1] = src[0];
-			dst[0] = src[1];
+			const char *a = reinterpret_cast<const char*>(&val);
+			char *b = *ptr;
+			b[1] = a[0];
+			b[0] = a[1];
 			*ptr += 2;
 		}
 
 		// converts a 16-bit big-endian unsigned integer to bytes
 		static void to_big_bytes(char **ptr, unsigned short val)
 		{
-			const char *src = reinterpret_cast<const char*>(&val);
-			char *dst = *ptr;
-			dst[1] = src[0];
-			dst[0] = src[1];
+			const char *a = reinterpret_cast<const char*>(&val);
+			char *b = *ptr;
+			b[1] = a[0];
+			b[0] = a[1];
 			*ptr += 2;
 		}
 
 		// converts a 32-bit big-endian signed integer to bytes
 		static void to_big_bytes(char **ptr, signed int val)
 		{
-			const char *src = reinterpret_cast<const char*>(&val);
-			char *dst = *ptr;
-			dst[3] = src[0];
-			dst[2] = src[1];
-			dst[1] = src[2];
-			dst[0] = src[3];
+			const char *a = reinterpret_cast<const char*>(&val);
+			char *b = *ptr;
+			b[3] = a[0];
+			b[2] = a[1];
+			b[1] = a[2];
+			b[0] = a[3];
 			*ptr += 4;
 		}
 
 		// converts a 32-bit big-endian unsigned integer to bytes
 		static void to_big_bytes(char **ptr, unsigned int val)
 		{
-			const char *src = reinterpret_cast<const char*>(&val);
-			char *dst = *ptr;
-			dst[3] = src[0];
-			dst[2] = src[1];
-			dst[1] = src[2];
-			dst[0] = src[3];
+			const char *a = reinterpret_cast<const char*>(&val);
+			char *b = *ptr;
+			b[3] = a[0];
+			b[2] = a[1];
+			b[1] = a[2];
+			b[0] = a[3];
 			*ptr += 4;
 		}
 
 		// converts a 32-bit big-endian signed integer to bytes
 		static void to_big_bytes(char **ptr, signed long val)
 		{
-			const char *src = reinterpret_cast<const char*>(&val);
-			char *dst = *ptr;
-			dst[3] = src[0];
-			dst[2] = src[1];
-			dst[1] = src[2];
-			dst[0] = src[3];
+			const char *a = reinterpret_cast<const char*>(&val);
+			char *b = *ptr;
+			b[3] = a[0];
+			b[2] = a[1];
+			b[1] = a[2];
+			b[0] = a[3];
 			*ptr += 4;
 		}
 
 		// converts a 32-bit big-endian unsigned integer to bytes
 		static void to_big_bytes(char **ptr, unsigned long val)
 		{
-			const char *src = reinterpret_cast<const char*>(&val);
-			char *dst = *ptr;
-			dst[3] = src[0];
-			dst[2] = src[1];
-			dst[1] = src[2];
-			dst[0] = src[3];
+			const char *a = reinterpret_cast<const char*>(&val);
+			char *b = *ptr;
+			b[3] = a[0];
+			b[2] = a[1];
+			b[1] = a[2];
+			b[0] = a[3];
 			*ptr += 4;
 		}
 
 		// converts a 64-bit big-endian signed integer to bytes
 		static void to_big_bytes(char **ptr, signed long long val)
 		{
-			const char *src = reinterpret_cast<const char*>(&val);
-			char *dst = *ptr;
-			dst[7] = src[0];
-			dst[6] = src[1];
-			dst[5] = src[2];
-			dst[4] = src[3];
-			dst[3] = src[4];
-			dst[2] = src[5];
-			dst[1] = src[6];
-			dst[0] = src[7];
+			const char *a = reinterpret_cast<const char*>(&val);
+			char *b = *ptr;
+			b[7] = a[0];
+			b[6] = a[1];
+			b[5] = a[2];
+			b[4] = a[3];
+			b[3] = a[4];
+			b[2] = a[5];
+			b[1] = a[6];
+			b[0] = a[7];
 			*ptr += 8;
 		}
 
 		// converts a 64-bit big-endian unsigned integer to bytes
 		static void to_big_bytes(char **ptr, unsigned long long val)
 		{
-			const char *src = reinterpret_cast<const char*>(&val);
-			char *dst = *ptr;
-			dst[7] = src[0];
-			dst[6] = src[1];
-			dst[5] = src[2];
-			dst[4] = src[3];
-			dst[3] = src[4];
-			dst[2] = src[5];
-			dst[1] = src[6];
-			dst[0] = src[7];
+			const char *a = reinterpret_cast<const char*>(&val);
+			char *b = *ptr;
+			b[7] = a[0];
+			b[6] = a[1];
+			b[5] = a[2];
+			b[4] = a[3];
+			b[3] = a[4];
+			b[2] = a[5];
+			b[1] = a[6];
+			b[0] = a[7];
 			*ptr += 8;
 		}
 
 		// converts a 32-bit big-endian floating point value to bytes
 		static void to_big_bytes(char **ptr, float val)
 		{
-			const char *src = reinterpret_cast<const char*>(&val);
-			char *dst = *ptr;
-			dst[3] = src[0];
-			dst[2] = src[1];
-			dst[1] = src[2];
-			dst[0] = src[3];
+			const char *a = reinterpret_cast<const char*>(&val);
+			char *b = *ptr;
+			b[3] = a[0];
+			b[2] = a[1];
+			b[1] = a[2];
+			b[0] = a[3];
 			*ptr += 4;
 		}
 
 		// converts a 64-bit big-endian floating point value to bytes
 		static void to_big_bytes(char **ptr, double val)
 		{
-			const char *src = reinterpret_cast<const char*>(&val);
-			char *dst = *ptr;
-			dst[7] = src[0];
-			dst[6] = src[1];
-			dst[5] = src[2];
-			dst[4] = src[3];
-			dst[3] = src[4];
-			dst[2] = src[5];
-			dst[1] = src[6];
-			dst[0] = src[7];
+			const char *a = reinterpret_cast<const char*>(&val);
+			char *b = *ptr;
+			b[7] = a[0];
+			b[6] = a[1];
+			b[5] = a[2];
+			b[4] = a[3];
+			b[3] = a[4];
+			b[2] = a[5];
+			b[1] = a[6];
+			b[0] = a[7];
 			*ptr += 8;
 		}
 
 		// converts a 128-bit big-endian floating point value to bytes
 		static void to_big_bytes(char **ptr, long double val)
 		{
-			const char *src = reinterpret_cast<const char*>(&val);
-			char *dst = *ptr;
-			dst[15] = src[0];
-			dst[14] = src[1];
-			dst[13] = src[2];
-			dst[12] = src[3];
-			dst[11] = src[4];
-			dst[10] = src[5];
-			dst[9]  = src[6];
-			dst[8]  = src[7];
-			dst[7]  = src[8];
-			dst[6]  = src[9];
-			dst[5]  = src[10];
-			dst[4]  = src[11];
-			dst[3]  = src[12];
-			dst[2]  = src[13];
-			dst[1]  = src[14];
-			dst[0]  = src[15];
+			const char *a = reinterpret_cast<const char*>(&val);
+			char *b = *ptr;
+			b[15] = a[0];
+			b[14] = a[1];
+			b[13] = a[2];
+			b[12] = a[3];
+			b[11] = a[4];
+			b[10] = a[5];
+			b[9]  = a[6];
+			b[8]  = a[7];
+			b[7]  = a[8];
+			b[6]  = a[9];
+			b[5]  = a[10];
+			b[4]  = a[11];
+			b[3]  = a[12];
+			b[2]  = a[13];
+			b[1]  = a[14];
+			b[0]  = a[15];
 			*ptr += 16;
 		}
 
@@ -420,12 +420,12 @@ namespace core
 		static void to_big_bytes(char **ptr, const std::wstring &str)
 		{
 			size_t count = str.size() << 1;
-			const char *src = reinterpret_cast<const char*>(str.data());
-			char *dst = *ptr;
+			const char *a = reinterpret_cast<const char*>(str.data());
+			char *b = *ptr;
 			for (size_t i = 0; i < count; i += 2)
 			{
-				dst[i + 1] = src[i];
-				dst[i]     = src[i + 1];
+				b[i + 1] = a[i];
+				b[i]     = a[i + 1];
 			}
 			*ptr += count;
 		}
@@ -434,12 +434,12 @@ namespace core
 		static void to_big_bytes(char **ptr, const std::vector<signed short> &vct)
 		{
 			size_t count = vct.size() << 1;
-			const char *src = reinterpret_cast<const char*>(vct.data());
-			char *dst = *ptr;
+			const char *a = reinterpret_cast<const char*>(vct.data());
+			char *b = *ptr;
 			for (size_t i = 0; i < count; i += 2)
 			{
-				dst[i + 1] = src[i];
-				dst[i]     = src[i + 1];
+				b[i + 1] = a[i];
+				b[i]     = a[i + 1];
 			}
 			*ptr += count;
 		}
@@ -448,12 +448,12 @@ namespace core
 		static void to_big_bytes(char **ptr, const std::vector<unsigned short> &vct)
 		{
 			size_t count = vct.size() << 1;
-			const char *src = reinterpret_cast<const char*>(vct.data());
-			char *dst = *ptr;
+			const char *a = reinterpret_cast<const char*>(vct.data());
+			char *b = *ptr;
 			for (size_t i = 0; i < count; i += 2)
 			{
-				dst[i + 1] = src[i];
-				dst[i] = src[i + 1];
+				b[i + 1] = a[i];
+				b[i] = a[i + 1];
 			}
 			*ptr += count;
 		}
@@ -462,14 +462,14 @@ namespace core
 		static void to_big_bytes(char **ptr, const std::vector<signed int> &vct)
 		{
 			size_t count = vct.size() << 2;
-			const char *src = reinterpret_cast<const char*>(vct.data());
-			char *dst = *ptr;
+			const char *a = reinterpret_cast<const char*>(vct.data());
+			char *b = *ptr;
 			for (size_t i = 0; i < count; i += 4)
 			{
-				dst[i + 3] = src[i];
-				dst[i + 2] = src[i + 1];
-				dst[i + 1] = src[i + 2];
-				dst[i]     = src[i + 3];
+				b[i + 3] = a[i];
+				b[i + 2] = a[i + 1];
+				b[i + 1] = a[i + 2];
+				b[i]     = a[i + 3];
 			}
 			*ptr += count;
 		}
@@ -478,14 +478,14 @@ namespace core
 		static void to_big_bytes(char **ptr, const std::vector<unsigned int> &vct)
 		{
 			size_t count = vct.size() << 2;
-			const char *src = reinterpret_cast<const char*>(vct.data());
-			char *dst = *ptr;
+			const char *a = reinterpret_cast<const char*>(vct.data());
+			char *b = *ptr;
 			for (size_t i = 0; i < count; i += 4)
 			{
-				dst[i + 3] = src[i];
-				dst[i + 2] = src[i + 1];
-				dst[i + 1] = src[i + 2];
-				dst[i] = src[i + 3];
+				b[i + 3] = a[i];
+				b[i + 2] = a[i + 1];
+				b[i + 1] = a[i + 2];
+				b[i] = a[i + 3];
 			}
 			*ptr += count;
 		}
@@ -494,14 +494,14 @@ namespace core
 		static void to_big_bytes(char **ptr, const std::vector<signed long> &vct)
 		{
 			size_t count = vct.size() << 2;
-			const char *src = reinterpret_cast<const char*>(vct.data());
-			char *dst = *ptr;
+			const char *a = reinterpret_cast<const char*>(vct.data());
+			char *b = *ptr;
 			for (size_t i = 0; i < count; i += 4)
 			{
-				dst[i + 3] = src[i];
-				dst[i + 2] = src[i + 1];
-				dst[i + 1] = src[i + 2];
-				dst[i]     = src[i + 3];
+				b[i + 3] = a[i];
+				b[i + 2] = a[i + 1];
+				b[i + 1] = a[i + 2];
+				b[i]     = a[i + 3];
 			}
 			*ptr += count;
 		}
@@ -510,14 +510,14 @@ namespace core
 		static void to_big_bytes(char **ptr, const std::vector<unsigned long> &vct)
 		{
 			size_t count = vct.size() << 2;
-			const char *src = reinterpret_cast<const char*>(vct.data());
-			char *dst = *ptr;
+			const char *a = reinterpret_cast<const char*>(vct.data());
+			char *b = *ptr;
 			for (size_t i = 0; i < count; i += 4)
 			{
-				dst[i + 3] = src[i];
-				dst[i + 2] = src[i + 1];
-				dst[i + 1] = src[i + 2];
-				dst[i]     = src[i + 3];
+				b[i + 3] = a[i];
+				b[i + 2] = a[i + 1];
+				b[i + 1] = a[i + 2];
+				b[i]     = a[i + 3];
 			}
 			*ptr += count;
 		}
@@ -526,18 +526,18 @@ namespace core
 		static void to_big_bytes(char **ptr, const std::vector<signed long long> &vct)
 		{
 			size_t count = vct.size() << 3;
-			const char *src = reinterpret_cast<const char*>(vct.data());
-			char *dst = *ptr;
+			const char *a = reinterpret_cast<const char*>(vct.data());
+			char *b = *ptr;
 			for (size_t i = 0; i < count; i += 8)
 			{
-				dst[i + 7] = src[i];
-				dst[i + 6] = src[i + 1];
-				dst[i + 5] = src[i + 2];
-				dst[i + 4] = src[i + 3];
-				dst[i + 3] = src[i + 4];
-				dst[i + 2] = src[i + 5];
-				dst[i + 1] = src[i + 6];
-				dst[i]     = src[i + 7];
+				b[i + 7] = a[i];
+				b[i + 6] = a[i + 1];
+				b[i + 5] = a[i + 2];
+				b[i + 4] = a[i + 3];
+				b[i + 3] = a[i + 4];
+				b[i + 2] = a[i + 5];
+				b[i + 1] = a[i + 6];
+				b[i]     = a[i + 7];
 			}
 			*ptr += count;
 		}
@@ -546,18 +546,18 @@ namespace core
 		static void to_big_bytes(char **ptr, const std::vector<unsigned long long> &vct)
 		{
 			size_t count = vct.size() << 3;
-			const char *src = reinterpret_cast<const char*>(vct.data());
-			char *dst = *ptr;
+			const char *a = reinterpret_cast<const char*>(vct.data());
+			char *b = *ptr;
 			for (size_t i = 0; i < count; i += 8)
 			{
-				dst[i + 7] = src[i];
-				dst[i + 6] = src[i + 1];
-				dst[i + 5] = src[i + 2];
-				dst[i + 4] = src[i + 3];
-				dst[i + 3] = src[i + 4];
-				dst[i + 2] = src[i + 5];
-				dst[i + 1] = src[i + 6];
-				dst[i]     = src[i + 7];
+				b[i + 7] = a[i];
+				b[i + 6] = a[i + 1];
+				b[i + 5] = a[i + 2];
+				b[i + 4] = a[i + 3];
+				b[i + 3] = a[i + 4];
+				b[i + 2] = a[i + 5];
+				b[i + 1] = a[i + 6];
+				b[i]     = a[i + 7];
 			}
 			*ptr += count;
 		}
@@ -566,14 +566,14 @@ namespace core
 		static void to_big_bytes(char **ptr, const std::vector<float> &vct)
 		{
 			size_t count = vct.size() << 2;
-			const char *src = reinterpret_cast<const char*>(vct.data());
-			char *dst = *ptr;
+			const char *a = reinterpret_cast<const char*>(vct.data());
+			char *b = *ptr;
 			for (size_t i = 0; i < count; i += 4)
 			{
-				dst[i + 3] = src[i];
-				dst[i + 2] = src[i + 1];
-				dst[i + 1] = src[i + 2];
-				dst[i]     = src[i + 3];
+				b[i + 3] = a[i];
+				b[i + 2] = a[i + 1];
+				b[i + 1] = a[i + 2];
+				b[i]     = a[i + 3];
 			}
 			*ptr += count;
 		}
@@ -582,18 +582,18 @@ namespace core
 		static void to_big_bytes(char **ptr, const std::vector<double> &vct)
 		{
 			size_t count = vct.size() << 3;
-			const char *src = reinterpret_cast<const char*>(vct.data());
-			char *dst = *ptr;
+			const char *a = reinterpret_cast<const char*>(vct.data());
+			char *b = *ptr;
 			for (size_t i = 0; i < count; i += 8)
 			{
-				dst[i + 7] = src[i];
-				dst[i + 6] = src[i + 1];
-				dst[i + 5] = src[i + 2];
-				dst[i + 4] = src[i + 3];
-				dst[i + 3] = src[i + 4];
-				dst[i + 2] = src[i + 5];
-				dst[i + 1] = src[i + 6];
-				dst[i]     = src[i + 7];
+				b[i + 7] = a[i];
+				b[i + 6] = a[i + 1];
+				b[i + 5] = a[i + 2];
+				b[i + 4] = a[i + 3];
+				b[i + 3] = a[i + 4];
+				b[i + 2] = a[i + 5];
+				b[i + 1] = a[i + 6];
+				b[i]     = a[i + 7];
 			}
 			*ptr += count;
 		}
@@ -602,26 +602,26 @@ namespace core
 		static void to_big_bytes(char **ptr, const std::vector<long double> &vct)
 		{
 			size_t count = vct.size() << 4;
-			const char *src = reinterpret_cast<const char*>(vct.data());
-			char *dst = *ptr;
+			const char *a = reinterpret_cast<const char*>(vct.data());
+			char *b = *ptr;
 			for (size_t i = 0; i < count; i += 16)
 			{
-				dst[i + 15] = src[i];
-				dst[i + 14] = src[i + 1];
-				dst[i + 13] = src[i + 2];
-				dst[i + 12] = src[i + 3];
-				dst[i + 11] = src[i + 4];
-				dst[i + 10] = src[i + 5];
-				dst[i + 9]  = src[i + 6];
-				dst[i + 8]  = src[i + 7];
-				dst[i + 7]  = src[i + 8];
-				dst[i + 6]  = src[i + 9];
-				dst[i + 5]  = src[i + 10];
-				dst[i + 4]  = src[i + 11];
-				dst[i + 3]  = src[i + 12];
-				dst[i + 2]  = src[i + 13];
-				dst[i + 1]  = src[i + 14];
-				dst[i]      = src[i + 15];
+				b[i + 15] = a[i];
+				b[i + 14] = a[i + 1];
+				b[i + 13] = a[i + 2];
+				b[i + 12] = a[i + 3];
+				b[i + 11] = a[i + 4];
+				b[i + 10] = a[i + 5];
+				b[i + 9]  = a[i + 6];
+				b[i + 8]  = a[i + 7];
+				b[i + 7]  = a[i + 8];
+				b[i + 6]  = a[i + 9];
+				b[i + 5]  = a[i + 10];
+				b[i + 4]  = a[i + 11];
+				b[i + 3]  = a[i + 12];
+				b[i + 2]  = a[i + 13];
+				b[i + 1]  = a[i + 14];
+				b[i]      = a[i + 15];
 			}
 			*ptr += count;
 		}
@@ -629,105 +629,105 @@ namespace core
 		// converts 1 byte to a 8-bit signed integer
 		static signed char to_char(const char **ptr)
 		{
-			const signed char *src = reinterpret_cast<const signed char*>(*ptr);
+			const signed char *a = reinterpret_cast<const signed char*>(*ptr);
 			*ptr += 1;
-			return (*src);
+			return (*a);
 		}
 
 		// converts 1 byte to a 8-bit unsigned integer
 		static unsigned char to_uchar(const char **ptr)
 		{
-			const unsigned char *src = reinterpret_cast<const unsigned char*>(*ptr);
+			const unsigned char *a = reinterpret_cast<const unsigned char*>(*ptr);
 			*ptr += 1;
-			return (*src);
+			return (*a);
 		}
 
 		// converts 2 bytes to a 16-bit little-endian signed integer
 		static signed short to_little_short(const char **ptr)
 		{
-			const signed short *src = reinterpret_cast<const signed short*>(*ptr);
+			const signed short *a = reinterpret_cast<const signed short*>(*ptr);
 			*ptr += 2;
-			return (*src);
+			return (*a);
 		}
 
 		// converts 2 bytes to a 16-bit little-endian unsigned integer
 		static unsigned short to_little_ushort(const char **ptr)
 		{
-			const unsigned short *src = reinterpret_cast<const unsigned short*>(*ptr);
+			const unsigned short *a = reinterpret_cast<const unsigned short*>(*ptr);
 			*ptr += 2;
-			return (*src);
+			return (*a);
 		}
 
 		// converts 4 bytes to a 32-bit little-endian signed integer
 		static signed int to_little_int(const char **ptr)
 		{
-			const signed int *src = reinterpret_cast<const signed int*>(*ptr);
+			const signed int *a = reinterpret_cast<const signed int*>(*ptr);
 			*ptr += 4;
-			return (*src);
+			return (*a);
 		}
 
 		// converts 4 bytes to a 32-bit little-endian unsigned integer
 		static unsigned int to_little_uint(const char **ptr)
 		{
-			const unsigned int *src = reinterpret_cast<const unsigned int*>(*ptr);
+			const unsigned int *a = reinterpret_cast<const unsigned int*>(*ptr);
 			*ptr += 4;
-			return (*src);
+			return (*a);
 		}
 
 		// converts 4 bytes to a 32-bit little-endian signed integer
 		static signed long to_little_long(const char **ptr)
 		{
-			const signed long *src = reinterpret_cast<const signed long*>(*ptr);
+			const signed long *a = reinterpret_cast<const signed long*>(*ptr);
 			*ptr += 4;
-			return (*src);
+			return (*a);
 		}
 
 		// converts 4 bytes to a 32-bit little-endian unsigned integer
 		static unsigned long to_little_ulong(const char **ptr)
 		{
-			const unsigned long *src = reinterpret_cast<const unsigned long*>(*ptr);
+			const unsigned long *a = reinterpret_cast<const unsigned long*>(*ptr);
 			*ptr += 4;
-			return (*src);
+			return (*a);
 		}
 
 		// converts 8 bytes to a 64-bit little-endian signed integer
 		static signed long long to_little_longlong(const char **ptr)
 		{
-			const signed long long *src = reinterpret_cast<const signed long long*>(*ptr);
+			const signed long long *a = reinterpret_cast<const signed long long*>(*ptr);
 			*ptr += 8;
-			return (*src);
+			return (*a);
 		}
 
 		// converts 8 bytes to a 64-bit little-endian unsigned integer
 		static unsigned long long to_little_ulonglong(const char **ptr)
 		{
-			const unsigned long long *src = reinterpret_cast<const unsigned long long*>(*ptr);
+			const unsigned long long *a = reinterpret_cast<const unsigned long long*>(*ptr);
 			*ptr += 8;
-			return (*src);
+			return (*a);
 		}
 
 		// converts 4 bytes to a 32-bit little-endian floating point value
 		static float to_little_float(const char **ptr)
 		{
-			const float *src = reinterpret_cast<const float*>(*ptr);
+			const float *a = reinterpret_cast<const float*>(*ptr);
 			*ptr += 4;
-			return (*src);
+			return (*a);
 		}
 
 		// converts 8 bytes to a 64-bit little-endian floating point value
 		static double to_little_double(const char **ptr)
 		{
-			const double *src = reinterpret_cast<const double*>(*ptr);
+			const double *a = reinterpret_cast<const double*>(*ptr);
 			*ptr += 8;
-			return (*src);
+			return (*a);
 		}
 
 		// converts 16 bytes to a 128-bit little-endian floating point value
 		static long double to_little_longdouble(const char **ptr)
 		{
-			const long double *src = reinterpret_cast<const long double*>(*ptr);
+			const long double *a = reinterpret_cast<const long double*>(*ptr);
 			*ptr += 16;
-			return (*src);
+			return (*a);
 		}
 
 		// converts bytes to a string
@@ -744,10 +744,10 @@ namespace core
 		{
 			std::wstring str;
 			str.resize(count);
-			const char *src = *ptr;
-			wchar_t *dst = const_cast<wchar_t*>(str.data());
+			const char *a = *ptr;
+			wchar_t *b = const_cast<wchar_t*>(str.data());
 			for (size_t i = 0; i < count; ++i)
-				dst[i] = static_cast<wchar_t>(src[i]);
+				b[i] = static_cast<wchar_t>(a[i]);
 			*ptr += count;
 			return str;
 		}
@@ -882,10 +882,10 @@ namespace core
 		static signed short to_big_short(const char **ptr)
 		{
 			signed short val;
-			const char *src = *ptr;
-			char *dst = reinterpret_cast<char*>(&val);
-			dst[1] = src[0];
-			dst[0] = src[1];
+			const char *a = *ptr;
+			char *b = reinterpret_cast<char*>(&val);
+			b[1] = a[0];
+			b[0] = a[1];
 			*ptr += 2;
 			return val;
 		}
@@ -894,10 +894,10 @@ namespace core
 		static unsigned short to_big_ushort(const char **ptr)
 		{
 			unsigned short val;
-			const char *src = *ptr;
-			char *dst = reinterpret_cast<char*>(&val);
-			dst[1] = src[0];
-			dst[0] = src[1];
+			const char *a = *ptr;
+			char *b = reinterpret_cast<char*>(&val);
+			b[1] = a[0];
+			b[0] = a[1];
 			*ptr += 2;
 			return val;
 		}
@@ -906,12 +906,12 @@ namespace core
 		static signed int to_big_int(const char **ptr)
 		{
 			signed int val;
-			const char *src = *ptr;
-			char *dst = reinterpret_cast<char*>(&val);
-			dst[3] = src[0];
-			dst[2] = src[1];
-			dst[1] = src[2];
-			dst[0] = src[3];
+			const char *a = *ptr;
+			char *b = reinterpret_cast<char*>(&val);
+			b[3] = a[0];
+			b[2] = a[1];
+			b[1] = a[2];
+			b[0] = a[3];
 			*ptr += 4;
 			return val;
 		}
@@ -920,12 +920,12 @@ namespace core
 		static unsigned int to_big_uint(const char **ptr)
 		{
 			unsigned int val;
-			const char *src = *ptr;
-			char *dst = reinterpret_cast<char*>(&val);
-			dst[3] = src[0];
-			dst[2] = src[1];
-			dst[1] = src[2];
-			dst[0] = src[3];
+			const char *a = *ptr;
+			char *b = reinterpret_cast<char*>(&val);
+			b[3] = a[0];
+			b[2] = a[1];
+			b[1] = a[2];
+			b[0] = a[3];
 			*ptr += 4;
 			return val;
 		}
@@ -934,12 +934,12 @@ namespace core
 		static signed long to_big_long(const char **ptr)
 		{
 			signed long val;
-			const char *src = *ptr;
-			char *dst = reinterpret_cast<char*>(&val);
-			dst[3] = src[0];
-			dst[2] = src[1];
-			dst[1] = src[2];
-			dst[0] = src[3];
+			const char *a = *ptr;
+			char *b = reinterpret_cast<char*>(&val);
+			b[3] = a[0];
+			b[2] = a[1];
+			b[1] = a[2];
+			b[0] = a[3];
 			*ptr += 4;
 			return val;
 		}
@@ -948,12 +948,12 @@ namespace core
 		static unsigned long to_big_ulong(const char **ptr)
 		{
 			unsigned long val;
-			const char *src = *ptr;
-			char *dst = reinterpret_cast<char*>(&val);
-			dst[3] = src[0];
-			dst[2] = src[1];
-			dst[1] = src[2];
-			dst[0] = src[3];
+			const char *a = *ptr;
+			char *b = reinterpret_cast<char*>(&val);
+			b[3] = a[0];
+			b[2] = a[1];
+			b[1] = a[2];
+			b[0] = a[3];
 			*ptr += 4;
 			return val;
 		}
@@ -962,16 +962,16 @@ namespace core
 		static signed long long to_big_longlong(const char **ptr)
 		{
 			signed long long val;
-			const char *src = *ptr;
-			char *dst = reinterpret_cast<char*>(&val);
-			dst[7] = src[0];
-			dst[6] = src[1];
-			dst[5] = src[2];
-			dst[4] = src[3];
-			dst[3] = src[4];
-			dst[2] = src[5];
-			dst[1] = src[6];
-			dst[0] = src[7];
+			const char *a = *ptr;
+			char *b = reinterpret_cast<char*>(&val);
+			b[7] = a[0];
+			b[6] = a[1];
+			b[5] = a[2];
+			b[4] = a[3];
+			b[3] = a[4];
+			b[2] = a[5];
+			b[1] = a[6];
+			b[0] = a[7];
 			*ptr += 8;
 			return val;
 		}
@@ -980,16 +980,16 @@ namespace core
 		static unsigned long long to_big_ulonglong(const char **ptr)
 		{
 			unsigned long long val;
-			const char *src = *ptr;
-			char *dst = reinterpret_cast<char*>(&val);
-			dst[7] = src[0];
-			dst[6] = src[1];
-			dst[5] = src[2];
-			dst[4] = src[3];
-			dst[3] = src[4];
-			dst[2] = src[5];
-			dst[1] = src[6];
-			dst[0] = src[7];
+			const char *a = *ptr;
+			char *b = reinterpret_cast<char*>(&val);
+			b[7] = a[0];
+			b[6] = a[1];
+			b[5] = a[2];
+			b[4] = a[3];
+			b[3] = a[4];
+			b[2] = a[5];
+			b[1] = a[6];
+			b[0] = a[7];
 			*ptr += 8;
 			return val;
 		}
@@ -998,12 +998,12 @@ namespace core
 		static float to_big_float(const char **ptr)
 		{
 			float val;
-			const char *src = *ptr;
-			char *dst = reinterpret_cast<char*>(&val);
-			dst[3] = src[0];
-			dst[2] = src[1];
-			dst[1] = src[2];
-			dst[0] = src[3];
+			const char *a = *ptr;
+			char *b = reinterpret_cast<char*>(&val);
+			b[3] = a[0];
+			b[2] = a[1];
+			b[1] = a[2];
+			b[0] = a[3];
 			*ptr += 4;
 			return val;
 		}
@@ -1012,16 +1012,16 @@ namespace core
 		static double to_big_double(const char **ptr)
 		{
 			double val;
-			const char *src = *ptr;
-			char *dst = reinterpret_cast<char*>(&val);
-			dst[7] = src[0];
-			dst[6] = src[1];
-			dst[5] = src[2];
-			dst[4] = src[3];
-			dst[3] = src[4];
-			dst[2] = src[5];
-			dst[1] = src[6];
-			dst[0] = src[7];
+			const char *a = *ptr;
+			char *b = reinterpret_cast<char*>(&val);
+			b[7] = a[0];
+			b[6] = a[1];
+			b[5] = a[2];
+			b[4] = a[3];
+			b[3] = a[4];
+			b[2] = a[5];
+			b[1] = a[6];
+			b[0] = a[7];
 			*ptr += 8;
 			return val;
 		}
@@ -1030,24 +1030,24 @@ namespace core
 		static long double to_big_longdouble(const char **ptr)
 		{
 			long double val;
-			const char *src = *ptr;
-			char *dst = reinterpret_cast<char*>(&val);
-			dst[15] = src[0];
-			dst[14] = src[1];
-			dst[13] = src[2];
-			dst[12] = src[3];
-			dst[11] = src[4];
-			dst[10] = src[5];
-			dst[9]  = src[6];
-			dst[8]  = src[7];
-			dst[7]  = src[8];
-			dst[6]  = src[9];
-			dst[5]  = src[10];
-			dst[4]  = src[11];
-			dst[3]  = src[12];
-			dst[2]  = src[13];
-			dst[1]  = src[14];
-			dst[0]  = src[15];
+			const char *a = *ptr;
+			char *b = reinterpret_cast<char*>(&val);
+			b[15] = a[0];
+			b[14] = a[1];
+			b[13] = a[2];
+			b[12] = a[3];
+			b[11] = a[4];
+			b[10] = a[5];
+			b[9]  = a[6];
+			b[8]  = a[7];
+			b[7]  = a[8];
+			b[6]  = a[9];
+			b[5]  = a[10];
+			b[4]  = a[11];
+			b[3]  = a[12];
+			b[2]  = a[13];
+			b[1]  = a[14];
+			b[0]  = a[15];
 			*ptr += 16;
 			return val;
 		}
@@ -1057,12 +1057,12 @@ namespace core
 		{
 			std::wstring str;
 			str.resize(count >> 1);
-			const char *src = *ptr;
-			char *dst = const_cast<char*>(reinterpret_cast<const char*>(str.data()));
+			const char *a = *ptr;
+			char *b = const_cast<char*>(reinterpret_cast<const char*>(str.data()));
 			for (size_t i = 0; i < count; i += 2)
 			{
-				dst[i + 1] = src[i];
-				dst[i]     = src[i + 1];
+				b[i + 1] = a[i];
+				b[i]     = a[i + 1];
 			}
 			*ptr += count;
 			return str;
@@ -1072,12 +1072,12 @@ namespace core
 		static std::vector<signed short> to_big_short(const char **ptr, size_t count)
 		{
 			std::vector<signed short> vct(count >> 1);
-			const char *src = *ptr;
-			char *dst = reinterpret_cast<char*>(vct.data());
+			const char *a = *ptr;
+			char *b = reinterpret_cast<char*>(vct.data());
 			for (size_t i = 0; i < count; i += 2)
 			{
-				dst[i + 1] = src[i];
-				dst[i]     = src[i + 1];
+				b[i + 1] = a[i];
+				b[i]     = a[i + 1];
 			}
 			*ptr += count;
 			return vct;
@@ -1087,12 +1087,12 @@ namespace core
 		static std::vector<unsigned short> to_big_ushort(const char **ptr, size_t count)
 		{
 			std::vector<unsigned short> vct(count >> 1);
-			const char *src = *ptr;
-			char *dst = reinterpret_cast<char*>(vct.data());
+			const char *a = *ptr;
+			char *b = reinterpret_cast<char*>(vct.data());
 			for (size_t i = 0; i < count; i += 2)
 			{
-				dst[i + 1] = src[i];
-				dst[i]     = src[i + 1];
+				b[i + 1] = a[i];
+				b[i]     = a[i + 1];
 			}
 			*ptr += count;
 			return vct;
@@ -1102,14 +1102,14 @@ namespace core
 		static std::vector<signed int> to_big_int(const char **ptr, size_t count)
 		{
 			std::vector<signed int> vct(count >> 2);
-			const char *src = *ptr;
-			char *dst = reinterpret_cast<char*>(vct.data());
+			const char *a = *ptr;
+			char *b = reinterpret_cast<char*>(vct.data());
 			for (size_t i = 0; i < count; i += 4)
 			{
-				dst[i + 3] = src[i];
-				dst[i + 2] = src[i + 1];
-				dst[i + 1] = src[i + 2];
-				dst[i]     = src[i + 3];
+				b[i + 3] = a[i];
+				b[i + 2] = a[i + 1];
+				b[i + 1] = a[i + 2];
+				b[i]     = a[i + 3];
 			}
 			*ptr += count;
 			return vct;
@@ -1119,14 +1119,14 @@ namespace core
 		static std::vector<unsigned int> to_big_uint(const char **ptr, size_t count)
 		{
 			std::vector<unsigned int> vct(count >> 2);
-			const char *src = *ptr;
-			char *dst = reinterpret_cast<char*>(vct.data());
+			const char *a = *ptr;
+			char *b = reinterpret_cast<char*>(vct.data());
 			for (size_t i = 0; i < count; i += 4)
 			{
-				dst[i + 3] = src[i];
-				dst[i + 2] = src[i + 1];
-				dst[i + 1] = src[i + 2];
-				dst[i]     = src[i + 3];
+				b[i + 3] = a[i];
+				b[i + 2] = a[i + 1];
+				b[i + 1] = a[i + 2];
+				b[i]     = a[i + 3];
 			}
 			*ptr += count;
 			return vct;
@@ -1136,14 +1136,14 @@ namespace core
 		static std::vector<signed long> to_big_long(const char **ptr, size_t count)
 		{
 			std::vector<signed long> vct(count >> 2);
-			const char *src = *ptr;
-			char *dst = reinterpret_cast<char*>(vct.data());
+			const char *a = *ptr;
+			char *b = reinterpret_cast<char*>(vct.data());
 			for (size_t i = 0; i < count; i += 4)
 			{
-				dst[i + 3] = src[i];
-				dst[i + 2] = src[i + 1];
-				dst[i + 1] = src[i + 2];
-				dst[i]     = src[i + 3];
+				b[i + 3] = a[i];
+				b[i + 2] = a[i + 1];
+				b[i + 1] = a[i + 2];
+				b[i]     = a[i + 3];
 			}
 			*ptr += count;
 			return vct;
@@ -1153,14 +1153,14 @@ namespace core
 		static std::vector<unsigned long> to_big_ulong(const char **ptr, size_t count)
 		{
 			std::vector<unsigned long> vct(count >> 2);
-			const char *src = *ptr;
-			char *dst = reinterpret_cast<char*>(vct.data());
+			const char *a = *ptr;
+			char *b = reinterpret_cast<char*>(vct.data());
 			for (size_t i = 0; i < count; i += 4)
 			{
-				dst[i + 3] = src[i];
-				dst[i + 2] = src[i + 1];
-				dst[i + 1] = src[i + 2];
-				dst[i]     = src[i + 3];
+				b[i + 3] = a[i];
+				b[i + 2] = a[i + 1];
+				b[i + 1] = a[i + 2];
+				b[i]     = a[i + 3];
 			}
 			*ptr += count;
 			return vct;
@@ -1170,18 +1170,18 @@ namespace core
 		static std::vector<signed long long> to_big_longlong(const char **ptr, size_t count)
 		{
 			std::vector<signed long long> vct(count >> 3);
-			const char *src = *ptr;
-			char *dst = reinterpret_cast<char*>(vct.data());
+			const char *a = *ptr;
+			char *b = reinterpret_cast<char*>(vct.data());
 			for (size_t i = 0; i < count; i += 8)
 			{
-				dst[i + 7] = src[i];
-				dst[i + 6] = src[i + 1];
-				dst[i + 5] = src[i + 2];
-				dst[i + 4] = src[i + 3];
-				dst[i + 3] = src[i + 4];
-				dst[i + 2] = src[i + 5];
-				dst[i + 1] = src[i + 6];
-				dst[i]     = src[i + 7];
+				b[i + 7] = a[i];
+				b[i + 6] = a[i + 1];
+				b[i + 5] = a[i + 2];
+				b[i + 4] = a[i + 3];
+				b[i + 3] = a[i + 4];
+				b[i + 2] = a[i + 5];
+				b[i + 1] = a[i + 6];
+				b[i]     = a[i + 7];
 			}
 			*ptr += count;
 			return vct;
@@ -1191,18 +1191,18 @@ namespace core
 		static std::vector<unsigned long long> to_big_ulonglong(const char **ptr, size_t count)
 		{
 			std::vector<unsigned long long> vct(count >> 3);
-			const char *src = *ptr;
-			char *dst = reinterpret_cast<char*>(vct.data());
+			const char *a = *ptr;
+			char *b = reinterpret_cast<char*>(vct.data());
 			for (size_t i = 0; i < count; i += 8)
 			{
-				dst[i + 7] = src[i];
-				dst[i + 6] = src[i + 1];
-				dst[i + 5] = src[i + 2];
-				dst[i + 4] = src[i + 3];
-				dst[i + 3] = src[i + 4];
-				dst[i + 2] = src[i + 5];
-				dst[i + 1] = src[i + 6];
-				dst[i]     = src[i + 7];
+				b[i + 7] = a[i];
+				b[i + 6] = a[i + 1];
+				b[i + 5] = a[i + 2];
+				b[i + 4] = a[i + 3];
+				b[i + 3] = a[i + 4];
+				b[i + 2] = a[i + 5];
+				b[i + 1] = a[i + 6];
+				b[i]     = a[i + 7];
 			}
 			*ptr += count;
 			return vct;
@@ -1212,14 +1212,14 @@ namespace core
 		static std::vector<float> to_big_float(const char **ptr, size_t count)
 		{
 			std::vector<float> vct(count >> 2);
-			const char *src = *ptr;
-			char *dst = reinterpret_cast<char*>(vct.data());
+			const char *a = *ptr;
+			char *b = reinterpret_cast<char*>(vct.data());
 			for (size_t i = 0; i < count; i += 4)
 			{
-				dst[i + 3] = src[i];
-				dst[i + 2] = src[i + 1];
-				dst[i + 1] = src[i + 2];
-				dst[i]     = src[i + 3];
+				b[i + 3] = a[i];
+				b[i + 2] = a[i + 1];
+				b[i + 1] = a[i + 2];
+				b[i]     = a[i + 3];
 			}
 			*ptr += count;
 			return vct;
@@ -1229,18 +1229,18 @@ namespace core
 		static std::vector<double> to_big_double(const char **ptr, size_t count)
 		{
 			std::vector<double> vct(count >> 3);
-			const char *src = *ptr;
-			char *dst = reinterpret_cast<char*>(vct.data());
+			const char *a = *ptr;
+			char *b = reinterpret_cast<char*>(vct.data());
 			for (size_t i = 0; i < count; i += 8)
 			{
-				dst[i + 7] = src[i];
-				dst[i + 6] = src[i + 1];
-				dst[i + 5] = src[i + 2];
-				dst[i + 4] = src[i + 3];
-				dst[i + 3] = src[i + 4];
-				dst[i + 2] = src[i + 5];
-				dst[i + 1] = src[i + 6];
-				dst[i]     = src[i + 7];
+				b[i + 7] = a[i];
+				b[i + 6] = a[i + 1];
+				b[i + 5] = a[i + 2];
+				b[i + 4] = a[i + 3];
+				b[i + 3] = a[i + 4];
+				b[i + 2] = a[i + 5];
+				b[i + 1] = a[i + 6];
+				b[i]     = a[i + 7];
 			}
 			*ptr += count;
 			return vct;
@@ -1250,26 +1250,26 @@ namespace core
 		static std::vector<long double> to_big_longdouble(const char **ptr, size_t count)
 		{
 			std::vector<long double> vct(count >> 4);
-			const char *src = *ptr;
-			char *dst = reinterpret_cast<char*>(vct.data());
+			const char *a = *ptr;
+			char *b = reinterpret_cast<char*>(vct.data());
 			for (size_t i = 0; i < count; i += 16)
 			{
-				dst[i + 15] = src[i];
-				dst[i + 14] = src[i + 1];
-				dst[i + 13] = src[i + 2];
-				dst[i + 12] = src[i + 3];
-				dst[i + 11] = src[i + 4];
-				dst[i + 10] = src[i + 5];
-				dst[i + 9]  = src[i + 6];
-				dst[i + 8]  = src[i + 7];
-				dst[i + 7]  = src[i + 8];
-				dst[i + 6]  = src[i + 9];
-				dst[i + 5]  = src[i + 10];
-				dst[i + 4]  = src[i + 11];
-				dst[i + 3]  = src[i + 12];
-				dst[i + 2]  = src[i + 13];
-				dst[i + 1]  = src[i + 14];
-				dst[i]      = src[i + 15];
+				b[i + 15] = a[i];
+				b[i + 14] = a[i + 1];
+				b[i + 13] = a[i + 2];
+				b[i + 12] = a[i + 3];
+				b[i + 11] = a[i + 4];
+				b[i + 10] = a[i + 5];
+				b[i + 9]  = a[i + 6];
+				b[i + 8]  = a[i + 7];
+				b[i + 7]  = a[i + 8];
+				b[i + 6]  = a[i + 9];
+				b[i + 5]  = a[i + 10];
+				b[i + 4]  = a[i + 11];
+				b[i + 3]  = a[i + 12];
+				b[i + 2]  = a[i + 13];
+				b[i + 1]  = a[i + 14];
+				b[i]      = a[i + 15];
 			}
 			*ptr += count;
 			return vct;

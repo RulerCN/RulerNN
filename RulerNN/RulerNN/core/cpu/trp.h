@@ -62,135 +62,126 @@ namespace core
 		// Function template trp_block
 
 		template <class T>
-		void trp_block(T* dst, size_t dst_rs, const T* src, size_t src_rs)
+		void trp_block(T* b, size_t ldb, const T* a, size_t lda)
 		{
-			T* ptr_dst0 = dst;
-			T* ptr_dst1 = ptr_dst0 + dst_rs;
-			T* ptr_dst2 = ptr_dst1 + dst_rs;
-			T* ptr_dst3 = ptr_dst2 + dst_rs;
-			T* ptr_dst4 = ptr_dst3 + dst_rs;
-			T* ptr_dst5 = ptr_dst4 + dst_rs;
-			T* ptr_dst6 = ptr_dst5 + dst_rs;
-			T* ptr_dst7 = ptr_dst6 + dst_rs;
-			ptr_dst0[0] = src[0];
-			ptr_dst1[0] = src[1];
-			ptr_dst2[0] = src[2];
-			ptr_dst3[0] = src[3];
-			ptr_dst4[0] = src[4];
-			ptr_dst5[0] = src[5];
-			ptr_dst6[0] = src[6];
-			ptr_dst7[0] = src[7];
-			src += src_rs;
-			ptr_dst0[1] = src[0];
-			ptr_dst1[1] = src[1];
-			ptr_dst2[1] = src[2];
-			ptr_dst3[1] = src[3];
-			ptr_dst4[1] = src[4];
-			ptr_dst5[1] = src[5];
-			ptr_dst6[1] = src[6];
-			ptr_dst7[1] = src[7];
-			src += src_rs;
-			ptr_dst0[2] = src[0];
-			ptr_dst1[2] = src[1];
-			ptr_dst2[2] = src[2];
-			ptr_dst3[2] = src[3];
-			ptr_dst4[2] = src[4];
-			ptr_dst5[2] = src[5];
-			ptr_dst6[2] = src[6];
-			ptr_dst7[2] = src[7];
-			src += src_rs;
-			ptr_dst0[3] = src[0];
-			ptr_dst1[3] = src[1];
-			ptr_dst2[3] = src[2];
-			ptr_dst3[3] = src[3];
-			ptr_dst4[3] = src[4];
-			ptr_dst5[3] = src[5];
-			ptr_dst6[3] = src[6];
-			ptr_dst7[3] = src[7];
-			src += src_rs;
-			ptr_dst0[4] = src[0];
-			ptr_dst1[4] = src[1];
-			ptr_dst2[4] = src[2];
-			ptr_dst3[4] = src[3];
-			ptr_dst4[4] = src[4];
-			ptr_dst5[4] = src[5];
-			ptr_dst6[4] = src[6];
-			ptr_dst7[4] = src[7];
-			src += src_rs;
-			ptr_dst0[5] = src[0];
-			ptr_dst1[5] = src[1];
-			ptr_dst2[5] = src[2];
-			ptr_dst3[5] = src[3];
-			ptr_dst4[5] = src[4];
-			ptr_dst5[5] = src[5];
-			ptr_dst6[5] = src[6];
-			ptr_dst7[5] = src[7];
-			src += src_rs;
-			ptr_dst0[6] = src[0];
-			ptr_dst1[6] = src[1];
-			ptr_dst2[6] = src[2];
-			ptr_dst3[6] = src[3];
-			ptr_dst4[6] = src[4];
-			ptr_dst5[6] = src[5];
-			ptr_dst6[6] = src[6];
-			ptr_dst7[6] = src[7];
-			src += src_rs;
-			ptr_dst0[7] = src[0];
-			ptr_dst1[7] = src[1];
-			ptr_dst2[7] = src[2];
-			ptr_dst3[7] = src[3];
-			ptr_dst4[7] = src[4];
-			ptr_dst5[7] = src[5];
-			ptr_dst6[7] = src[6];
-			ptr_dst7[7] = src[7];
+			T* ptr_b0 = b;
+			T* ptr_b1 = b + ldb;
+			T* ptr_b2 = b + ldb * 2;
+			T* ptr_b3 = b + ldb * 3;
+			T* ptr_b4 = b + ldb * 4;
+			T* ptr_b5 = b + ldb * 5;
+			T* ptr_b6 = b + ldb * 6;
+			T* ptr_b7 = b + ldb * 7;
+			ptr_b0[0] = a[0];
+			ptr_b1[0] = a[1];
+			ptr_b2[0] = a[2];
+			ptr_b3[0] = a[3];
+			ptr_b4[0] = a[4];
+			ptr_b5[0] = a[5];
+			ptr_b6[0] = a[6];
+			ptr_b7[0] = a[7];
+			a += lda;
+			ptr_b0[1] = a[0];
+			ptr_b1[1] = a[1];
+			ptr_b2[1] = a[2];
+			ptr_b3[1] = a[3];
+			ptr_b4[1] = a[4];
+			ptr_b5[1] = a[5];
+			ptr_b6[1] = a[6];
+			ptr_b7[1] = a[7];
+			a += lda;
+			ptr_b0[2] = a[0];
+			ptr_b1[2] = a[1];
+			ptr_b2[2] = a[2];
+			ptr_b3[2] = a[3];
+			ptr_b4[2] = a[4];
+			ptr_b5[2] = a[5];
+			ptr_b6[2] = a[6];
+			ptr_b7[2] = a[7];
+			a += lda;
+			ptr_b0[3] = a[0];
+			ptr_b1[3] = a[1];
+			ptr_b2[3] = a[2];
+			ptr_b3[3] = a[3];
+			ptr_b4[3] = a[4];
+			ptr_b5[3] = a[5];
+			ptr_b6[3] = a[6];
+			ptr_b7[3] = a[7];
+			a += lda;
+			ptr_b0[4] = a[0];
+			ptr_b1[4] = a[1];
+			ptr_b2[4] = a[2];
+			ptr_b3[4] = a[3];
+			ptr_b4[4] = a[4];
+			ptr_b5[4] = a[5];
+			ptr_b6[4] = a[6];
+			ptr_b7[4] = a[7];
+			a += lda;
+			ptr_b0[5] = a[0];
+			ptr_b1[5] = a[1];
+			ptr_b2[5] = a[2];
+			ptr_b3[5] = a[3];
+			ptr_b4[5] = a[4];
+			ptr_b5[5] = a[5];
+			ptr_b6[5] = a[6];
+			ptr_b7[5] = a[7];
+			a += lda;
+			ptr_b0[6] = a[0];
+			ptr_b1[6] = a[1];
+			ptr_b2[6] = a[2];
+			ptr_b3[6] = a[3];
+			ptr_b4[6] = a[4];
+			ptr_b5[6] = a[5];
+			ptr_b6[6] = a[6];
+			ptr_b7[6] = a[7];
+			a += lda;
+			ptr_b0[7] = a[0];
+			ptr_b1[7] = a[1];
+			ptr_b2[7] = a[2];
+			ptr_b3[7] = a[3];
+			ptr_b4[7] = a[4];
+			ptr_b5[7] = a[5];
+			ptr_b6[7] = a[6];
+			ptr_b7[7] = a[7];
 		}
 
 		// Function template trp_tiny
 
 		template <class T>
-		inline void trp_tiny(T* dst, size_t dst_rs, const T* src, size_t src_rs, size_t m, size_t n)
+		inline void trp_tiny(T* b, size_t ldb, const T* a, size_t lda, size_t m, size_t n)
 		{
-			const size_t row0 = 0;
-			const size_t row1 = dst_rs;
-			const size_t row2 = row1 + dst_rs;
-			const size_t row3 = row2 + dst_rs;
-			const size_t row4 = row3 + dst_rs;
-			const size_t row5 = row4 + dst_rs;
-			const size_t row6 = row5 + dst_rs;
-			const size_t row7 = row6 + dst_rs;
-
-			for (size_t i = 0; i < m; ++i)
+			for (size_t i = 0; i < n; ++i)
 			{
-				switch (n)
+				switch (m)
 				{
-				case 8: dst[row7 + i] = src[7];
-				case 7: dst[row6 + i] = src[6];
-				case 6: dst[row5 + i] = src[5];
-				case 5: dst[row4 + i] = src[4];
-				case 4: dst[row3 + i] = src[3];
-				case 3: dst[row2 + i] = src[2];
-				case 2: dst[row1 + i] = src[1];
-				case 1: dst[row0 + i] = src[0];
-					break;
+				case 8: b[7] = a[lda * 7]; [[fallthrough]];
+				case 7: b[6] = a[lda * 6]; [[fallthrough]];
+				case 6: b[5] = a[lda * 5]; [[fallthrough]];
+				case 5: b[4] = a[lda * 4]; [[fallthrough]];
+				case 4: b[3] = a[lda * 3]; [[fallthrough]];
+				case 3: b[2] = a[lda * 2]; [[fallthrough]];
+				case 2: b[1] = a[lda];     [[fallthrough]];
+				case 1: b[0] = a[0];       [[fallthrough]];
 				}
-				src += src_rs;
+				a += 1;
+				b += ldb;
 			}
 		}
 
 		// Function template impl_trp
 
 		template <class T>
-		void impl_trp(T* dst, size_t dst_rs, const T* src, size_t src_rs, size_t m, size_t n)
+		void impl_trp(T* b, size_t ldb, const T* a, size_t lda, size_t m, size_t n)
 		{
 			constexpr size_t block_m = trp_block_m<T>();
 			constexpr size_t block_n = trp_block_n<T>();
 			std::stack<std::tuple<T*, const T*, size_t, size_t>> task;
 			// Transpose of a matrix
-			task.emplace(dst, src, m, n);
+			task.emplace(b, a, m, n);
 			while (!task.empty())
 			{
-				auto dst0 = std::get<0>(task.top());
-				auto src0 = std::get<1>(task.top());
+				auto b0 = std::get<0>(task.top());
+				auto a0 = std::get<1>(task.top());
 				size_t m0 = std::get<2>(task.top());
 				size_t n0 = std::get<3>(task.top());
 				task.pop();
@@ -201,7 +192,7 @@ namespace core
 					size_t exp = ((*reinterpret_cast<unsigned int*>(&tmp)) >> 23 & 0xFFu) - 0x7Fu;
 					// Calculate: m1 = pow(2, exp)
 					size_t m1 = static_cast<size_t>(1) << exp;
-					auto src1 = src0 + m1 * src_rs;
+					auto a1 = a0 + m1 * lda;
 					if (n0 > block_n)
 					{
 						// Calculate: exp = log2(n0 - 1)
@@ -209,18 +200,18 @@ namespace core
 						size_t exp = ((*reinterpret_cast<unsigned int*>(&tmp)) >> 23 & 0xFFu) - 0x7Fu;
 						// Calculate: n1 = pow(2, exp)
 						size_t n1 = static_cast<size_t>(1) << exp;
-						auto dst1 = dst0 + n1 * dst_rs;
+						auto b1 = b0 + n1 * ldb;
 						// Transpose of four submatrices
-						task.emplace(dst1 + m1, src1 + n1, m0 - m1, n0 - n1);
-						task.emplace(dst0 + m1, src1, m0 - m1, n1);
-						task.emplace(dst1, src0 + n1, m1, n0 - n1);
-						task.emplace(dst0, src0, m1, n1);
+						task.emplace(b1 + m1, a1 + n1, m0 - m1, n0 - n1);
+						task.emplace(b0 + m1, a1, m0 - m1, n1);
+						task.emplace(b1, a0 + n1, m1, n0 - n1);
+						task.emplace(b0, a0, m1, n1);
 					}
 					else
 					{
 						// Transpose of two submatrices
-						task.emplace(dst0 + m1, src1, m0 - m1, n0);
-						task.emplace(dst0, src0, m1, n0);
+						task.emplace(b0 + m1, a1, m0 - m1, n0);
+						task.emplace(b0, a0, m1, n0);
 					}
 				}
 				else
@@ -232,17 +223,17 @@ namespace core
 						size_t exp = ((*reinterpret_cast<unsigned int*>(&tmp)) >> 23 & 0xFFu) - 0x7Fu;
 						// Calculate: n1 = pow(2, exp)
 						size_t n1 = static_cast<size_t>(1) << exp;
-						auto dst1 = dst0 + n1 * dst_rs;
+						auto b1 = b0 + n1 * ldb;
 						// Transpose of two submatrices
-						task.emplace(dst1, src0 + n1, m0, n0 - n1);
-						task.emplace(dst0, src0, m0, n1);
+						task.emplace(b1, a0 + n1, m0, n0 - n1);
+						task.emplace(b0, a0, m0, n1);
 					}
 					else
 					{
 						if (m0 == block_m && n0 == block_n)
-							trp_block(dst0, dst_rs, src0, src_rs);
+							trp_block(b0, ldb, a0, lda);
 						else
-							trp_tiny(dst0, dst_rs, src0, src_rs, m0, n0);
+							trp_tiny(b0, ldb, a0, lda, m0, n0);
 					}
 				}
 			}

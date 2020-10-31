@@ -41,40 +41,40 @@ namespace core
 		// Function template impl_cvtpd
 
 		template <class T>
-		void impl_cvtpd(T* dst, const double* src, size_t n)
+		void impl_cvtpd(T* b, const double* a, size_t n)
 		{
 			constexpr size_t block = 8;
 			while (n >= block)
 			{
-				dst[0] = static_cast<T>(src[0]);
-				dst[1] = static_cast<T>(src[1]);
-				dst[2] = static_cast<T>(src[2]);
-				dst[3] = static_cast<T>(src[3]);
-				dst[4] = static_cast<T>(src[4]);
-				dst[5] = static_cast<T>(src[5]);
-				dst[6] = static_cast<T>(src[6]);
-				dst[7] = static_cast<T>(src[7]);
-				src += block;
-				dst += block;
+				b[0] = static_cast<T>(a[0]);
+				b[1] = static_cast<T>(a[1]);
+				b[2] = static_cast<T>(a[2]);
+				b[3] = static_cast<T>(a[3]);
+				b[4] = static_cast<T>(a[4]);
+				b[5] = static_cast<T>(a[5]);
+				b[6] = static_cast<T>(a[6]);
+				b[7] = static_cast<T>(a[7]);
+				a += block;
+				b += block;
 				n -= block;
 			}
 			switch (n)
 			{
-			case 7: dst[6] = static_cast<T>(src[6]);
-			case 6: dst[5] = static_cast<T>(src[5]);
-			case 5: dst[4] = static_cast<T>(src[4]);
-			case 4: dst[3] = static_cast<T>(src[3]);
-			case 3: dst[2] = static_cast<T>(src[2]);
-			case 2: dst[1] = static_cast<T>(src[1]);
-			case 1: dst[0] = static_cast<T>(src[0]);
+			case 7: b[6] = static_cast<T>(a[6]);
+			case 6: b[5] = static_cast<T>(a[5]);
+			case 5: b[4] = static_cast<T>(a[4]);
+			case 4: b[3] = static_cast<T>(a[3]);
+			case 3: b[2] = static_cast<T>(a[2]);
+			case 2: b[1] = static_cast<T>(a[1]);
+			case 1: b[0] = static_cast<T>(a[0]);
 				break;
 			}
 		}
 
 		template <>
-		inline void impl_cvtpd<double>(double* dst, const double* src, size_t n)
+		inline void impl_cvtpd<double>(double* b, const double* a, size_t n)
 		{
-			std::memcpy(dst, src, n * sizeof(double));
+			std::memcpy(b, a, n * sizeof(double));
 		}
 
 	} // namespace comm

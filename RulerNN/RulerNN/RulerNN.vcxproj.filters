@@ -34,8 +34,11 @@
     <Filter Include="头文件\core\cpu\gemm">
       <UniqueIdentifier>{0f306ba0-1101-4ad6-97e5-b1a8ef496c07}</UniqueIdentifier>
     </Filter>
-    <Filter Include="头文件\core\cpu\zigzag">
-      <UniqueIdentifier>{d0fa844a-af1a-4305-9f47-1f095fde6bc8}</UniqueIdentifier>
+    <Filter Include="头文件\core\cpu\zig">
+      <UniqueIdentifier>{60be435e-4423-45db-88d4-0ef4369df2b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\core\cpu\cpy">
+      <UniqueIdentifier>{f8fc228c-f3ac-4f37-8f56-65ff91d1df1e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -254,11 +257,80 @@
     <ClInclude Include="core\cpu\gemm.h">
       <Filter>头文件\core\cpu</Filter>
     </ClInclude>
-    <ClInclude Include="core\cpu\zigzag\zigzagps.h">
-      <Filter>头文件\core\cpu\zigzag</Filter>
+    <ClInclude Include="core\cpu\zig\zigcpyps.h">
+      <Filter>头文件\core\cpu\zig</Filter>
     </ClInclude>
-    <ClInclude Include="core\cpu\zigzag.h">
+    <ClInclude Include="core\cpu\zig\zigtrpps.h">
+      <Filter>头文件\core\cpu\zig</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\cpy\cpyps.h">
+      <Filter>头文件\core\cpu\cpy</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\zig\zigtrpi8.h">
+      <Filter>头文件\core\cpu\zig</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\zig\zigcpyi8.h">
+      <Filter>头文件\core\cpu\zig</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\cpy\cpyi8.h">
+      <Filter>头文件\core\cpu\cpy</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\cpy\cpyi16.h">
+      <Filter>头文件\core\cpu\cpy</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\zig\zigtrpi16.h">
+      <Filter>头文件\core\cpu\zig</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\zig\zigcpyi16.h">
+      <Filter>头文件\core\cpu\zig</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\cpy\cpyi32.h">
+      <Filter>头文件\core\cpu\cpy</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\zig.h">
       <Filter>头文件\core\cpu</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\zig\zigcpyi32.h">
+      <Filter>头文件\core\cpu\zig</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\zig\zigtrpi32.h">
+      <Filter>头文件\core\cpu\zig</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\zig\zigcpyu8.h">
+      <Filter>头文件\core\cpu\zig</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\zig\zigcpyu16.h">
+      <Filter>头文件\core\cpu\zig</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\zig\zigcpyu32.h">
+      <Filter>头文件\core\cpu\zig</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\cpy\cpyu8.h">
+      <Filter>头文件\core\cpu\cpy</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\cpy\cpyu16.h">
+      <Filter>头文件\core\cpu\cpy</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\cpy\cpyu32.h">
+      <Filter>头文件\core\cpu\cpy</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\cpy\cpypd.h">
+      <Filter>头文件\core\cpu\cpy</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\zig\zigcpypd.h">
+      <Filter>头文件\core\cpu\zig</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\zig\zigtrppd.h">
+      <Filter>头文件\core\cpu\zig</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\zig\zigtrpu8.h">
+      <Filter>头文件\core\cpu\zig</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\zig\zigtrpu16.h">
+      <Filter>头文件\core\cpu\zig</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\zig\zigtrpu32.h">
+      <Filter>头文件\core\cpu\zig</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -143,7 +143,7 @@
       <ConformanceMode>false</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <OpenMPSupport>true</OpenMPSupport>
-      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -181,6 +181,14 @@
     <ClInclude Include="core\comm\trp.h" />
     <ClInclude Include="core\core.h" />
     <ClInclude Include="core\cpu.h" />
+    <ClInclude Include="core\cpu\cpy\cpyi16.h" />
+    <ClInclude Include="core\cpu\cpy\cpyi32.h" />
+    <ClInclude Include="core\cpu\cpy\cpyi8.h" />
+    <ClInclude Include="core\cpu\cpy\cpypd.h" />
+    <ClInclude Include="core\cpu\cpy\cpyps.h" />
+    <ClInclude Include="core\cpu\cpy\cpyu16.h" />
+    <ClInclude Include="core\cpu\cpy\cpyu32.h" />
+    <ClInclude Include="core\cpu\cpy\cpyu8.h" />
     <ClInclude Include="core\cpu\cvt.h" />
     <ClInclude Include="core\cpu\cvt\cvti16.h" />
     <ClInclude Include="core\cpu\cvt\cvti32.h" />
@@ -212,8 +220,23 @@
     <ClInclude Include="core\cpu\trp\trpu16.h" />
     <ClInclude Include="core\cpu\trp\trpu32.h" />
     <ClInclude Include="core\cpu\trp\trpu8.h" />
-    <ClInclude Include="core\cpu\zigzag.h" />
-    <ClInclude Include="core\cpu\zigzag\zigzagps.h" />
+    <ClInclude Include="core\cpu\zig.h" />
+    <ClInclude Include="core\cpu\zig\zigcpyi16.h" />
+    <ClInclude Include="core\cpu\zig\zigcpyi32.h" />
+    <ClInclude Include="core\cpu\zig\zigcpyi8.h" />
+    <ClInclude Include="core\cpu\zig\zigcpypd.h" />
+    <ClInclude Include="core\cpu\zig\zigcpyps.h" />
+    <ClInclude Include="core\cpu\zig\zigcpyu16.h" />
+    <ClInclude Include="core\cpu\zig\zigcpyu32.h" />
+    <ClInclude Include="core\cpu\zig\zigcpyu8.h" />
+    <ClInclude Include="core\cpu\zig\zigtrpi16.h" />
+    <ClInclude Include="core\cpu\zig\zigtrpi32.h" />
+    <ClInclude Include="core\cpu\zig\zigtrpi8.h" />
+    <ClInclude Include="core\cpu\zig\zigtrppd.h" />
+    <ClInclude Include="core\cpu\zig\zigtrpps.h" />
+    <ClInclude Include="core\cpu\zig\zigtrpu16.h" />
+    <ClInclude Include="core\cpu\zig\zigtrpu32.h" />
+    <ClInclude Include="core\cpu\zig\zigtrpu8.h" />
     <ClInclude Include="core\define.h" />
     <ClInclude Include="core\device.h" />
     <ClInclude Include="core\endian.h" />
