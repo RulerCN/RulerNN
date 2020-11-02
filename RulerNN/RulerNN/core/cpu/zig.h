@@ -135,7 +135,7 @@ namespace core
 			constexpr size_t block_m = zigcpy_block_m<T>();
 			constexpr size_t block_n = zigcpy_block_n<T>();
 			size_t i = 0, x = 0, y = 0;
-			std::map<std::tuple<size_t, size_t>, std::tuple<size_t, float*, size_t, size_t>> block_list;
+			std::map<std::tuple<size_t, size_t>, std::tuple<size_t, T*, size_t, size_t>> block_list;
 			std::stack<std::tuple<const T*, size_t, size_t, size_t, size_t>> task;
 			for (;;)
 			{
@@ -147,7 +147,7 @@ namespace core
 					// m0 = pow(2, exp)
 					size_t m0 = static_cast<size_t>(1) << exp;
 					size_t m1 = m - m0;
-					const float* p = a + m0 * lda;
+					const T* p = a + m0 * lda;
 					if (n > block_n)
 					{
 						// exp = log2(n - 1)
@@ -208,10 +208,10 @@ namespace core
 		std::map<std::tuple<size_t, size_t>, std::tuple<size_t, T*, size_t, size_t>>
 			impl_zigtrp(T* b, const T* a, size_t lda, size_t m, size_t n)
 		{
-			constexpr size_t block_m = zigcpy_block_m<T>();
-			constexpr size_t block_n = zigcpy_block_n<T>();
+			constexpr size_t block_m = zigtrp_block_m<T>();
+			constexpr size_t block_n = zigtrp_block_n<T>();
 			size_t i = 0, x = 0, y = 0;
-			std::map<std::tuple<size_t, size_t>, std::tuple<size_t, float*, size_t, size_t>> block_list;
+			std::map<std::tuple<size_t, size_t>, std::tuple<size_t, T*, size_t, size_t>> block_list;
 			std::stack<std::tuple<const T*, size_t, size_t, size_t, size_t>> task;
 			for (;;)
 			{
@@ -223,7 +223,7 @@ namespace core
 					// m0 = pow(2, exp)
 					size_t m0 = static_cast<size_t>(1) << exp;
 					size_t m1 = m - m0;
-					const float* p = a + m0 * lda;
+					const T* p = a + m0 * lda;
 					if (n > block_n)
 					{
 						// exp = log2(n - 1)
@@ -287,7 +287,7 @@ namespace core
 			constexpr size_t block_m = zigcpy_block_m<T>();
 			constexpr size_t block_n = zigcpy_block_n<T>();
 			size_t i = 0, x = 0, y = 0;
-			std::map<std::tuple<size_t, size_t>, std::tuple<size_t, float*, size_t, size_t>> block_list;
+			std::map<std::tuple<size_t, size_t>, std::tuple<size_t, T*, size_t, size_t>> block_list;
 			std::stack<std::tuple<const T*, size_t, size_t, size_t, size_t>> task;
 			for (;;)
 			{
@@ -299,7 +299,7 @@ namespace core
 					// m0 = pow(2, exp)
 					size_t m0 = static_cast<size_t>(1) << exp;
 					size_t m1 = m - m0;
-					const float* p = a + m0 * lda;
+					const T* p = a + m0 * lda;
 					if (n > block_n)
 					{
 						// exp = log2(n - 1)
@@ -360,10 +360,10 @@ namespace core
 		std::map<std::tuple<size_t, size_t>, std::tuple<size_t, T*, size_t, size_t>>
 			impl_vzigtrp(T* b, const T* a, size_t lda, size_t m, size_t n)
 		{
-			constexpr size_t block_m = zigcpy_block_m<T>();
-			constexpr size_t block_n = zigcpy_block_n<T>();
+			constexpr size_t block_m = zigtrp_block_m<T>();
+			constexpr size_t block_n = zigtrp_block_n<T>();
 			size_t i = 0, x = 0, y = 0;
-			std::map<std::tuple<size_t, size_t>, std::tuple<size_t, float*, size_t, size_t>> block_list;
+			std::map<std::tuple<size_t, size_t>, std::tuple<size_t, T*, size_t, size_t>> block_list;
 			std::stack<std::tuple<const T*, size_t, size_t, size_t, size_t>> task;
 			for (;;)
 			{
@@ -375,7 +375,7 @@ namespace core
 					// m0 = pow(2, exp)
 					size_t m0 = static_cast<size_t>(1) << exp;
 					size_t m1 = m - m0;
-					const float* p = a + m0 * lda;
+					const T* p = a + m0 * lda;
 					if (n > block_n)
 					{
 						// exp = log2(n - 1)

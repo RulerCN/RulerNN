@@ -126,45 +126,29 @@ int main()
 		// Print L2 cache size.
 		// std::cout << "L2 cache: " << core::simd::l2_cache_size << "\n";
 
-		float a[100] = {
-			 0,  1,  2,  3,  4,  5,  6,  7,  8,  9,
-			10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-			20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
-			30, 31, 32, 33, 34, 35, 36, 37, 38, 39,
-			40, 41, 42, 43, 44, 45, 46, 47, 48, 49,
-			50, 51, 52, 53, 54, 55, 56, 57, 58, 59,
-			60, 61, 62, 63, 64, 65, 66, 67, 68, 69,
-			70, 71, 72, 73, 74, 75, 76, 77, 78, 79,
-			80, 81, 82, 83, 84, 85, 86, 87, 88, 89,
-			90, 91, 92, 93, 94, 95, 96, 97, 98, 99
-		};
-		float b[256];
-		for (int i = 0; i < 10; i++)
-		{
-			for (int j = 0; j < 10; j++)
-				std::cout << a[i * 10 + j] << "\t";
-			std::cout << "\n";
-		}
-		std::cout << "\n";
+		core::matrix<signed char> a(40, 40, 1);
+		core::matrix<signed char> b(80, 32, 1);
+		core::matrix<signed char> c(80, 32, 1);
 
-		core::cpu::impl_vzig(b, a, 10, 10, 10);
-		for (int i = 0; i < 20; i++)
-		{
-			for (int j = 0; j < 8; j++)
-				std::cout << b[i * 8 + j] << "\t";
-			std::cout << "\n";
-		}
-		std::cout << "\n";
+		signed char* pa = a.data();
+		signed char* pb = b.data();
+		signed char* pc = c.data();
 
-		core::cpu::impl_vzig(b, a, 10, 10, 10, true);
-		for (int i = 0; i < 20; i++)
-		{
-			for (int j = 0; j < 8; j++)
-				std::cout << b[i * 8 + j] << "\t";
-			std::cout << "\n";
-		}
+		for (int i = 0; i < a.size(); i++)
+			pa[i] = i;
+		std::cout << a << "\n";
 
-		//impl_zig((float*)nullptr, (float*)nullptr, 45, 45, 45);
+		core::cpu::impl_zig(pb, pa, a.line(), a.rows(), a.cols(), false);
+		std::cout << b << "\n";
+
+		core::cpu::impl_vzig(pb, pa, a.line(), a.rows(), a.cols(), false);
+		std::cout << b << "\n";
+
+		core::cpu::impl_zig(pc, pa, a.line(), a.rows(), a.cols(), true);
+		std::cout << c << "\n";
+
+		core::cpu::impl_vzig(pc, pa, a.line(), a.rows(), a.cols(), true);
+		std::cout << c << "\n";
 
 		//test_trp<float>(10000, 10000);
 		//test_gemm<float>(  50,   50,   50);
