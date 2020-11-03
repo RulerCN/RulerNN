@@ -115,6 +115,283 @@ template<class T>
 void test_gemm(const size_t m, const size_t p, const size_t n);
 
 
+template <class T>
+void impl_gemm(T* zc, T* za, T* zb, T* c, size_t ldc, const T* a, size_t lda, const T* b, size_t ldb, size_t m, size_t p, size_t n)
+{
+	constexpr size_t block_m = gemm_block_m<T>();
+	constexpr size_t block_p = gemm_block_p<T>();
+	constexpr size_t block_n = gemm_block_n<T>();
+	// Zigzag encoding cache
+	auto a_list = core::cpu::impl_zig(za, a, lda, m, p, false);
+	auto b_list = core::cpu::impl_vzig(zb, b, ldb, p, n, false);
+	auto c_list = core::cpu::impl_zig(zc, c, ldc, m, n, false);
+
+	size_t x = 0, y = 0, z = 0;
+	std::stack<std::tuple<size_t, size_t, size_t, size_t, size_t, size_t>> task;
+	for (;;)
+	{
+		if (m > block_m)
+		{
+			// exp = log2(m - 1)
+			float tmp = static_cast<float>(m - 1);
+			size_t exp = ((*reinterpret_cast<unsigned int*>(&tmp)) >> 23 & 0xFFu) - 0x7Fu;
+			// m0 = pow(2, exp)
+			size_t m0 = static_cast<size_t>(1) << exp;
+			size_t m1 = m - m0;
+			if (p > block_p)
+			{
+				// exp = log2(p - 1)
+				float tmp = static_cast<float>(p - 1);
+				size_t exp = ((*reinterpret_cast<unsigned int*>(&tmp)) >> 23 & 0xFFu) - 0x7Fu;
+				// p0 = pow(2, exp)
+				size_t p0 = static_cast<size_t>(1) << exp;
+				size_t p1 = p - p0;
+				if (n > block_n)
+				{
+					// exp = log2(n - 1)
+					float tmp = static_cast<float>(n - 1);
+					size_t exp = ((*reinterpret_cast<unsigned int*>(&tmp)) >> 23 & 0xFFu) - 0x7Fu;
+					// n0 = pow(2, exp)
+					size_t n0 = static_cast<size_t>(1) << exp;
+					size_t n1 = n - n0;
+					// push the elements
+					task.emplace(x + m0, y + p0, z + n0, m1, p1, n1);
+					task.emplace(x + m0, y,      z + n0, m1, p0, n1);
+					task.emplace(x + m0, y + p0, z,      m1, p1, n0);
+					task.emplace(x + m0, y,      z,      m1, p0, n0);
+					task.emplace(x,      y + p0, z + n0, m0, p1, n1);
+					task.emplace(x,      y,      z + n0, m0, p0, n1);
+					task.emplace(x,      y + p0, z,      m0, p1, n0);
+					task.emplace(x,      y,      z,      m0, p0, n0);
+				}
+				else
+				{
+					task.emplace(x + m0, y + p0, z, m1, p1, n);
+					task.emplace(x + m0, y,      z, m1, p0, n);
+					task.emplace(x,      y + p0, z, m0, p1, n);
+					task.emplace(x,      y,      z, m0, p0, n);
+				}
+			}
+			else
+			{
+				// exp = log2(p - 1)
+				float tmp = static_cast<float>(p - 1);
+				size_t exp = ((*reinterpret_cast<unsigned int*>(&tmp)) >> 23 & 0xFFu) - 0x7Fu;
+				// p0 = pow(2, exp)
+				size_t p0 = static_cast<size_t>(1) << exp;
+				size_t p1 = p - p0;
+				if (n > block_n)
+				{
+					// exp = log2(n - 1)
+					float tmp = static_cast<float>(n - 1);
+					size_t exp = ((*reinterpret_cast<unsigned int*>(&tmp)) >> 23 & 0xFFu) - 0x7Fu;
+					// n0 = pow(2, exp)
+					size_t n0 = static_cast<size_t>(1) << exp;
+					size_t n1 = n - n0;
+					// push the elements
+					task.emplace(x + m0, y, z + n0, m1, p, n1);
+					task.emplace(x + m0, y, z,      m1, p, n0);
+					task.emplace(x,      y, z + n0, m0, p, n1);
+					task.emplace(x,      y, z,      m0, p, n0);
+				}
+				else
+				{
+					task.emplace(x + m0, y, z, m1, p, n);
+					task.emplace(x,      y, z, m0, p, n);
+				}
+			}
+		}
+		else
+		{
+			if (p > block_p)
+			{
+				// exp = log2(p - 1)
+				float tmp = static_cast<float>(p - 1);
+				size_t exp = ((*reinterpret_cast<unsigned int*>(&tmp)) >> 23 & 0xFFu) - 0x7Fu;
+				// p0 = pow(2, exp)
+				size_t p0 = static_cast<size_t>(1) << exp;
+				size_t p1 = p - p0;
+				if (n > block_n)
+				{
+					// exp = log2(n - 1)
+					float tmp = static_cast<float>(n - 1);
+					size_t exp = ((*reinterpret_cast<unsigned int*>(&tmp)) >> 23 & 0xFFu) - 0x7Fu;
+					// n0 = pow(2, exp)
+					size_t n0 = static_cast<size_t>(1) << exp;
+					size_t n1 = n - n0;
+					// push the elements
+					task.emplace(x, y + p0, z + n0, m, p1, n1);
+					task.emplace(x, y,      z + n0, m, p0, n1);
+					task.emplace(x, y + p0, z,      m, p1, n0);
+					task.emplace(x, y,      z,      m, p0, n0);
+				}
+				else
+				{
+					task.emplace(x, y + p0, z, m, p1, n);
+					task.emplace(x, y,      z, m, p0, n);
+				}
+			}
+			else
+			{
+				// exp = log2(p - 1)
+				float tmp = static_cast<float>(p - 1);
+				size_t exp = ((*reinterpret_cast<unsigned int*>(&tmp)) >> 23 & 0xFFu) - 0x7Fu;
+				// p0 = pow(2, exp)
+				size_t p0 = static_cast<size_t>(1) << exp;
+				size_t p1 = p - p0;
+				if (n > block_n)
+				{
+					// exp = log2(n - 1)
+					float tmp = static_cast<float>(n - 1);
+					size_t exp = ((*reinterpret_cast<unsigned int*>(&tmp)) >> 23 & 0xFFu) - 0x7Fu;
+					// n0 = pow(2, exp)
+					size_t n0 = static_cast<size_t>(1) << exp;
+					size_t n1 = n - n0;
+					// push the elements
+
+					task.emplace(x, y, z + n0, m, p, n1);
+					task.emplace(x, y, z,      m, p, n0);
+				}
+				else
+				{
+					task.emplace(x, y, z, m, p, n);
+				}
+			}
+		}
+	}
+
+	// General matrix multiplication
+	task.emplace(c, a, b, m, p, n);
+	while (!task.empty())
+	{
+		auto c0 = std::get<0>(task.top());
+		auto a0 = std::get<1>(task.top());
+		auto b0 = std::get<2>(task.top());
+		size_t m0 = std::get<3>(task.top());
+		size_t p0 = std::get<4>(task.top());
+		size_t n0 = std::get<5>(task.top());
+		task.pop();
+		if (m0 > block_m)
+		{
+			// Calculate: exp = log2(m0 - 1)
+			float tmp = static_cast<float>(m0 - 1);
+			size_t exp = ((*reinterpret_cast<unsigned int*>(&tmp)) >> 23 & 0xFFu) - 0x7Fu;
+			// Calculate: m1 = pow(2, exp)
+			size_t m1 = static_cast<size_t>(1) << exp;
+			auto a1 = a0 + m1 * lda;
+			auto c1 = c0 + m1 * ldc;
+			if (p0 > block_p)
+			{
+				// Calculate: exp = log2(p0 - 1)
+				float tmp = static_cast<float>(p0 - 1);
+				size_t exp = ((*reinterpret_cast<unsigned int*>(&tmp)) >> 23 & 0xFFu) - 0x7Fu;
+				// Calculate: n1 = pow(2, exp)
+				size_t p1 = static_cast<size_t>(1) << exp;
+				auto b1 = b0 + p1 * ldb;
+				if (n0 > block_n)
+				{
+					// Calculate: exp = log2(n0 - 1)
+					float tmp = static_cast<float>(n0 - 1);
+					size_t exp = ((*reinterpret_cast<unsigned int*>(&tmp)) >> 23 & 0xFFu) - 0x7Fu;
+					// Calculate: n1 = pow(2, exp)
+					size_t n1 = static_cast<size_t>(1) << exp;
+					// Block matrix multiplication
+					task.emplace(c0, a0, b0, m1, p1, n1);
+					task.emplace(c0, a0 + p1, b1, m1, p0 - p1, n1);
+					task.emplace(c0 + n1, a0, b0 + n1, m1, p1, n0 - n1);
+					task.emplace(c0 + n1, a0 + p1, b1 + n1, m1, p0 - p1, n0 - n1);
+					task.emplace(c1, a1, b0, m0 - m1, p1, n1);
+					task.emplace(c1, a1 + p1, b1, m0 - m1, p0 - p1, n1);
+					task.emplace(c1 + n1, a1, b0 + n1, m0 - m1, p1, n0 - n1);
+					task.emplace(c1 + n1, a1 + p1, b1 + n1, m0 - m1, p0 - p1, n0 - n1);
+				}
+				else
+				{
+					// Block matrix multiplication
+					task.emplace(c0, a0, b0, m1, p1, n0);
+					task.emplace(c0, a0 + p1, b1, m1, p0 - p1, n0);
+					task.emplace(c1, a1, b0, m0 - m1, p1, n0);
+					task.emplace(c1, a1 + p1, b1, m0 - m1, p0 - p1, n0);
+				}
+			}
+			else
+			{
+				if (n0 > block_n)
+				{
+					// Calculate: exp = log2(n0 - 1)
+					float tmp = static_cast<float>(n0 - 1);
+					size_t exp = ((*reinterpret_cast<unsigned int*>(&tmp)) >> 23 & 0xFFu) - 0x7Fu;
+					// Calculate: n1 = pow(2, exp)
+					size_t n1 = static_cast<size_t>(1) << exp;
+					// Block matrix multiplication
+					task.emplace(c0, a0, b0, m1, p0, n1);
+					task.emplace(c0 + n1, a0, b0 + n1, m1, p0, n0 - n1);
+					task.emplace(c1, a1, b0, m0 - m1, p0, n1);
+					task.emplace(c1 + n1, a1, b0 + n1, m0 - m1, p0, n0 - n1);
+				}
+				else
+				{
+					// Block matrix multiplication
+					task.emplace(c0, a0, b0, m1, p0, n0);
+					task.emplace(c1, a1, b0, m0 - m1, p0, n0);
+				}
+			}
+		}
+		else
+		{
+			if (p0 > block_p)
+			{
+				// Calculate: exp = log2(p0 - 1)
+				float tmp = static_cast<float>(p0 - 1);
+				size_t exp = ((*reinterpret_cast<unsigned int*>(&tmp)) >> 23 & 0xFFu) - 0x7Fu;
+				// Calculate: n1 = pow(2, exp)
+				size_t p1 = static_cast<size_t>(1) << exp;
+				auto b1 = b0 + p1 * ldb;
+				if (n0 > block_n)
+				{
+					// Calculate: exp = log2(n0 - 1)
+					float tmp = static_cast<float>(n0 - 1);
+					size_t exp = ((*reinterpret_cast<unsigned int*>(&tmp)) >> 23 & 0xFFu) - 0x7Fu;
+					// Calculate: n1 = pow(2, exp)
+					size_t n1 = static_cast<size_t>(1) << exp;
+					// Block matrix multiplication
+					task.emplace(c0, a0, b0, m0, p1, n1);
+					task.emplace(c0, a0 + p1, b1, m0, p0 - p1, n1);
+					task.emplace(c0 + n1, a0, b0 + n1, m0, p1, n0 - n1);
+					task.emplace(c0 + n1, a0 + p1, b1 + n1, m0, p0 - p1, n0 - n1);
+				}
+				else
+				{
+					// Block matrix multiplication
+					task.emplace(c0, a0, b0, m0, p1, n0);
+					task.emplace(c0, a0 + p1, b1, m0, p0 - p1, n0);
+				}
+			}
+			else
+			{
+				if (n0 > block_n)
+				{
+					// Calculate: exp = log2(n0 - 1)
+					float tmp = static_cast<float>(n0 - 1);
+					size_t exp = ((*reinterpret_cast<unsigned int*>(&tmp)) >> 23 & 0xFFu) - 0x7Fu;
+					// Calculate: n1 = pow(2, exp)
+					size_t n1 = static_cast<size_t>(1) << exp;
+					// Block matrix multiplication
+					task.emplace(c0, a0, b0, m0, p0, n1);
+					task.emplace(c0 + n1, a0, b0 + n1, m0, p0, n0 - n1);
+				}
+				else
+				{
+					if (m0 == block_m && n0 == block_n)
+						add_dot_block(c0, ldc, a0, lda, b0, ldb, p0);
+					else
+						add_dot_tiny(c0, ldc, a0, lda, b0, ldb, m0, p0, n0);
+				}
+			}
+		}
+	}
+}
+
 int main()
 {
 	try
@@ -126,13 +403,13 @@ int main()
 		// Print L2 cache size.
 		// std::cout << "L2 cache: " << core::simd::l2_cache_size << "\n";
 
-		core::matrix<signed char> a(40, 40, 1);
-		core::matrix<signed char> b(80, 32, 1);
-		core::matrix<signed char> c(80, 32, 1);
+		core::matrix<float> a(20, 20, 1);
+		core::matrix<float> b(60, 8, 1);
+		core::matrix<float> c(60, 8, 1);
 
-		signed char* pa = a.data();
-		signed char* pb = b.data();
-		signed char* pc = c.data();
+		float* pa = a.data();
+		float* pb = b.data();
+		float* pc = c.data();
 
 		for (int i = 0; i < a.size(); i++)
 			pa[i] = i;

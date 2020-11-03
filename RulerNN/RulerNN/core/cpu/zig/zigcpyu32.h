@@ -110,7 +110,7 @@ namespace core
 				}
 				_mm256_storeu_si256(reinterpret_cast<__m256i*>(b), ymm_a);
 				a += lda;
-				b += 16;
+				b += 8;
 			}
 			return b;
 		}
