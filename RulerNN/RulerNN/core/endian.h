@@ -40,10 +40,10 @@ namespace core
 		static signed short bswap_short(signed short x)
 		{
 			signed short val;
-			char *a = reinterpret_cast<char*>(&x);
-			char *b = reinterpret_cast<char*>(&val);
-			b[1] = a[0];
-			b[0] = a[1];
+			char *src = reinterpret_cast<char*>(&x);
+			char *dst = reinterpret_cast<char*>(&val);
+			dst[1] = src[0];
+			dst[0] = src[1];
 			return val;
 		}
 
@@ -51,10 +51,10 @@ namespace core
 		static unsigned short bswap_ushort(unsigned short x)
 		{
 			unsigned short val;
-			char *a = reinterpret_cast<char*>(&x);
-			char *b = reinterpret_cast<char*>(&val);
-			b[1] = a[0];
-			b[0] = a[1];
+			char *src = reinterpret_cast<char*>(&x);
+			char *dst = reinterpret_cast<char*>(&val);
+			dst[1] = src[0];
+			dst[0] = src[1];
 			return val;
 		}
 
@@ -62,12 +62,12 @@ namespace core
 		static signed int bswap_int(signed int x)
 		{
 			signed int val;
-			char *a = reinterpret_cast<char*>(&x);
-			char *b = reinterpret_cast<char*>(&val);
-			b[3] = a[0];
-			b[2] = a[1];
-			b[1] = a[2];
-			b[0] = a[3];
+			char *src = reinterpret_cast<char*>(&x);
+			char *dst = reinterpret_cast<char*>(&val);
+			dst[3] = src[0];
+			dst[2] = src[1];
+			dst[1] = src[2];
+			dst[0] = src[3];
 			return val;
 		}
 
@@ -75,12 +75,12 @@ namespace core
 		static unsigned int bswap_uint(unsigned int x)
 		{
 			unsigned int val;
-			char *a = reinterpret_cast<char*>(&x);
-			char *b = reinterpret_cast<char*>(&val);
-			b[3] = a[0];
-			b[2] = a[1];
-			b[1] = a[2];
-			b[0] = a[3];
+			char *src = reinterpret_cast<char*>(&x);
+			char *dst = reinterpret_cast<char*>(&val);
+			dst[3] = src[0];
+			dst[2] = src[1];
+			dst[1] = src[2];
+			dst[0] = src[3];
 			return val;
 		}
 
@@ -88,12 +88,12 @@ namespace core
 		static signed long bswap_long(signed long x)
 		{
 			signed long val;
-			char *a = reinterpret_cast<char*>(&x);
-			char *b = reinterpret_cast<char*>(&val);
-			b[3] = a[0];
-			b[2] = a[1];
-			b[1] = a[2];
-			b[0] = a[3];
+			char *src = reinterpret_cast<char*>(&x);
+			char *dst = reinterpret_cast<char*>(&val);
+			dst[3] = src[0];
+			dst[2] = src[1];
+			dst[1] = src[2];
+			dst[0] = src[3];
 			return val;
 		}
 
@@ -101,12 +101,12 @@ namespace core
 		static unsigned long bswap_long(unsigned long x)
 		{
 			unsigned long val;
-			char *a = reinterpret_cast<char*>(&x);
-			char *b = reinterpret_cast<char*>(&val);
-			b[3] = a[0];
-			b[2] = a[1];
-			b[1] = a[2];
-			b[0] = a[3];
+			char *src = reinterpret_cast<char*>(&x);
+			char *dst = reinterpret_cast<char*>(&val);
+			dst[3] = src[0];
+			dst[2] = src[1];
+			dst[1] = src[2];
+			dst[0] = src[3];
 			return val;
 		}
 
@@ -114,16 +114,16 @@ namespace core
 		static signed long long bswap_long(signed long long x)
 		{
 			signed long long val;
-			char *a = reinterpret_cast<char*>(&x);
-			char *b = reinterpret_cast<char*>(&val);
-			b[7] = a[0];
-			b[6] = a[1];
-			b[5] = a[2];
-			b[4] = a[3];
-			b[3] = a[4];
-			b[2] = a[5];
-			b[1] = a[6];
-			b[0] = a[7];
+			char *src = reinterpret_cast<char*>(&x);
+			char *dst = reinterpret_cast<char*>(&val);
+			dst[7] = src[0];
+			dst[6] = src[1];
+			dst[5] = src[2];
+			dst[4] = src[3];
+			dst[3] = src[4];
+			dst[2] = src[5];
+			dst[1] = src[6];
+			dst[0] = src[7];
 			return val;
 		}
 
@@ -131,16 +131,16 @@ namespace core
 		static unsigned long long bswap_long(unsigned long long x)
 		{
 			unsigned long long val;
-			char *a = reinterpret_cast<char*>(&x);
-			char *b = reinterpret_cast<char*>(&val);
-			b[7] = a[0];
-			b[6] = a[1];
-			b[5] = a[2];
-			b[4] = a[3];
-			b[3] = a[4];
-			b[2] = a[5];
-			b[1] = a[6];
-			b[0] = a[7];
+			char *src = reinterpret_cast<char*>(&x);
+			char *dst = reinterpret_cast<char*>(&val);
+			dst[7] = src[0];
+			dst[6] = src[1];
+			dst[5] = src[2];
+			dst[4] = src[3];
+			dst[3] = src[4];
+			dst[2] = src[5];
+			dst[1] = src[6];
+			dst[0] = src[7];
 			return val;
 		}
 
@@ -148,12 +148,12 @@ namespace core
 		static float bswap_float(float x)
 		{
 			float val;
-			char *a = reinterpret_cast<char*>(&x);
-			char *b = reinterpret_cast<char*>(&val);
-			b[3] = a[0];
-			b[2] = a[1];
-			b[1] = a[2];
-			b[0] = a[3];
+			char *src = reinterpret_cast<char*>(&x);
+			char *dst = reinterpret_cast<char*>(&val);
+			dst[3] = src[0];
+			dst[2] = src[1];
+			dst[1] = src[2];
+			dst[0] = src[3];
 			return val;
 		}
 
@@ -161,16 +161,16 @@ namespace core
 		static double bswap_double(double x)
 		{
 			double val;
-			char *a = reinterpret_cast<char*>(&x);
-			char *b = reinterpret_cast<char*>(&val);
-			b[7] = a[0];
-			b[6] = a[1];
-			b[5] = a[2];
-			b[4] = a[3];
-			b[3] = a[4];
-			b[2] = a[5];
-			b[1] = a[6];
-			b[0] = a[7];
+			char *src = reinterpret_cast<char*>(&x);
+			char *dst = reinterpret_cast<char*>(&val);
+			dst[7] = src[0];
+			dst[6] = src[1];
+			dst[5] = src[2];
+			dst[4] = src[3];
+			dst[3] = src[4];
+			dst[2] = src[5];
+			dst[1] = src[6];
+			dst[0] = src[7];
 			return val;
 		}
 
@@ -178,24 +178,24 @@ namespace core
 		static long double bswap_longdouble(long double x)
 		{
 			long double val;
-			char *a = reinterpret_cast<char*>(&x);
-			char *b = reinterpret_cast<char*>(&val);
-			b[15] = a[0];
-			b[14] = a[1];
-			b[13] = a[2];
-			b[12] = a[3];
-			b[11] = a[4];
-			b[10] = a[5];
-			b[9]  = a[6];
-			b[8]  = a[7];
-			b[7]  = a[8];
-			b[6]  = a[9];
-			b[5]  = a[10];
-			b[4]  = a[11];
-			b[3]  = a[12];
-			b[2]  = a[13];
-			b[1]  = a[14];
-			b[0]  = a[15];
+			char *src = reinterpret_cast<char*>(&x);
+			char *dst = reinterpret_cast<char*>(&val);
+			dst[15] = src[0];
+			dst[14] = src[1];
+			dst[13] = src[2];
+			dst[12] = src[3];
+			dst[11] = src[4];
+			dst[10] = src[5];
+			dst[9]  = src[6];
+			dst[8]  = src[7];
+			dst[7]  = src[8];
+			dst[6]  = src[9];
+			dst[5]  = src[10];
+			dst[4]  = src[11];
+			dst[3]  = src[12];
+			dst[2]  = src[13];
+			dst[1]  = src[14];
+			dst[0]  = src[15];
 			return val;
 		}
 	};

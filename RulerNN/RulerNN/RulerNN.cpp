@@ -248,7 +248,6 @@ void impl_gemm(T* zc, T* za, T* zb, T* c, size_t ldc, const T* a, size_t lda, co
 					size_t n0 = static_cast<size_t>(1) << exp;
 					size_t n1 = n - n0;
 					// push the elements
-
 					task.emplace(x, y, z + n0, m, p, n1);
 					task.emplace(x, y, z,      m, p, n0);
 				}
