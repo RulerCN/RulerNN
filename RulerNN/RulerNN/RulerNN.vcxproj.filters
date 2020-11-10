@@ -40,6 +40,9 @@
     <Filter Include="头文件\core\cpu\cpy">
       <UniqueIdentifier>{f8fc228c-f3ac-4f37-8f56-65ff91d1df1e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\core\cpu\pack">
+      <UniqueIdentifier>{1443833e-b762-4b88-8322-47112067d032}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="RulerNN.cpp">
@@ -331,6 +334,57 @@
     </ClInclude>
     <ClInclude Include="core\cpu\zig\zigtrpu32.h">
       <Filter>头文件\core\cpu\zig</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\pack\packci8.h">
+      <Filter>头文件\core\cpu\pack</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\pack\packci32.h">
+      <Filter>头文件\core\cpu\pack</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\pack\packcpd.h">
+      <Filter>头文件\core\cpu\pack</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\pack\packcps.h">
+      <Filter>头文件\core\cpu\pack</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\pack\packcu8.h">
+      <Filter>头文件\core\cpu\pack</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\pack\packcu16.h">
+      <Filter>头文件\core\cpu\pack</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\pack\packcu32.h">
+      <Filter>头文件\core\cpu\pack</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\pack\packti8.h">
+      <Filter>头文件\core\cpu\pack</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\pack\packti16.h">
+      <Filter>头文件\core\cpu\pack</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\pack\packti32.h">
+      <Filter>头文件\core\cpu\pack</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\pack\packtpd.h">
+      <Filter>头文件\core\cpu\pack</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\pack\packtps.h">
+      <Filter>头文件\core\cpu\pack</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\pack\packtu8.h">
+      <Filter>头文件\core\cpu\pack</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\pack\packtu16.h">
+      <Filter>头文件\core\cpu\pack</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\pack\packtu32.h">
+      <Filter>头文件\core\cpu\pack</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\pack\packci16.h">
+      <Filter>头文件\core\cpu\pack</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\pack.h">
+      <Filter>头文件\core\cpu</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

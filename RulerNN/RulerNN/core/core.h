@@ -32,7 +32,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 // Default allocator
 #ifndef DEFAULT_ALLOCATOR
-#define DEFAULT_ALLOCATOR(T) core::aligned_allocator<T, 32>
+#define DEFAULT_ALLOCATOR(T) core::aligned_allocator<T, 64>
 #endif // !DEFAULT_ALLOCATOR
 
 #include "allocator.h"
