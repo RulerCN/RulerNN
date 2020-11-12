@@ -27,8 +27,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __CORE_CPU_PACKCPS_H__
-#define __CORE_CPU_PACKCPS_H__
+#ifndef __CORE_CPU_SLICE_CPYPS_H__
+#define __CORE_CPU_SLICE_CPYPS_H__
 
 #include "../simd.h"
 
@@ -37,38 +37,40 @@ namespace core
 {
 	namespace cpu
 	{
-		// Function template packc_block_m
-		template <class T> constexpr size_t packc_block_m(void);
+		// Function template slice_cpy_block_m
+		template <class T> constexpr size_t slice_cpy_block_m(void);
 
-		// Function template packc_block_n
-		template <class T> constexpr size_t packc_block_n(void);
+		// Function template slice_cpy_block_n
+		template <class T> constexpr size_t slice_cpy_block_n(void);
 
-		// Function template packc_block
-		template <class T> inline void packc_block(T* b, size_t ldb, const T* a, size_t lda);
+		// Function template slice_cpy_block
+		template <class T> inline void slice_cpy_block(T* b, size_t ldb, const T* a, size_t lda);
 
-		// Function template packc_tiny
-		template <class T> inline void packc_tiny(T* b, size_t ldb, const T* a, size_t lda, size_t m, size_t n);
+		// Function template slice_cpy_panel
+		template <class T> inline void slice_cpy_panel(T* b, size_t ldb, const T* a, size_t lda, size_t m);
+
+		// Function template slice_cpy_tiny
+		template <class T> inline void slice_cpy_tiny(T* b, size_t ldb, const T* a, size_t lda, size_t m, size_t n);
 
 	#if defined(__AVX2__) || defined(__AVX__)
 
 		// Specialize for float
 
 		template <>
-		constexpr size_t packc_block_m<float>(void)
+		constexpr size_t slice_cpy_block_m<float>(void)
 		{
 			return static_cast<size_t>(8);
 		}
 
 		template <>
-		constexpr size_t packc_block_n<float>(void)
+		constexpr size_t slice_cpy_block_n<float>(void)
 		{
 			return static_cast<size_t>(8);
 		}
 
-		// Function template packc_block
-
+		// Function template slice_cpy_block
 		template <>
-		inline void packc_block<float>(float* b, size_t ldb, const float* a, size_t lda)
+		inline void slice_cpy_block<float>(float* b, size_t ldb, const float* a, size_t lda)
 		{
 			const __m256 ymm_a0 = _mm256_loadu_ps(a);
 			const __m256 ymm_a1 = _mm256_loadu_ps(a + lda);
@@ -88,10 +90,20 @@ namespace core
 			_mm256_stream_ps(b + ldb * 7, ymm_a7);
 		}
 
-		// Function template packc_tiny
-
+		// Function template slice_cpy_panel
 		template <>
-		inline void packc_tiny<float>(float* b, size_t ldb, const float* a, size_t lda, size_t m, size_t n)
+		inline void slice_cpy_panel<float>(float* b, size_t ldb, const float* a, size_t lda, size_t m)
+		{
+			for (size_t i = 0; i < m; ++i)
+			{
+				const __m256 ymm_a = _mm256_loadu_ps(a + lda * i);
+				_mm256_stream_ps(b + ldb * i, ymm_a);
+			}
+		}
+
+		// Function template slice_cpy_tiny
+		template <>
+		inline void slice_cpy_tiny<float>(float* b, size_t ldb, const float* a, size_t lda, size_t m, size_t n)
 		{
 			__m256 ymm_a = _mm256_setzero_ps();
 			for (size_t i = 0; i < m; ++i)
@@ -118,21 +130,20 @@ namespace core
 		// Specialize for float
 
 		template <>
-		constexpr size_t packc_block_m<float>(void)
+		constexpr size_t slice_cpy_block_m<float>(void)
 		{
 			return static_cast<size_t>(4);
 		}
 
 		template <>
-		constexpr size_t packc_block_n<float>(void)
+		constexpr size_t slice_cpy_block_n<float>(void)
 		{
 			return static_cast<size_t>(4);
 		}
 
-		// Function template packc_block
-
+		// Function template slice_cpy_block
 		template <>
-		inline void packc_block<float>(float* b, size_t ldb, const float* a, size_t lda)
+		inline void slice_cpy_block<float>(float* b, size_t ldb, const float* a, size_t lda)
 		{
 			const __m128 xmm_a0 = _mm_loadu_ps(a);
 			const __m128 xmm_a1 = _mm_loadu_ps(a + lda);
@@ -144,10 +155,20 @@ namespace core
 			_mm_stream_ps(b + ldb * 3, xmm_a3);
 		}
 
-		// Function template packc_tiny
-
+		// Function template slice_cpy_panel
 		template <>
-		inline void packc_tiny<float>(float* b, size_t ldb, const float* a, size_t lda, size_t m, size_t n)
+		inline void slice_cpy_panel<float>(float* b, size_t ldb, const float* a, size_t lda, size_t m)
+		{
+			for (size_t i = 0; i < m; ++i)
+			{
+				const __m128 xmm_a = _mm_loadu_ps(a + lda * i);
+				_mm_stream_ps(b + ldb * i, xmm_a);
+			}
+		}
+
+		// Function template slice_cpy_tiny
+		template <>
+		inline void slice_cpy_tiny<float>(float* b, size_t ldb, const float* a, size_t lda, size_t m, size_t n)
 		{
 			__m128 xmm_a = _mm_setzero_ps();
 			for (size_t i = 0; i < m; ++i)

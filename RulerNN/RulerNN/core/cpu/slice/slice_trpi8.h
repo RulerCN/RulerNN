@@ -27,8 +27,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __CORE_CPU_PACKTU8_H__
-#define __CORE_CPU_PACKTU8_H__
+#ifndef __CORE_CPU_SLICE_TRPI8_H__
+#define __CORE_CPU_SLICE_TRPI8_H__
 
 #include "../simd.h"
 
@@ -37,38 +37,40 @@ namespace core
 {
 	namespace cpu
 	{
-		// Function template packt_block_m
-		template <class T> constexpr size_t packt_block_m(void);
+		// Function template slice_trp_block_m
+		template <class T> constexpr size_t slice_trp_block_m(void);
 
-		// Function template packt_block_n
-		template <class T> constexpr size_t packt_block_n(void);
+		// Function template slice_trp_block_n
+		template <class T> constexpr size_t slice_trp_block_n(void);
 
-		// Function template packt_block
-		template <class T> inline void packt_block(T* b, size_t ldb, const T* a, size_t lda);
+		// Function template slice_trp_block
+		template <class T> inline void slice_trp_block(T* b, size_t ldb, const T* a, size_t lda);
 
-		// Function template packt_tiny
-		template <class T> inline void packt_tiny(T* b, size_t ldb, const T* a, size_t lda, size_t m, size_t n);
+		// Function template slice_trp_panel
+		template <class T> inline void slice_trp_panel(T* b, size_t ldb, const T* a, size_t lda, size_t n);
+
+		// Function template slice_trp_tiny
+		template <class T> inline void slice_trp_tiny(T* b, size_t ldb, const T* a, size_t lda, size_t m, size_t n);
 
 	#if defined(__AVX2__)
 
-		// Specialize for unsigned char
+		// Specialize for signed char
 
 		template <>
-		constexpr size_t packt_block_m<unsigned char>(void)
+		constexpr size_t slice_trp_block_m<signed char>(void)
 		{
 			return static_cast<size_t>(32);
 		}
 
 		template <>
-		constexpr size_t packt_block_n<unsigned char>(void)
+		constexpr size_t slice_trp_block_n<signed char>(void)
 		{
 			return static_cast<size_t>(16);
 		}
 
-		// Function template packt_block
-
+		// Function template slice_trp_block
 		template <>
-		inline void packt_block<unsigned char>(unsigned char* b, size_t ldb, const unsigned char* a, size_t lda)
+		inline void slice_trp_block<signed char>(signed char* b, size_t ldb, const signed char* a, size_t lda)
 		{
 			__m256i ymm_a0 = _mm256_castsi128_si256(_mm_loadu_si128(reinterpret_cast<const __m128i*>(a)));
 			__m256i ymm_a1 = _mm256_castsi128_si256(_mm_loadu_si128(reinterpret_cast<const __m128i*>(a + lda)));
@@ -184,48 +186,92 @@ namespace core
 			_mm256_stream_si256(reinterpret_cast<__m256i*>(b + ldb * 15), ymm_bf);
 		}
 
-		// Function template packt_tiny
-
+		// Function template slice_trp_panel
 		template <>
-		inline void packt_tiny<unsigned char>(unsigned char* b, size_t ldb, const unsigned char* a, size_t lda, size_t m, size_t n)
+		inline void slice_trp_panel<signed char>(signed char* b, size_t ldb, const signed char* a, size_t lda, size_t n)
+		{
+			__m256i ymm_a = _mm256_setzero_si256();
+			for (size_t i = 0; i < n; ++i)
+			{
+				reinterpret_cast<signed char*>(&ymm_a)[0]  = a[0];
+				reinterpret_cast<signed char*>(&ymm_a)[1]  = a[lda];
+				reinterpret_cast<signed char*>(&ymm_a)[2]  = a[lda * 2];
+				reinterpret_cast<signed char*>(&ymm_a)[3]  = a[lda * 3];
+				reinterpret_cast<signed char*>(&ymm_a)[4]  = a[lda * 4];
+				reinterpret_cast<signed char*>(&ymm_a)[5]  = a[lda * 5];
+				reinterpret_cast<signed char*>(&ymm_a)[6]  = a[lda * 6];
+				reinterpret_cast<signed char*>(&ymm_a)[7]  = a[lda * 7];
+				reinterpret_cast<signed char*>(&ymm_a)[8]  = a[lda * 8];
+				reinterpret_cast<signed char*>(&ymm_a)[9]  = a[lda * 9];
+				reinterpret_cast<signed char*>(&ymm_a)[10] = a[lda * 10];
+				reinterpret_cast<signed char*>(&ymm_a)[11] = a[lda * 11];
+				reinterpret_cast<signed char*>(&ymm_a)[12] = a[lda * 12];
+				reinterpret_cast<signed char*>(&ymm_a)[13] = a[lda * 13];
+				reinterpret_cast<signed char*>(&ymm_a)[14] = a[lda * 14];
+				reinterpret_cast<signed char*>(&ymm_a)[15] = a[lda * 15];
+				reinterpret_cast<signed char*>(&ymm_a)[16] = a[lda * 16];
+				reinterpret_cast<signed char*>(&ymm_a)[17] = a[lda * 17];
+				reinterpret_cast<signed char*>(&ymm_a)[18] = a[lda * 18];
+				reinterpret_cast<signed char*>(&ymm_a)[19] = a[lda * 19];
+				reinterpret_cast<signed char*>(&ymm_a)[20] = a[lda * 20];
+				reinterpret_cast<signed char*>(&ymm_a)[21] = a[lda * 21];
+				reinterpret_cast<signed char*>(&ymm_a)[22] = a[lda * 22];
+				reinterpret_cast<signed char*>(&ymm_a)[23] = a[lda * 23];
+				reinterpret_cast<signed char*>(&ymm_a)[24] = a[lda * 24];
+				reinterpret_cast<signed char*>(&ymm_a)[25] = a[lda * 25];
+				reinterpret_cast<signed char*>(&ymm_a)[26] = a[lda * 26];
+				reinterpret_cast<signed char*>(&ymm_a)[27] = a[lda * 27];
+				reinterpret_cast<signed char*>(&ymm_a)[28] = a[lda * 28];
+				reinterpret_cast<signed char*>(&ymm_a)[29] = a[lda * 29];
+				reinterpret_cast<signed char*>(&ymm_a)[30] = a[lda * 30];
+				reinterpret_cast<signed char*>(&ymm_a)[31] = a[lda * 31];
+				_mm256_stream_si256(reinterpret_cast<__m256i*>(b), ymm_a);
+				a += 1;
+				b += ldb;
+			}
+		}
+
+		// Function template slice_trp_tiny
+		template <>
+		inline void slice_trp_tiny<signed char>(signed char* b, size_t ldb, const signed char* a, size_t lda, size_t m, size_t n)
 		{
 			__m256i ymm_a = _mm256_setzero_si256();
 			for (size_t i = 0; i < n; ++i)
 			{
 				switch (m)
 				{
-				case 32: reinterpret_cast<unsigned char*>(&ymm_a)[31] = a[lda * 31]; [[fallthrough]];
-				case 31: reinterpret_cast<unsigned char*>(&ymm_a)[30] = a[lda * 30]; [[fallthrough]];
-				case 30: reinterpret_cast<unsigned char*>(&ymm_a)[29] = a[lda * 29]; [[fallthrough]];
-				case 29: reinterpret_cast<unsigned char*>(&ymm_a)[28] = a[lda * 28]; [[fallthrough]];
-				case 28: reinterpret_cast<unsigned char*>(&ymm_a)[27] = a[lda * 27]; [[fallthrough]];
-				case 27: reinterpret_cast<unsigned char*>(&ymm_a)[26] = a[lda * 26]; [[fallthrough]];
-				case 26: reinterpret_cast<unsigned char*>(&ymm_a)[25] = a[lda * 25]; [[fallthrough]];
-				case 25: reinterpret_cast<unsigned char*>(&ymm_a)[24] = a[lda * 24]; [[fallthrough]];
-				case 24: reinterpret_cast<unsigned char*>(&ymm_a)[23] = a[lda * 23]; [[fallthrough]];
-				case 23: reinterpret_cast<unsigned char*>(&ymm_a)[22] = a[lda * 22]; [[fallthrough]];
-				case 22: reinterpret_cast<unsigned char*>(&ymm_a)[21] = a[lda * 21]; [[fallthrough]];
-				case 21: reinterpret_cast<unsigned char*>(&ymm_a)[20] = a[lda * 20]; [[fallthrough]];
-				case 20: reinterpret_cast<unsigned char*>(&ymm_a)[19] = a[lda * 19]; [[fallthrough]];
-				case 19: reinterpret_cast<unsigned char*>(&ymm_a)[18] = a[lda * 18]; [[fallthrough]];
-				case 18: reinterpret_cast<unsigned char*>(&ymm_a)[17] = a[lda * 17]; [[fallthrough]];
-				case 17: reinterpret_cast<unsigned char*>(&ymm_a)[16] = a[lda * 16]; [[fallthrough]];
-				case 16: reinterpret_cast<unsigned char*>(&ymm_a)[15] = a[lda * 15]; [[fallthrough]];
-				case 15: reinterpret_cast<unsigned char*>(&ymm_a)[14] = a[lda * 14]; [[fallthrough]];
-				case 14: reinterpret_cast<unsigned char*>(&ymm_a)[13] = a[lda * 13]; [[fallthrough]];
-				case 13: reinterpret_cast<unsigned char*>(&ymm_a)[12] = a[lda * 12]; [[fallthrough]];
-				case 12: reinterpret_cast<unsigned char*>(&ymm_a)[11] = a[lda * 11]; [[fallthrough]];
-				case 11: reinterpret_cast<unsigned char*>(&ymm_a)[10] = a[lda * 10]; [[fallthrough]];
-				case 10: reinterpret_cast<unsigned char*>(&ymm_a)[9]  = a[lda * 9];  [[fallthrough]];
-				case 9:  reinterpret_cast<unsigned char*>(&ymm_a)[8]  = a[lda * 8];  [[fallthrough]];
-				case 8:  reinterpret_cast<unsigned char*>(&ymm_a)[7]  = a[lda * 7];  [[fallthrough]];
-				case 7:  reinterpret_cast<unsigned char*>(&ymm_a)[6]  = a[lda * 6];  [[fallthrough]];
-				case 6:  reinterpret_cast<unsigned char*>(&ymm_a)[5]  = a[lda * 5];  [[fallthrough]];
-				case 5:  reinterpret_cast<unsigned char*>(&ymm_a)[4]  = a[lda * 4];  [[fallthrough]];
-				case 4:  reinterpret_cast<unsigned char*>(&ymm_a)[3]  = a[lda * 3];  [[fallthrough]];
-				case 3:  reinterpret_cast<unsigned char*>(&ymm_a)[2]  = a[lda * 2];  [[fallthrough]];
-				case 2:  reinterpret_cast<unsigned char*>(&ymm_a)[1]  = a[lda];      [[fallthrough]];
-				case 1:  reinterpret_cast<unsigned char*>(&ymm_a)[0]  = a[0];        [[fallthrough]];
+				case 32: reinterpret_cast<signed char*>(&ymm_a)[31] = a[lda * 31]; [[fallthrough]];
+				case 31: reinterpret_cast<signed char*>(&ymm_a)[30] = a[lda * 30]; [[fallthrough]];
+				case 30: reinterpret_cast<signed char*>(&ymm_a)[29] = a[lda * 29]; [[fallthrough]];
+				case 29: reinterpret_cast<signed char*>(&ymm_a)[28] = a[lda * 28]; [[fallthrough]];
+				case 28: reinterpret_cast<signed char*>(&ymm_a)[27] = a[lda * 27]; [[fallthrough]];
+				case 27: reinterpret_cast<signed char*>(&ymm_a)[26] = a[lda * 26]; [[fallthrough]];
+				case 26: reinterpret_cast<signed char*>(&ymm_a)[25] = a[lda * 25]; [[fallthrough]];
+				case 25: reinterpret_cast<signed char*>(&ymm_a)[24] = a[lda * 24]; [[fallthrough]];
+				case 24: reinterpret_cast<signed char*>(&ymm_a)[23] = a[lda * 23]; [[fallthrough]];
+				case 23: reinterpret_cast<signed char*>(&ymm_a)[22] = a[lda * 22]; [[fallthrough]];
+				case 22: reinterpret_cast<signed char*>(&ymm_a)[21] = a[lda * 21]; [[fallthrough]];
+				case 21: reinterpret_cast<signed char*>(&ymm_a)[20] = a[lda * 20]; [[fallthrough]];
+				case 20: reinterpret_cast<signed char*>(&ymm_a)[19] = a[lda * 19]; [[fallthrough]];
+				case 19: reinterpret_cast<signed char*>(&ymm_a)[18] = a[lda * 18]; [[fallthrough]];
+				case 18: reinterpret_cast<signed char*>(&ymm_a)[17] = a[lda * 17]; [[fallthrough]];
+				case 17: reinterpret_cast<signed char*>(&ymm_a)[16] = a[lda * 16]; [[fallthrough]];
+				case 16: reinterpret_cast<signed char*>(&ymm_a)[15] = a[lda * 15]; [[fallthrough]];
+				case 15: reinterpret_cast<signed char*>(&ymm_a)[14] = a[lda * 14]; [[fallthrough]];
+				case 14: reinterpret_cast<signed char*>(&ymm_a)[13] = a[lda * 13]; [[fallthrough]];
+				case 13: reinterpret_cast<signed char*>(&ymm_a)[12] = a[lda * 12]; [[fallthrough]];
+				case 12: reinterpret_cast<signed char*>(&ymm_a)[11] = a[lda * 11]; [[fallthrough]];
+				case 11: reinterpret_cast<signed char*>(&ymm_a)[10] = a[lda * 10]; [[fallthrough]];
+				case 10: reinterpret_cast<signed char*>(&ymm_a)[9]  = a[lda * 9];  [[fallthrough]];
+				case 9:  reinterpret_cast<signed char*>(&ymm_a)[8]  = a[lda * 8];  [[fallthrough]];
+				case 8:  reinterpret_cast<signed char*>(&ymm_a)[7]  = a[lda * 7];  [[fallthrough]];
+				case 7:  reinterpret_cast<signed char*>(&ymm_a)[6]  = a[lda * 6];  [[fallthrough]];
+				case 6:  reinterpret_cast<signed char*>(&ymm_a)[5]  = a[lda * 5];  [[fallthrough]];
+				case 5:  reinterpret_cast<signed char*>(&ymm_a)[4]  = a[lda * 4];  [[fallthrough]];
+				case 4:  reinterpret_cast<signed char*>(&ymm_a)[3]  = a[lda * 3];  [[fallthrough]];
+				case 3:  reinterpret_cast<signed char*>(&ymm_a)[2]  = a[lda * 2];  [[fallthrough]];
+				case 2:  reinterpret_cast<signed char*>(&ymm_a)[1]  = a[lda];      [[fallthrough]];
+				case 1:  reinterpret_cast<signed char*>(&ymm_a)[0]  = a[0];        [[fallthrough]];
 				}
 				_mm256_stream_si256(reinterpret_cast<__m256i*>(b), ymm_a);
 				a += 1;
@@ -235,24 +281,23 @@ namespace core
 
 	#elif defined(__AVX__) || defined(__SSE4_2__) || defined(__SSE4_1__) || defined(__SSSE3__) || defined(__SSE3__) || defined(__SSE2__)
 
-		// Specialize for unsigned char
+		// Specialize for signed char
 
 		template <>
-		constexpr size_t packt_block_m<unsigned char>(void)
+		constexpr size_t slice_trp_block_m<signed char>(void)
 		{
 			return static_cast<size_t>(16);
 		}
 
 		template <>
-		constexpr size_t packt_block_n<unsigned char>(void)
+		constexpr size_t slice_trp_block_n<signed char>(void)
 		{
 			return static_cast<size_t>(16);
 		}
 
-		// Function template packt_block
-
+		// Function template slice_trp_block
 		template <>
-		inline void packt_block<unsigned char>(unsigned char* b, size_t ldb, const unsigned char* a, size_t lda)
+		inline void slice_trp_block<signed char>(signed char* b, size_t ldb, const signed char* a, size_t lda)
 		{
 			__m128i xmm_a0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a));
 			__m128i xmm_a1 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a + lda));
@@ -352,32 +397,60 @@ namespace core
 			_mm_stream_si128(reinterpret_cast<__m128i*>(b + ldb * 15), xmm_af);
 		}
 
-		// Function template packt_tiny
-
+		// Function template slice_trp_panel
 		template <>
-		inline void packt_tiny<unsigned char>(unsigned char* b, size_t ldb, const unsigned char* a, size_t lda, size_t m, size_t n)
+		inline void slice_trp_panel<signed char>(signed char* b, size_t ldb, const signed char* a, size_t lda, size_t n)
+		{
+			__m128i xmm_a = _mm_setzero_si128();
+			for (size_t i = 0; i < n; ++i)
+			{
+				reinterpret_cast<signed char*>(&ymm_a)[0] = a[0];
+				reinterpret_cast<signed char*>(&ymm_a)[1] = a[lda];
+				reinterpret_cast<signed char*>(&ymm_a)[2] = a[lda * 2];
+				reinterpret_cast<signed char*>(&ymm_a)[3] = a[lda * 3];
+				reinterpret_cast<signed char*>(&ymm_a)[4] = a[lda * 4];
+				reinterpret_cast<signed char*>(&ymm_a)[5] = a[lda * 5];
+				reinterpret_cast<signed char*>(&ymm_a)[6] = a[lda * 6];
+				reinterpret_cast<signed char*>(&ymm_a)[7] = a[lda * 7];
+				reinterpret_cast<signed char*>(&ymm_a)[8] = a[lda * 8];
+				reinterpret_cast<signed char*>(&ymm_a)[9] = a[lda * 9];
+				reinterpret_cast<signed char*>(&ymm_a)[10] = a[lda * 10];
+				reinterpret_cast<signed char*>(&ymm_a)[11] = a[lda * 11];
+				reinterpret_cast<signed char*>(&ymm_a)[12] = a[lda * 12];
+				reinterpret_cast<signed char*>(&ymm_a)[13] = a[lda * 13];
+				reinterpret_cast<signed char*>(&ymm_a)[14] = a[lda * 14];
+				reinterpret_cast<signed char*>(&ymm_a)[15] = a[lda * 15];
+				_mm_stream_si128(reinterpret_cast<__m128i*>(b), xmm_a);
+				a += 1;
+				b += ldb;
+			}
+		}
+
+		// Function template slice_trp_tiny
+		template <>
+		inline void slice_trp_tiny<signed char>(signed char* b, size_t ldb, const signed char* a, size_t lda, size_t m, size_t n)
 		{
 			__m128i xmm_a = _mm_setzero_si128();
 			for (size_t i = 0; i < n; ++i)
 			{
 				switch (m)
 				{
-				case 16: reinterpret_cast<unsigned char*>(&xmm_a)[15] = a[lda * 15]; [[fallthrough]];
-				case 15: reinterpret_cast<unsigned char*>(&xmm_a)[14] = a[lda * 14]; [[fallthrough]];
-				case 14: reinterpret_cast<unsigned char*>(&xmm_a)[13] = a[lda * 13]; [[fallthrough]];
-				case 13: reinterpret_cast<unsigned char*>(&xmm_a)[12] = a[lda * 12]; [[fallthrough]];
-				case 12: reinterpret_cast<unsigned char*>(&xmm_a)[11] = a[lda * 11]; [[fallthrough]];
-				case 11: reinterpret_cast<unsigned char*>(&xmm_a)[10] = a[lda * 10]; [[fallthrough]];
-				case 10: reinterpret_cast<unsigned char*>(&xmm_a)[9]  = a[lda * 9];  [[fallthrough]];
-				case 9:  reinterpret_cast<unsigned char*>(&xmm_a)[8]  = a[lda * 8];  [[fallthrough]];
-				case 8:  reinterpret_cast<unsigned char*>(&xmm_a)[7]  = a[lda * 7];  [[fallthrough]];
-				case 7:  reinterpret_cast<unsigned char*>(&xmm_a)[6]  = a[lda * 6];  [[fallthrough]];
-				case 6:  reinterpret_cast<unsigned char*>(&xmm_a)[5]  = a[lda * 5];  [[fallthrough]];
-				case 5:  reinterpret_cast<unsigned char*>(&xmm_a)[4]  = a[lda * 4];  [[fallthrough]];
-				case 4:  reinterpret_cast<unsigned char*>(&xmm_a)[3]  = a[lda * 3];  [[fallthrough]];
-				case 3:  reinterpret_cast<unsigned char*>(&xmm_a)[2]  = a[lda * 2];  [[fallthrough]];
-				case 2:  reinterpret_cast<unsigned char*>(&xmm_a)[1]  = a[lda];      [[fallthrough]];
-				case 1:  reinterpret_cast<unsigned char*>(&xmm_a)[0]  = a[0];        [[fallthrough]];
+				case 16: reinterpret_cast<signed char*>(&xmm_a)[15] = a[lda * 15]; [[fallthrough]];
+				case 15: reinterpret_cast<signed char*>(&xmm_a)[14] = a[lda * 14]; [[fallthrough]];
+				case 14: reinterpret_cast<signed char*>(&xmm_a)[13] = a[lda * 13]; [[fallthrough]];
+				case 13: reinterpret_cast<signed char*>(&xmm_a)[12] = a[lda * 12]; [[fallthrough]];
+				case 12: reinterpret_cast<signed char*>(&xmm_a)[11] = a[lda * 11]; [[fallthrough]];
+				case 11: reinterpret_cast<signed char*>(&xmm_a)[10] = a[lda * 10]; [[fallthrough]];
+				case 10: reinterpret_cast<signed char*>(&xmm_a)[9]  = a[lda * 9];  [[fallthrough]];
+				case 9:  reinterpret_cast<signed char*>(&xmm_a)[8]  = a[lda * 8];  [[fallthrough]];
+				case 8:  reinterpret_cast<signed char*>(&xmm_a)[7]  = a[lda * 7];  [[fallthrough]];
+				case 7:  reinterpret_cast<signed char*>(&xmm_a)[6]  = a[lda * 6];  [[fallthrough]];
+				case 6:  reinterpret_cast<signed char*>(&xmm_a)[5]  = a[lda * 5];  [[fallthrough]];
+				case 5:  reinterpret_cast<signed char*>(&xmm_a)[4]  = a[lda * 4];  [[fallthrough]];
+				case 4:  reinterpret_cast<signed char*>(&xmm_a)[3]  = a[lda * 3];  [[fallthrough]];
+				case 3:  reinterpret_cast<signed char*>(&xmm_a)[2]  = a[lda * 2];  [[fallthrough]];
+				case 2:  reinterpret_cast<signed char*>(&xmm_a)[1]  = a[lda];      [[fallthrough]];
+				case 1:  reinterpret_cast<signed char*>(&xmm_a)[0]  = a[0];        [[fallthrough]];
 				}
 				_mm_stream_si128(reinterpret_cast<__m128i*>(b), xmm_a);
 				a += 1;

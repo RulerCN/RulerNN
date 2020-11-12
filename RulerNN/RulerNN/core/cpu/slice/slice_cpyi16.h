@@ -27,8 +27,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __CORE_CPU_PACKCI16_H__
-#define __CORE_CPU_PACKCI16_H__
+#ifndef __CORE_CPU_SLICE_CPYI16_H__
+#define __CORE_CPU_SLICE_CPYI16_H__
 
 #include "../simd.h"
 
@@ -37,38 +37,40 @@ namespace core
 {
 	namespace cpu
 	{
-		// Function template packc_block_m
-		template <class T> constexpr size_t packc_block_m(void);
+		// Function template slice_cpy_block_m
+		template <class T> constexpr size_t slice_cpy_block_m(void);
 
-		// Function template packc_block_n
-		template <class T> constexpr size_t packc_block_n(void);
+		// Function template slice_cpy_block_n
+		template <class T> constexpr size_t slice_cpy_block_n(void);
 
-		// Function template packc_block
-		template <class T> inline void packc_block(T* b, size_t ldb, const T* a, size_t lda);
+		// Function template slice_cpy_block
+		template <class T> inline void slice_cpy_block(T* b, size_t ldb, const T* a, size_t lda);
 
-		// Function template packc_tiny
-		template <class T> inline void packc_tiny(T* b, size_t ldb, const T* a, size_t lda, size_t m, size_t n);
+		// Function template slice_cpy_panel
+		template <class T> inline void slice_cpy_panel(T* b, size_t ldb, const T* a, size_t lda, size_t m);
+
+		// Function template slice_cpy_tiny
+		template <class T> inline void slice_cpy_tiny(T* b, size_t ldb, const T* a, size_t lda, size_t m, size_t n);
 
 	#if defined(__AVX2__) || defined(__AVX__)
 
 		// Specialize for signed short
 
 		template <>
-		constexpr size_t packc_block_m<signed short>(void)
+		constexpr size_t slice_cpy_block_m<signed short>(void)
 		{
 			return static_cast<size_t>(8);
 		}
 
 		template <>
-		constexpr size_t packc_block_n<signed short>(void)
+		constexpr size_t slice_cpy_block_n<signed short>(void)
 		{
 			return static_cast<size_t>(16);
 		}
 
-		// Function template packc_block
-
+		// Function template slice_cpy_block
 		template <>
-		inline void packc_block<signed short>(signed short* b, size_t ldb, const signed short* a, size_t lda)
+		inline void slice_cpy_block<signed short>(signed short* b, size_t ldb, const signed short* a, size_t lda)
 		{
 			const __m256i ymm_a0 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(a));
 			const __m256i ymm_a1 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(a + lda));
@@ -88,10 +90,20 @@ namespace core
 			_mm256_stream_si256(reinterpret_cast<__m256i*>(b + ldb * 7), ymm_a7);
 		}
 
-		// Function template packc_tiny
-
+		// Function template slice_cpy_panel
 		template <>
-		inline void packc_tiny<signed short>(signed short* b, size_t ldb, const signed short* a, size_t lda, size_t m, size_t n)
+		inline void slice_cpy_panel<signed short>(signed short* b, size_t ldb, const signed short* a, size_t lda, size_t m)
+		{
+			for (size_t i = 0; i < m; ++i)
+			{
+				const __m256i ymm_a = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(a + lda * i));
+				_mm256_stream_si256(reinterpret_cast<__m256i*>(b + ldb * i), ymm_a);
+			}
+		}
+
+		// Function template slice_cpy_tiny
+		template <>
+		inline void slice_cpy_tiny<signed short>(signed short* b, size_t ldb, const signed short* a, size_t lda, size_t m, size_t n)
 		{
 			__m256i ymm_a = _mm256_setzero_si256();
 			for (size_t i = 0; i < m; ++i)
@@ -126,21 +138,20 @@ namespace core
 		// Specialize for signed short
 
 		template <>
-		constexpr size_t packc_block_m<signed short>(void)
+		constexpr size_t slice_cpy_block_m<signed short>(void)
 		{
 			return static_cast<size_t>(8);
 		}
 
 		template <>
-		constexpr size_t packc_block_n<signed short>(void)
+		constexpr size_t slice_cpy_block_n<signed short>(void)
 		{
 			return static_cast<size_t>(8);
 		}
 
-		// Function template packc_block
-
+		// Function template slice_cpy_block
 		template <>
-		inline void packc_block<signed short>(signed short* b, size_t ldb, const signed short* a, size_t lda)
+		inline void slice_cpy_block<signed short>(signed short* b, size_t ldb, const signed short* a, size_t lda)
 		{
 			const __m128i xmm_a0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a));
 			const __m128i xmm_a1 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a + lda));
@@ -160,10 +171,20 @@ namespace core
 			_mm_stream_si128(reinterpret_cast<__m128i*>(b + ldb * 7), xmm_a7);
 		}
 
-		// Function template packc_tiny
-
+		// Function template slice_cpy_panel
 		template <>
-		inline void packc_tiny<signed short>(signed short* b, size_t ldb, const signed short* a, size_t lda, size_t m, size_t n)
+		inline void slice_cpy_panel<signed short>(signed short* b, size_t ldb, const signed short* a, size_t lda, size_t m)
+		{
+			for (size_t i = 0; i < m; ++i)
+			{
+				const __m128i xmm_a = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a + lda * i));
+				_mm_stream_si128(reinterpret_cast<__m128i*>(b + ldb * i), xmm_a);
+			}
+		}
+
+		// Function template slice_cpy_tiny
+		template <>
+		inline void slice_cpy_tiny<signed short>(signed short* b, size_t ldb, const signed short* a, size_t lda, size_t m, size_t n)
 		{
 			__m128i xmm_a = _mm_setzero_si128();
 			for (size_t i = 0; i < m; ++i)

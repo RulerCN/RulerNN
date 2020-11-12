@@ -46,6 +46,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "cpu/simd.h"
 #include "cpu/cvt.h"
 #include "cpu/trp.h"
+#include "cpu/trp.h"
+#include "cpu/slice.h"
 #include "cpu/zig.h"
 #include "cpu/gemm.h"
 

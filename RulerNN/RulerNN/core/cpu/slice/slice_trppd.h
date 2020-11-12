@@ -27,8 +27,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __CORE_CPU_PACKTPD_H__
-#define __CORE_CPU_PACKTPD_H__
+#ifndef __CORE_CPU_SLICE_TRPPD_H__
+#define __CORE_CPU_SLICE_TRPPD_H__
 
 #include "../simd.h"
 
@@ -37,38 +37,40 @@ namespace core
 {
 	namespace cpu
 	{
-		// Function template packt_block_m
-		template <class T> constexpr size_t packt_block_m(void);
+		// Function template slice_trp_block_m
+		template <class T> constexpr size_t slice_trp_block_m(void);
 
-		// Function template packt_block_n
-		template <class T> constexpr size_t packt_block_n(void);
+		// Function template slice_trp_block_n
+		template <class T> constexpr size_t slice_trp_block_n(void);
 
-		// Function template packt_block
-		template <class T> inline void packt_block(T* b, size_t ldb, const T* a, size_t lda);
+		// Function template slice_trp_block
+		template <class T> inline void slice_trp_block(T* b, size_t ldb, const T* a, size_t lda);
 
-		// Function template packt_tiny
-		template <class T> inline void packt_tiny(T* b, size_t ldb, const T* a, size_t lda, size_t m, size_t n);
+		// Function template slice_trp_panel
+		template <class T> inline void slice_trp_panel(T* b, size_t ldb, const T* a, size_t lda, size_t n);
+
+		// Function template slice_trp_tiny
+		template <class T> inline void slice_trp_tiny(T* b, size_t ldb, const T* a, size_t lda, size_t m, size_t n);
 
 	#if defined(__AVX2__) || defined(__AVX__)
 
 		// Specialize for double
 
 		template <>
-		constexpr size_t packt_block_m<double>(void)
+		constexpr size_t slice_trp_block_m<double>(void)
 		{
 			return static_cast<size_t>(4);
 		}
 
 		template <>
-		constexpr size_t packt_block_n<double>(void)
+		constexpr size_t slice_trp_block_n<double>(void)
 		{
 			return static_cast<size_t>(4);
 		}
 
-		// Function template packt_block
-
+		// Function template slice_trp_block
 		template <>
-		inline void packt_block<double>(double* b, size_t ldb, const double* a, size_t lda)
+		inline void slice_trp_block<double>(double* b, size_t ldb, const double* a, size_t lda)
 		{
 			const double* ptr_a0 = a;
 			const double* ptr_a1 = a + lda;
@@ -92,10 +94,26 @@ namespace core
 			_mm256_stream_pd(b + ldb * 3, ymm_a3);
 		}
 
-		// Function template packt_tiny
-
+		// Function template slice_trp_panel
 		template <>
-		inline void packt_tiny<double>(double* b, size_t ldb, const double* a, size_t lda, size_t m, size_t n)
+		inline void slice_trp_panel<double>(double* b, size_t ldb, const double* a, size_t lda, size_t n)
+		{
+			__m256d ymm_a = _mm256_setzero_pd();
+			for (size_t i = 0; i < n; ++i)
+			{
+				reinterpret_cast<double*>(&ymm_a)[0] = a[0];
+				reinterpret_cast<double*>(&ymm_a)[1] = a[lda];
+				reinterpret_cast<double*>(&ymm_a)[2] = a[lda * 2];
+				reinterpret_cast<double*>(&ymm_a)[3] = a[lda * 3];
+				_mm256_stream_pd(b, ymm_a);
+				a += 1;
+				b += ldb;
+			}
+		}
+
+		// Function template slice_trp_tiny
+		template <>
+		inline void slice_trp_tiny<double>(double* b, size_t ldb, const double* a, size_t lda, size_t m, size_t n)
 		{
 			__m256d ymm_a = _mm256_setzero_pd();
 			for (size_t i = 0; i < n; ++i)
@@ -118,21 +136,20 @@ namespace core
 		// Specialize for double
 
 		template <>
-		constexpr size_t packt_block_m<double>(void)
+		constexpr size_t slice_trp_block_m<double>(void)
 		{
 			return static_cast<size_t>(2);
 		}
 
 		template <>
-		constexpr size_t packt_block_n<double>(void)
+		constexpr size_t slice_trp_block_n<double>(void)
 		{
 			return static_cast<size_t>(2);
 		}
 
-		// Function template packt_block
-
+		// Function template slice_trp_block
 		template <>
-		inline void packt_block<double>(double* b, size_t ldb, const double* a, size_t lda)
+		inline void slice_trp_block<double>(double* b, size_t ldb, const double* a, size_t lda)
 		{
 			__m128d xmm_a0 = _mm_loadu_pd(a);
 			__m128d xmm_a1 = _mm_loadu_pd(a + lda);
@@ -142,10 +159,24 @@ namespace core
 			_mm_stream_pd(b + ldb, xmm_b1);
 		}
 
-		// Function template packt_tiny
-
+		// Function template slice_trp_panel
 		template <>
-		inline void packt_tiny<double>(double* b, size_t ldb, const double* a, size_t lda, size_t m, size_t n)
+		inline void slice_trp_panel<double>(double* b, size_t ldb, const double* a, size_t lda, size_t n)
+		{
+			__m128d xmm_a = _mm_setzero_pd();
+			for (size_t i = 0; i < n; ++i)
+			{
+				reinterpret_cast<double*>(&ymm_a)[0] = a[0];
+				reinterpret_cast<double*>(&ymm_a)[1] = a[lda];
+				_mm_stream_pd(b, xmm_a);
+				a += 1;
+				b += ldb;
+			}
+		}
+
+		// Function template slice_trp_tiny
+		template <>
+		inline void slice_trp_tiny<double>(double* b, size_t ldb, const double* a, size_t lda, size_t m, size_t n)
 		{
 			__m128d xmm_a = _mm_setzero_pd();
 			for (size_t i = 0; i < n; ++i)

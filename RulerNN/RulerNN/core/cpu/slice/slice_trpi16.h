@@ -27,8 +27,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __CORE_CPU_PACKTI16_H__
-#define __CORE_CPU_PACKTI16_H__
+#ifndef __CORE_CPU_SLICE_TRPI16_H__
+#define __CORE_CPU_SLICE_TRPI16_H__
 
 #include "../simd.h"
 
@@ -37,38 +37,40 @@ namespace core
 {
 	namespace cpu
 	{
-		// Function template packt_block_m
-		template <class T> constexpr size_t packt_block_m(void);
+		// Function template slice_trp_block_m
+		template <class T> constexpr size_t slice_trp_block_m(void);
 
-		// Function template packt_block_n
-		template <class T> constexpr size_t packt_block_n(void);
+		// Function template slice_trp_block_n
+		template <class T> constexpr size_t slice_trp_block_n(void);
 
-		// Function template packt_block
-		template <class T> inline void packt_block(T* b, size_t ldb, const T* a, size_t lda);
+		// Function template slice_trp_block
+		template <class T> inline void slice_trp_block(T* b, size_t ldb, const T* a, size_t lda);
 
-		// Function template packt_tiny
-		template <class T> inline void packt_tiny(T* b, size_t ldb, const T* a, size_t lda, size_t m, size_t n);
+		// Function template slice_trp_panel
+		template <class T> inline void slice_trp_panel(T* b, size_t ldb, const T* a, size_t lda, size_t n);
+
+		// Function template slice_trp_tiny
+		template <class T> inline void slice_trp_tiny(T* b, size_t ldb, const T* a, size_t lda, size_t m, size_t n);
 
 	#if defined(__AVX2__)
 
 		// Specialize for signed short
 
 		template <>
-		constexpr size_t packt_block_m<signed short>(void)
+		constexpr size_t slice_trp_block_m<signed short>(void)
 		{
 			return static_cast<size_t>(16);
 		}
 
 		template <>
-		constexpr size_t packt_block_n<signed short>(void)
+		constexpr size_t slice_trp_block_n<signed short>(void)
 		{
 			return static_cast<size_t>(8);
 		}
 
-		// Function template packt_block
-
+		// Function template slice_trp_block
 		template <>
-		inline void packt_block<signed short>(signed short* b, size_t ldb, const signed short* a, size_t lda)
+		inline void slice_trp_block<signed short>(signed short* b, size_t ldb, const signed short* a, size_t lda)
 		{
 			__m256i ymm_a0 = _mm256_castsi128_si256(_mm_loadu_si128(reinterpret_cast<const __m128i*>(a)));
 			__m256i ymm_a1 = _mm256_castsi128_si256(_mm_loadu_si128(reinterpret_cast<const __m128i*>(a + lda)));
@@ -120,10 +122,38 @@ namespace core
 			_mm256_stream_si256(reinterpret_cast<__m256i*>(b + ldb * 7), ymm_a7);
 		}
 
-		// Function template packt_tiny
-
+		// Function template slice_trp_panel
 		template <>
-		inline void packt_tiny<signed short>(signed short* b, size_t ldb, const signed short* a, size_t lda, size_t m, size_t n)
+		inline void slice_trp_panel<signed short>(signed short* b, size_t ldb, const signed short* a, size_t lda, size_t n)
+		{
+			__m256i ymm_a = _mm256_setzero_si256();
+			for (size_t i = 0; i < n; ++i)
+			{
+				reinterpret_cast<signed short*>(&ymm_a)[0]  = a[0];
+				reinterpret_cast<signed short*>(&ymm_a)[1]  = a[lda];
+				reinterpret_cast<signed short*>(&ymm_a)[2]  = a[lda * 2];
+				reinterpret_cast<signed short*>(&ymm_a)[3]  = a[lda * 3];
+				reinterpret_cast<signed short*>(&ymm_a)[4]  = a[lda * 4];
+				reinterpret_cast<signed short*>(&ymm_a)[5]  = a[lda * 5];
+				reinterpret_cast<signed short*>(&ymm_a)[6]  = a[lda * 6];
+				reinterpret_cast<signed short*>(&ymm_a)[7]  = a[lda * 7];
+				reinterpret_cast<signed short*>(&ymm_a)[8]  = a[lda * 8];
+				reinterpret_cast<signed short*>(&ymm_a)[9]  = a[lda * 9];
+				reinterpret_cast<signed short*>(&ymm_a)[10] = a[lda * 10];
+				reinterpret_cast<signed short*>(&ymm_a)[11] = a[lda * 11];
+				reinterpret_cast<signed short*>(&ymm_a)[12] = a[lda * 12];
+				reinterpret_cast<signed short*>(&ymm_a)[13] = a[lda * 13];
+				reinterpret_cast<signed short*>(&ymm_a)[14] = a[lda * 14];
+				reinterpret_cast<signed short*>(&ymm_a)[15] = a[lda * 15];
+				_mm256_stream_si256(reinterpret_cast<__m256i*>(b), ymm_a);
+				a += 1;
+				b += ldb;
+			}
+		}
+
+		// Function template slice_trp_tiny
+		template <>
+		inline void slice_trp_tiny<signed short>(signed short* b, size_t ldb, const signed short* a, size_t lda, size_t m, size_t n)
 		{
 			__m256i ymm_a = _mm256_setzero_si256();
 			for (size_t i = 0; i < n; ++i)
@@ -158,21 +188,20 @@ namespace core
 		// Specialize for signed short
 
 		template <>
-		constexpr size_t packt_block_m<signed short>(void)
+		constexpr size_t slice_trp_block_m<signed short>(void)
 		{
 			return static_cast<size_t>(8);
 		}
 
 		template <>
-		constexpr size_t packt_block_n<signed short>(void)
+		constexpr size_t slice_trp_block_n<signed short>(void)
 		{
 			return static_cast<size_t>(8);
 		}
 
-		// Function template packt_block
-
+		// Function template slice_trp_block
 		template <>
-		inline void packt_block<signed short>(signed short* b, size_t ldb, const signed short* a, size_t lda)
+		inline void slice_trp_block<signed short>(signed short* b, size_t ldb, const signed short* a, size_t lda)
 		{
 			__m128i xmm_a0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a));
 			__m128i xmm_a1 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a + lda));
@@ -216,10 +245,30 @@ namespace core
 			_mm_stream_si128(reinterpret_cast<__m128i*>(b + ldb * 7), xmm_b7);
 		}
 
-		// Function template packt_tiny
-
+		// Function template slice_trp_panel
 		template <>
-		inline void packt_tiny<signed short>(signed short* b, size_t ldb, const signed short* a, size_t lda, size_t m, size_t n)
+		inline void slice_trp_panel<signed short>(signed short* b, size_t ldb, const signed short* a, size_t lda, size_t n)
+		{
+			__m128i xmm_a = _mm_setzero_si128();
+			for (size_t i = 0; i < n; ++i)
+			{
+				reinterpret_cast<signed short*>(&xmm_a)[0] = a[0];
+				reinterpret_cast<signed short*>(&xmm_a)[1] = a[lda];
+				reinterpret_cast<signed short*>(&xmm_a)[2] = a[lda * 2];
+				reinterpret_cast<signed short*>(&xmm_a)[3] = a[lda * 3];
+				reinterpret_cast<signed short*>(&xmm_a)[4] = a[lda * 4];
+				reinterpret_cast<signed short*>(&xmm_a)[5] = a[lda * 5];
+				reinterpret_cast<signed short*>(&xmm_a)[6] = a[lda * 6];
+				reinterpret_cast<signed short*>(&xmm_a)[7] = a[lda * 7];
+				_mm_stream_si128(reinterpret_cast<__m128i*>(b), xmm_a);
+				a += 1;
+				b += ldb;
+			}
+		}
+
+		// Function template slice_trp_tiny
+		template <>
+		inline void slice_trp_tiny<signed short>(signed short* b, size_t ldb, const signed short* a, size_t lda, size_t m, size_t n)
 		{
 			__m128i xmm_a = _mm_setzero_si128();
 			for (size_t i = 0; i < n; ++i)

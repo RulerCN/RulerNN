@@ -40,7 +40,7 @@
     <Filter Include="头文件\core\cpu\cpy">
       <UniqueIdentifier>{f8fc228c-f3ac-4f37-8f56-65ff91d1df1e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="头文件\core\cpu\pack">
+    <Filter Include="头文件\core\cpu\slice">
       <UniqueIdentifier>{1443833e-b762-4b88-8322-47112067d032}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -335,56 +335,56 @@
     <ClInclude Include="core\cpu\zig\zigtrpu32.h">
       <Filter>头文件\core\cpu\zig</Filter>
     </ClInclude>
-    <ClInclude Include="core\cpu\pack\packci8.h">
-      <Filter>头文件\core\cpu\pack</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\pack\packci32.h">
-      <Filter>头文件\core\cpu\pack</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\pack\packcpd.h">
-      <Filter>头文件\core\cpu\pack</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\pack\packcps.h">
-      <Filter>头文件\core\cpu\pack</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\pack\packcu8.h">
-      <Filter>头文件\core\cpu\pack</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\pack\packcu16.h">
-      <Filter>头文件\core\cpu\pack</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\pack\packcu32.h">
-      <Filter>头文件\core\cpu\pack</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\pack\packti8.h">
-      <Filter>头文件\core\cpu\pack</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\pack\packti16.h">
-      <Filter>头文件\core\cpu\pack</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\pack\packti32.h">
-      <Filter>头文件\core\cpu\pack</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\pack\packtpd.h">
-      <Filter>头文件\core\cpu\pack</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\pack\packtps.h">
-      <Filter>头文件\core\cpu\pack</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\pack\packtu8.h">
-      <Filter>头文件\core\cpu\pack</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\pack\packtu16.h">
-      <Filter>头文件\core\cpu\pack</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\pack\packtu32.h">
-      <Filter>头文件\core\cpu\pack</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\pack\packci16.h">
-      <Filter>头文件\core\cpu\pack</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\pack.h">
+    <ClInclude Include="core\cpu\slice.h">
       <Filter>头文件\core\cpu</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\slice\slice_cpyi8.h">
+      <Filter>头文件\core\cpu\slice</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\slice\slice_cpyi16.h">
+      <Filter>头文件\core\cpu\slice</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\slice\slice_cpyi32.h">
+      <Filter>头文件\core\cpu\slice</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\slice\slice_cpypd.h">
+      <Filter>头文件\core\cpu\slice</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\slice\slice_cpyps.h">
+      <Filter>头文件\core\cpu\slice</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\slice\slice_cpyu8.h">
+      <Filter>头文件\core\cpu\slice</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\slice\slice_cpyu16.h">
+      <Filter>头文件\core\cpu\slice</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\slice\slice_cpyu32.h">
+      <Filter>头文件\core\cpu\slice</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\slice\slice_trpi8.h">
+      <Filter>头文件\core\cpu\slice</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\slice\slice_trpi16.h">
+      <Filter>头文件\core\cpu\slice</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\slice\slice_trpi32.h">
+      <Filter>头文件\core\cpu\slice</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\slice\slice_trppd.h">
+      <Filter>头文件\core\cpu\slice</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\slice\slice_trpps.h">
+      <Filter>头文件\core\cpu\slice</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\slice\slice_trpu8.h">
+      <Filter>头文件\core\cpu\slice</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\slice\slice_trpu16.h">
+      <Filter>头文件\core\cpu\slice</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\slice\slice_trpu32.h">
+      <Filter>头文件\core\cpu\slice</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
