@@ -193,16 +193,16 @@ namespace core
 			__m256i ymm_a = _mm256_setzero_si256();
 			for (size_t i = 0; i < n; ++i)
 			{
-				reinterpret_cast<signed char*>(&ymm_a)[0] = a[0];
-				reinterpret_cast<signed char*>(&ymm_a)[1] = a[lda];
-				reinterpret_cast<signed char*>(&ymm_a)[2] = a[lda * 2];
-				reinterpret_cast<signed char*>(&ymm_a)[3] = a[lda * 3];
-				reinterpret_cast<signed char*>(&ymm_a)[4] = a[lda * 4];
-				reinterpret_cast<signed char*>(&ymm_a)[5] = a[lda * 5];
-				reinterpret_cast<signed char*>(&ymm_a)[6] = a[lda * 6];
-				reinterpret_cast<signed char*>(&ymm_a)[7] = a[lda * 7];
-				reinterpret_cast<signed char*>(&ymm_a)[8] = a[lda * 8];
-				reinterpret_cast<signed char*>(&ymm_a)[9] = a[lda * 9];
+				reinterpret_cast<signed char*>(&ymm_a)[0]  = a[0];
+				reinterpret_cast<signed char*>(&ymm_a)[1]  = a[lda];
+				reinterpret_cast<signed char*>(&ymm_a)[2]  = a[lda * 2];
+				reinterpret_cast<signed char*>(&ymm_a)[3]  = a[lda * 3];
+				reinterpret_cast<signed char*>(&ymm_a)[4]  = a[lda * 4];
+				reinterpret_cast<signed char*>(&ymm_a)[5]  = a[lda * 5];
+				reinterpret_cast<signed char*>(&ymm_a)[6]  = a[lda * 6];
+				reinterpret_cast<signed char*>(&ymm_a)[7]  = a[lda * 7];
+				reinterpret_cast<signed char*>(&ymm_a)[8]  = a[lda * 8];
+				reinterpret_cast<signed char*>(&ymm_a)[9]  = a[lda * 9];
 				reinterpret_cast<signed char*>(&ymm_a)[10] = a[lda * 10];
 				reinterpret_cast<signed char*>(&ymm_a)[11] = a[lda * 11];
 				reinterpret_cast<signed char*>(&ymm_a)[12] = a[lda * 12];

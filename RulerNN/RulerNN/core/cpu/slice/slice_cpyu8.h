@@ -260,7 +260,6 @@ namespace core
 				a += lda;
 				b += ldb;
 			}
-			return b;
 		}
 
 	#endif
